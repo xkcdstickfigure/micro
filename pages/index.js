@@ -17,11 +17,11 @@ import {
   Minus
 } from 'react-feather'
 import { useState } from 'react'
-import { useUser } from "../utils/userContext";
+import { useUser } from '../utils/userContext'
 
 const Home = () => {
   const [value, setValue] = useState('')
-  const user = useUser();
+  const user = useUser()
 
   return (
     <>
@@ -33,12 +33,12 @@ const Home = () => {
               className='font-medium text-lg inline-flex items-center'
             >
               <Circle className='text-gray-500 inline w-5 mr-2' />
-              Alles
+              Micro
             </Breadcrumb.Item>
           </Breadcrumb>
 
           <div className='flex items-center'>
-            <Avatar id='b990537f-8037-49b7-a9df-b4b2a36b7911' size={37.5} />
+            <Avatar id={user.id} size={37.5} />
           </div>
         </div>
       </Header>
