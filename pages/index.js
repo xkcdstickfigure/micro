@@ -1,6 +1,4 @@
 import {
-  Header,
-  Breadcrumb,
   Avatar,
   Box,
   Textarea,
@@ -11,131 +9,111 @@ import {
   User,
   AtSign,
   Users,
-  Circle,
   Image,
   Plus,
   Minus
 } from 'react-feather'
 import { useState } from 'react'
 import { useUser } from '../utils/userContext'
+import Page from '../components/Page'
 
 const Home = () => {
   const [value, setValue] = useState('')
   const user = useUser()
 
   return (
-    <>
-      <Header>
-        <div className='p-5 max-w-2xl w-full mx-auto flex justify-between'>
-          <Breadcrumb>
-            <Breadcrumb.Item
-              href='#'
-              className='font-medium text-lg inline-flex items-center'
-            >
-              <Circle className='text-gray-500 inline w-5 mr-2' />
-              Micro
-            </Breadcrumb.Item>
-          </Breadcrumb>
-
-          <div className='flex items-center'>
-            <Avatar id={user.id} size={37.5} />
-          </div>
-        </div>
-      </Header>
-
-      <div className='sm:max-w-xl p-5 mx-auto my-5 space-y-7'>
-        <div className='space-y-7'>
-          <div className='flex justify-between'>
-            <h4 className='font-medium text-3xl'>
+    <Page>
+      <div className='space-y-7'>
+        <div className='flex justify-between'>
+          <h4 className='font-medium text-3xl'>
               Hey, {user.nickname}{user.plus ? <sup className='select-none text-primary'>+</sup> : <></>}
-            </h4>
+          </h4>
 
-            <div className='flex space-x-4'>
-              <a className='transition duration-100 hover:opacity-75' href='#'>
-                <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                  <Cog />
-                </Box>
-              </a>
-              <a className='transition duration-100 hover:opacity-75' href='#'>
-                <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                  <User />
-                </Box>
-              </a>
-              <a className='transition duration-100 hover:opacity-75' href='#'>
-                <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                  <AtSign />
-                </Box>
-              </a>
-              <a className='transition duration-100 hover:opacity-75' href='#'>
-                <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                  <Users />
-                </Box>
-              </a>
-            </div>
+          <div className='flex space-x-4'>
+            <a className='transition duration-100 hover:opacity-75' href='#'>
+              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                <Cog />
+              </Box>
+            </a>
+            <a className='transition duration-100 hover:opacity-75' href='#'>
+              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                <User />
+              </Box>
+            </a>
+            <a className='transition duration-100 hover:opacity-75' href='#'>
+              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                <AtSign />
+              </Box>
+            </a>
+            <a className='transition duration-100 hover:opacity-75' href='#'>
+              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                <Users />
+              </Box>
+            </a>
           </div>
-
-          <Box>
-            <Textarea
-              placeholder="What's up?"
-              className='text-base'
-              rows={4}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                padding: '15px'
-              }}
-            />
-
-            <Box.Footer className='flex justify-between'>
-              <Button
-                color='transparent'
-                style={{ padding: '0 5px' }}
-                size='lg'
-              >
-                <Image size={20} strokeWidth={1.75} />
-              </Button>
-              <Button disabled={!value} size='sm'>
-                Post
-              </Button>
-            </Box.Footer>
-          </Box>
         </div>
 
-        <Post
-          upvotes={6}
-          replies={1}
-          content={
-            <div className='whitespace-pre-wrap'>
+        <Box>
+          <Textarea
+            placeholder="What's up?"
+            className='text-base'
+            rows={4}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              padding: '15px'
+            }}
+          />
+
+          <Box.Footer className='flex justify-between'>
+            <Button
+              color='transparent'
+              style={{ padding: '0 5px' }}
+              size='lg'
+            >
+              <Image size={20} strokeWidth={1.75} />
+            </Button>
+            <Button disabled={!value} size='sm'>
+                Post
+            </Button>
+          </Box.Footer>
+        </Box>
+      </div>
+
+      <Post
+        upvotes={6}
+        replies={1}
+        content={
+          <div className='whitespace-pre-wrap'>
               So, my thoughts on Hey.{'\n'}
-              {'\n'}
+            {'\n'}
               The way they've done it is amazing. People are begging for
               the privilege of paying $100 a year.{'\n'}
-              {'\n'}I think the outcome will be{'\n'}
+            {'\n'}I think the outcome will be{'\n'}
               A: The hype dies down, people realise it's not worth paying that
               much for{'\n'}
               B: hey.com email addresses become a status symbol, like owning an
               iPhone{'\n'}
               C: Somewhere in between. A lot of companies will likely clone some
               of the features (like the screener){'\n'}
-            </div>
-          }
-        />
+          </div>
+        }
+      />
 
-        <Post
-          upvotes={1}
-          replies={0}
-          content={
-            <div className='whitespace-pre-wrap'>
+      <Post
+        upvotes={1}
+        replies={0}
+        content={
+          <div className='whitespace-pre-wrap'>
               Really important things to do:{'\n'}- Alles
-              <sup className='text-primary select-none'>+</sup>
-              {'\n'}- Developer panel{'\n'}
-            </div>
-          }
-        />
-      </div>
-    </>
+            <sup className='text-primary select-none'>+</sup>
+            {'\n'}- Developer panel{'\n'}
+          </div>
+        }
+      />
+    </Page>
   )
 }
 
