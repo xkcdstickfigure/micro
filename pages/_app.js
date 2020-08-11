@@ -27,7 +27,6 @@ app.getInitialProps = async appContext => {
   if (ctx.pathname === '/_error') return { ...props }
 
   try {
-    console.log(ctx.req ? ctx.req.headers.cookie : '')
     const user = (await axios.get(
         `${process.env.NEXT_PUBLIC_ORIGIN ? process.env.NEXT_PUBLIC_ORIGIN : ''}/api/me`,
         {
