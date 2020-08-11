@@ -1,15 +1,15 @@
 import { DataTypes } from 'sequelize'
 
 export default db => {
-  db.Post = db.define(
-    'post',
+  db.Follower = db.define(
+    'follower',
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
         allowNull: false
       },
-      author: {
+      user: {
         type: DataTypes.UUID,
         allowNull: false
       },
@@ -17,15 +17,8 @@ export default db => {
         type: DataTypes.BOOLEAN,
         allowNull: false
       },
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: false
-      },
-      image: {
-        type: DataTypes.STRING
-      },
-      score: {
-        type: DataTypes.INTEGER,
+      following: {
+        type: DataTypes.UUID,
         allowNull: false
       }
     },
@@ -34,13 +27,4 @@ export default db => {
       updatedAt: false
     }
   )
-
-  // Reply Association
-  db.Post.hasMany(db.Post, {
-    foreignKey: 'parentId',
-    as: 'children'
-  })
-  db.Post.belongsTo(db.Post, {
-    as: 'parent'
-  })
 }

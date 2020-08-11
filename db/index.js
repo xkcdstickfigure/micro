@@ -1,6 +1,9 @@
 import Sequelize from 'sequelize'
 
-import post from "./post";
+import user from './user'
+import follower from './follower'
+import post from './post'
+import interaction from './interaction'
 
 const db = new Sequelize(
   process.env.DB_NAME,
@@ -16,5 +19,9 @@ const db = new Sequelize(
   }
 )
 export default db
+db.sync()
 
-post(db);
+user(db)
+follower(db)
+post(db)
+interaction(db)
