@@ -17,9 +17,11 @@ import {
   Minus
 } from 'react-feather'
 import { useState } from 'react'
+import { useUser } from "../utils/userContext";
 
 const Home = () => {
   const [value, setValue] = useState('')
+  const user = useUser();
 
   return (
     <>
@@ -45,7 +47,7 @@ const Home = () => {
         <div className='space-y-7'>
           <div className='flex justify-between'>
             <h4 className='font-medium text-3xl'>
-              Hey, Dante<sup className='select-none text-primary'>+</sup>
+              Hey, {user.nickname}{user.plus ? <sup className='select-none text-primary'>+</sup> : <></>}
             </h4>
 
             <div className='flex space-x-4'>
