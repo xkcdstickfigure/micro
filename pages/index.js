@@ -1,24 +1,20 @@
 import {
   Avatar,
   Box,
-  Textarea,
   Button
 } from '@reactants/ui'
 import {
-  Settings as Cog,
   User,
   AtSign,
   Users,
-  Image,
   Plus,
   Minus
 } from 'react-feather'
-import { useState } from 'react'
 import { useUser } from '../utils/userContext'
 import Page from '../components/Page'
+import PostField from '../components/PostField'
 
 const Home = () => {
-  const [value, setValue] = useState('')
   const user = useUser()
 
   return (
@@ -32,17 +28,7 @@ const Home = () => {
           <div className='flex space-x-4'>
             <a className='transition duration-100 hover:opacity-75' href='#'>
               <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                <Cog />
-              </Box>
-            </a>
-            <a className='transition duration-100 hover:opacity-75' href='#'>
-              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
                 <User />
-              </Box>
-            </a>
-            <a className='transition duration-100 hover:opacity-75' href='#'>
-              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                <AtSign />
               </Box>
             </a>
             <a className='transition duration-100 hover:opacity-75' href='#'>
@@ -50,36 +36,15 @@ const Home = () => {
                 <Users />
               </Box>
             </a>
+            <a className='transition duration-100 hover:opacity-75' href='#'>
+              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                <AtSign />
+              </Box>
+            </a>
           </div>
         </div>
 
-        <Box>
-          <Textarea
-            placeholder="What's up?"
-            className='text-base'
-            rows={4}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              padding: '15px'
-            }}
-          />
-
-          <Box.Footer className='flex justify-between'>
-            <Button
-              color='transparent'
-              style={{ padding: '0 5px' }}
-              size='lg'
-            >
-              <Image size={20} strokeWidth={1.75} />
-            </Button>
-            <Button disabled={!value} size='sm'>
-                Post
-            </Button>
-          </Box.Footer>
-        </Box>
+        <PostField placeholder="What's up?" />
       </div>
 
       <Post
