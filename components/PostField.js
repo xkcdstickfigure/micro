@@ -1,9 +1,18 @@
 import { Box, Textarea, Button } from '@reactants/ui'
 import { Image } from 'react-feather'
 import { useState } from 'react'
+import axios from 'axios'
 
 export default function PostField (props) {
   const [value, setValue] = useState('')
+
+  const submit = () => {
+    axios.post('/api/post', {
+      content: value
+    })
+      .then(res => console.log(res.data))
+      .catch(() => {})
+  }
 
   return (
     <Box>
@@ -11,8 +20,7 @@ export default function PostField (props) {
         placeholder={props.placeholder}
         className='text-base'
         rows={4}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={e => setValue(e.target.value.trim())}
         style={{
           background: 'transparent',
           border: 'none',
@@ -28,8 +36,12 @@ export default function PostField (props) {
         >
           <Image size={20} strokeWidth={1.75} />
         </Button>
-        <Button disabled={!value} size='sm'>
-                Post
+        <Button
+          disabled={!value}
+          size='sm'
+          onClick={submit}
+        >
+          {props.parent ? 'Reply' : 'Post'}
         </Button>
       </Box.Footer>
     </Box>
