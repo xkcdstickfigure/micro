@@ -24,17 +24,22 @@ app.getInitialProps = async appContext => {
         ? (window.location.href = location)
         : Router.push(location)
 
+  if (ctx.pathname === '/_error') return { ...props }
+
   try {
+    console.log(ctx.req ? ctx.req.headers.cookie : '')
     const user = (await axios.get(
-        `${process.env.PUBLIC_URI ? props.env.PUBLIC_URI : ''}/api/me`,
-        isServer ? {
+        `${process.env.NEXT_PUBLIC_ORIGIN ? process.env.NEXT_PUBLIC_ORIGIN : ''}/api/me`,
+        {
+          headers: isServer ? {
             cookie: ctx.req ? ctx.req.headers.cookie : ''
-        } : {}
+          } : {}
+        }
     )).data
 
     return { ...props, user }
   } catch (err) {
-    redirect(`https://alles.cx/login?next=${ctx.pathname}`)
+    redirect(`https://alles.cx/login?next=${encodeURIComponent(process.env.NEXT_PUBLIC_ORIGIN + ctx.pathname)}`)
     return { ...props }
   }
 }
