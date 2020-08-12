@@ -1,7 +1,7 @@
-import auth from '../../utils/auth'
+import auth from '../../../utils/auth'
 import { v4 as uuid } from 'uuid'
-import db from '../../db'
-import config from '../../config'
+import db from '../../../db'
+import config from '../../../config'
 
 export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)

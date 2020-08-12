@@ -7,7 +7,7 @@ export default function PostField (props) {
   const [value, setValue] = useState('')
 
   const submit = () => {
-    axios.post('/api/post', {
+    axios.post('/api/posts', {
       content: value
     })
       .then(res => console.log(res.data))
