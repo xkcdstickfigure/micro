@@ -13,10 +13,6 @@ export default db => {
         type: DataTypes.UUID,
         allowNull: false
       },
-      alles: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-      },
       following: {
         type: DataTypes.UUID,
         allowNull: false
