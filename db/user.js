@@ -10,8 +10,7 @@ export default db => {
         allowNull: false
       },
       secret: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
       },
       name: {
         type: DataTypes.STRING,
