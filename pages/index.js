@@ -13,9 +13,22 @@ import {
 import { useUser } from '../utils/userContext'
 import Page from '../components/Page'
 import PostField from '../components/PostField'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Home = () => {
   const user = useUser()
+  const [posts, setPosts] = useState()
+
+  useEffect(() => {
+    const updateFeed = () => axios.get('/api/feed')
+      .then(res => setPosts(res.data.posts))
+      .catch(() => {})
+
+    updateFeed()
+    const interval = setInterval(updateFeed, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <Page>
@@ -47,37 +60,7 @@ const Home = () => {
         <PostField placeholder="What's up?" />
       </div>
 
-      <Post
-        upvotes={6}
-        replies={1}
-        content={
-          <div className='whitespace-pre-wrap'>
-              So, my thoughts on Hey.{'\n'}
-            {'\n'}
-              The way they've done it is amazing. People are begging for
-              the privilege of paying $100 a year.{'\n'}
-            {'\n'}I think the outcome will be{'\n'}
-              A: The hype dies down, people realise it's not worth paying that
-              much for{'\n'}
-              B: hey.com email addresses become a status symbol, like owning an
-              iPhone{'\n'}
-              C: Somewhere in between. A lot of companies will likely clone some
-              of the features (like the screener){'\n'}
-          </div>
-        }
-      />
-
-      <Post
-        upvotes={1}
-        replies={0}
-        content={
-          <div className='whitespace-pre-wrap'>
-              Really important things to do:{'\n'}- Alles
-            <sup className='text-primary select-none'>+</sup>
-            {'\n'}- Developer panel{'\n'}
-          </div>
-        }
-      />
+      {posts ? posts.map(id => <Post key={id} id={id} />) : <p>Loading...</p>}
     </Page>
   )
 }
