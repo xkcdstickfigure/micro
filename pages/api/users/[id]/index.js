@@ -36,6 +36,17 @@ export default async (req, res) => {
     nickname: user.alles ? user.nickname : user.name,
     avatar: user.alles ? null : user.avatar,
     createdAt: user.createdAt,
-    xp: user.alles ? user.xp : null
+    xp: user.alles ? user.xp : null,
+    posts: (
+      await db.Post.findAll({
+        where: {
+          author: user.id,
+          parentId: null
+        },
+        attributes: ['id'],
+        order: [['createdAt', 'DESC']],
+        limit: 20
+      })
+    ).map(p => p.id)
   })
 }
