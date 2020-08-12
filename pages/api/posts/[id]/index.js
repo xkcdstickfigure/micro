@@ -1,7 +1,9 @@
 import db from '../../../../db'
 import { Op } from 'sequelize'
+import auth from '../../../../utils/auth'
 
 export default async (req, res) => {
+  const user = await auth(req.cookies.sessionToken)
   if (typeof req.query.id !== 'string') return res.status(400).json({ err: 'badRequest' })
 
   // Get post
@@ -11,6 +13,31 @@ export default async (req, res) => {
     }
   })
   if (!post) return res.status(404).json({ err: 'missingResource' })
+
+  // Get upvotes
+  const upvotes = await db.Interaction.count({
+    where: {
+      postId: post.id,
+      vote: 'up'
+    }
+  })
+
+  // Get downvotes
+  const downvotes = await db.Interaction.count({
+    where: {
+      postId: post.id,
+      vote: 'down'
+    }
+  })
+
+  // Get interaction
+  const interaction = user ? (
+    await db.Interaction.findOne({
+      where: {
+        user: user.id
+      }
+    })
+  ) : null
 
   // Response
   res.json({
@@ -46,6 +73,12 @@ export default async (req, res) => {
     },
     content: post.content,
     image: post.image,
+    vote: {
+      score: upvotes - downvotes,
+      me: user ? (
+        interaction ? ['down', 'neutral', 'up'].indexOf(interaction.vote) - 1 : 0
+      ) : null
+    },
     createdAt: post.createdAt
   })
 }
