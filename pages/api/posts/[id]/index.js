@@ -18,7 +18,7 @@ export default async (req, res) => {
     author: post.author,
     parent: post.parentId,
     children: {
-      data: [
+      list: [
         ...(
           await post.getChildren({
             where: {
