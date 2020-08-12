@@ -1,22 +1,25 @@
 import db from '../../../../db'
+import { Op } from 'sequelize'
 import getUser from '../../../../utils/getUser'
+import auth from '../../../../utils/auth'
 
 export default async (req, res) => {
+  const user = await auth(req.cookies.sessionToken)
   if (typeof req.query.id !== 'string') return res.status(400).json({ err: 'badRequest' })
 
   // Declare user
-  let user
+  let u
 
   // Check for Alles user
   try {
-    user = await getUser(req.query.id)
-    user.alles = true
+    u = await getUser(req.query.id)
+    u.alles = true
   } catch (err) {}
 
   // Check database for non-Alles user
-  if (!user) {
+  if (!u) {
     try {
-      user = await db.User.findOne({
+      u = await db.User.findOne({
         where: {
           id: req.query.id
         }
@@ -25,28 +28,70 @@ export default async (req, res) => {
   }
 
   // Missing user
-  if (!user) return res.status(404).json({ err: 'missingResource' })
+  if (!u) return res.status(404).json({ err: 'missingResource' })
 
   // Response
   res.json({
-    id: user.id,
-    alles: !!user.alles,
-    name: user.name,
-    tag: user.alles ? user.tag : '0000',
-    nickname: user.alles ? user.nickname : user.name,
-    avatar: user.alles ? null : user.avatar,
-    createdAt: user.createdAt,
-    xp: user.alles ? user.xp : null,
-    posts: (
-      await db.Post.findAll({
+    id: u.id,
+    alles: !!u.alles,
+    name: u.name,
+    tag: u.alles ? u.tag : '0000',
+    nickname: u.alles ? u.nickname : u.name,
+    avatar: u.alles ? null : u.avatar,
+    createdAt: u.createdAt,
+    xp: u.alles ? u.xp : null,
+    posts: {
+      recent: (
+        await db.Post.findAll({
+          where: {
+            author: u.id,
+            parentId: null
+          },
+          attributes: ['id'],
+          order: [['createdAt', 'DESC']],
+          limit: 20
+        })
+      ).map(p => p.id),
+      count: await db.Post.count({
         where: {
-          author: user.id,
+          author: u.id,
           parentId: null
-        },
-        attributes: ['id'],
-        order: [['createdAt', 'DESC']],
-        limit: 20
+        }
+      }),
+      replies: await db.Post.count({
+        where: {
+          author: u.id,
+          parentId: {
+            [Op.not]: null
+          }
+        }
       })
-    ).map(p => p.id)
+    },
+    followers: {
+      count: await db.Follower.count({
+        where: {
+          following: u.id
+        }
+      }),
+      me: user ? !!(await db.Follower.findOne({
+        where: {
+          following: u.id,
+          user: user.id
+        }
+      })) : null
+    },
+    following: {
+      count: await db.Follower.count({
+        where: {
+          user: u.id
+        }
+      }),
+      me: user ? !!(await db.Follower.findOne({
+        where: {
+          following: user.id,
+          user: u.id
+        }
+      })) : null
+    }
   })
 }
