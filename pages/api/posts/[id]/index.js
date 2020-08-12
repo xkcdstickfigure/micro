@@ -17,30 +17,33 @@ export default async (req, res) => {
     id: post.id,
     author: post.author,
     parent: post.parentId,
-    children: [
-      ...(
-        await post.getChildren({
-          where: {
-            author: post.author
-          },
-          attributes: ['id'],
-          order: [['createdAt', 'DESC']],
-          limit: 100
-        })
-      ).map(p => p.id),
-      ...(
-        await post.getChildren({
-          where: {
-            author: {
-              [Op.not]: post.author
-            }
-          },
-          attributes: ['id'],
-          order: [['createdAt', 'DESC']],
-          limit: 100
-        })
-      ).map(p => p.id)
-    ],
+    children: {
+      data: [
+        ...(
+          await post.getChildren({
+            where: {
+              author: post.author
+            },
+            attributes: ['id'],
+            order: [['createdAt', 'DESC']],
+            limit: 100
+          })
+        ).map(p => p.id),
+        ...(
+          await post.getChildren({
+            where: {
+              author: {
+                [Op.not]: post.author
+              }
+            },
+            attributes: ['id'],
+            order: [['createdAt', 'DESC']],
+            limit: 100
+          })
+        ).map(p => p.id)
+      ],
+      count: await post.countChildren()
+    },
     content: post.content,
     image: post.image,
     createdAt: post.createdAt

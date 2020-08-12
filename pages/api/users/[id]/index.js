@@ -36,6 +36,7 @@ export default async (req, res) => {
     alles: !!u.alles,
     name: u.name,
     tag: u.alles ? u.tag : '0000',
+    plus: u.alles ? u.plus : false,
     nickname: u.alles ? u.nickname : u.name,
     avatar: u.alles ? null : u.avatar,
     createdAt: u.createdAt,

@@ -1,18 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Button
-} from '@reactants/ui'
-import {
-  User,
-  AtSign,
-  Users,
-  Plus,
-  Minus
-} from 'react-feather'
+import { Box } from '@reactants/ui'
+import { User, AtSign, Users } from 'react-feather'
 import { useUser } from '../utils/userContext'
 import Page from '../components/Page'
 import PostField from '../components/PostField'
+import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
@@ -64,44 +55,5 @@ const Home = () => {
     </Page>
   )
 }
-
-const Post = ({ content, replies, upvotes }) => (
-  <Box className='flex'>
-    <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
-      <Button color='transparent' style={{ padding: 0 }}>
-        <Plus size={17.5} />
-      </Button>
-      <span>{upvotes}</span>
-      <Button color='transparent' style={{ padding: 0 }}>
-        <Minus size={17.5} />
-      </Button>
-    </div>
-
-    <a
-      href='#'
-      className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
-    >
-      <Box.Content>
-        <div className='flex items-center mb-3'>
-          <Avatar id='00000000-0000-0000-0000-000000000000' className='mr-3' size={32.5} />
-          <div>
-            <div className='text-black dark:text-white text-sm'>
-              Archie Baer<sup className='select-none text-primary'>+</sup>
-            </div>
-            <div className='text-primary text-sm'>@archie</div>
-          </div>
-        </div>
-        <div>{content}</div>
-      </Box.Content>
-      <Box.Footer
-        className='rounded-bl-none flex justify-between'
-        style={{ background: 'transparent' }}
-      >
-        <span>May 18 2020 12:02</span>
-        <span>{replies === 0 ? 'No' : replies} Replies</span>
-      </Box.Footer>
-    </a>
-  </Box>
-)
 
 export default Home
