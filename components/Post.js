@@ -7,6 +7,7 @@ import moment from 'moment'
 export default function Post ({ id }) {
   const [post, setPost] = useState()
   const [author, setAuthor] = useState()
+  const [score, setScore] = useState()
   const [vote, setVote] = useState()
   const skeleton = !post || !author
 
@@ -16,6 +17,7 @@ export default function Post ({ id }) {
     axios.get(`/api/posts/${encodeURIComponent(id)}`)
       .then(({ data }) => {
         setPost(data)
+        setScore(data.vote.score)
         setVote(data.vote.me !== null ? data.vote.me : 0)
 
         // Get author
@@ -25,6 +27,12 @@ export default function Post ({ id }) {
       })
       .catch(() => {})
   }, [])
+
+  // Vote change
+  useEffect(() => {
+    if (!post || vote === null) return
+    setScore(post.vote.score + vote - post.vote.me)
+  }, [post, vote])
 
   return (
     <Box className='flex'>
@@ -39,7 +47,7 @@ export default function Post ({ id }) {
         {skeleton ? (
           <span className='w-3 h-3 bg-gray-200 rounded-full' />
         ) : (
-          <span>{post.vote.score}</span>
+          <span>{score}</span>
         )}
         <Button
           onClick={() => setVote(vote === -1 ? 0 : -1)}
