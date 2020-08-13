@@ -9,6 +9,7 @@ export default function Post ({ id }) {
   const [author, setAuthor] = useState()
   const [score, setScore] = useState()
   const [vote, setVote] = useState()
+  const [voteChanged, setVoteChanged] = useState(false)
   const skeleton = !post || !author
 
   // Load data
@@ -18,7 +19,7 @@ export default function Post ({ id }) {
       .then(({ data }) => {
         setPost(data)
         setScore(data.vote.score)
-        setVote(data.vote.me !== null ? data.vote.me : 0)
+        setVote(data.vote.me)
 
         // Get author
         axios.get(`/api/users/${encodeURIComponent(data.author)}`)
@@ -32,13 +33,17 @@ export default function Post ({ id }) {
   useEffect(() => {
     if (!post || vote === null) return
     setScore(post.vote.score + vote - post.vote.me)
-  }, [post, vote])
+    if (voteChanged) axios.post(`/api/posts/${post.id}/vote`, { vote })
+  }, [vote])
 
   return (
     <Box className='flex'>
       <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
         <Button
-          onClick={() => setVote(vote === 1 ? 0 : 1)}
+          onClick={() => {
+            setVoteChanged(true)
+            setVote(vote === 1 ? 0 : 1)
+          }}
           style={{ padding: 0, ...(skeleton && { opacity: 0.5 }) }}
           {...{ color: vote === 1 ? undefined : 'transparent' }}
         >
@@ -50,7 +55,10 @@ export default function Post ({ id }) {
           <span>{score}</span>
         )}
         <Button
-          onClick={() => setVote(vote === -1 ? 0 : -1)}
+          onClick={() => {
+            setVoteChanged(true)
+            setVote(vote === -1 ? 0 : -1)
+          }}
           style={{ padding: 0, ...(skeleton && { opacity: 0.5 }) }}
           {...{ color: vote === -1 ? undefined : 'transparent' }}
         >

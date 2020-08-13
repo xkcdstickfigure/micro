@@ -34,7 +34,8 @@ export default async (req, res) => {
   const interaction = user ? (
     await db.Interaction.findOne({
       where: {
-        user: user.id
+        user: user.id,
+        postId: post.id
       }
     })
   ) : null
