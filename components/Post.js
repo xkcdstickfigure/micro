@@ -7,13 +7,16 @@ import moment from 'moment'
 export default function Post ({ id }) {
   const [post, setPost] = useState()
   const [author, setAuthor] = useState()
+  const [vote, setVote] = useState()
   const skeleton = !post || !author
 
+  // Load data
   useEffect(() => {
     // Get post
     axios.get(`/api/posts/${encodeURIComponent(id)}`)
       .then(({ data }) => {
         setPost(data)
+        setVote(data.vote.me !== null ? data.vote.me : 0)
 
         // Get author
         axios.get(`/api/users/${encodeURIComponent(data.author)}`)
@@ -27,19 +30,21 @@ export default function Post ({ id }) {
     <Box className='flex'>
       <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
         <Button
-          color='transparent'
+          onClick={() => setVote(vote === 1 ? 0 : 1)}
           style={{ padding: 0, ...(skeleton && { opacity: 0.5 }) }}
+          {...{ color: vote === 1 ? undefined : 'transparent' }}
         >
           <Plus size={17.5} />
         </Button>
         {skeleton ? (
           <span className='w-3 h-3 bg-gray-200 rounded-full' />
         ) : (
-          <span>69</span>
+          <span>{post.vote.score}</span>
         )}
         <Button
-          color='transparent'
+          onClick={() => setVote(vote === -1 ? 0 : -1)}
           style={{ padding: 0, ...(skeleton && { opacity: 0.5 }) }}
+          {...{ color: vote === -1 ? undefined : 'transparent' }}
         >
           <Minus size={17.5} />
         </Button>
