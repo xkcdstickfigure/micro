@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 
-export default function Post ({ id }) {
+export default function Post ({ id, onLoad, onError }) {
   const [post, setPost] = useState()
   const [author, setAuthor] = useState()
   const [score, setScore] = useState()
@@ -24,10 +24,19 @@ export default function Post ({ id }) {
         // Get author
         axios.get(`/api/users/${encodeURIComponent(data.author)}`)
           .then(({ data }) => setAuthor(data))
-          .catch(() => {})
+          .catch(err => {
+            if (onError) onError(err)
+          })
       })
-      .catch(() => {})
+      .catch(err => {
+        if (onError) onError(err)
+      })
   }, [])
+
+  // On Load callback
+  useEffect(() => {
+    if (onLoad && post && author) onLoad({ ...post, author })
+  }, [post, author])
 
   // Vote change
   useEffect(() => {

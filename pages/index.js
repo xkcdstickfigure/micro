@@ -7,7 +7,7 @@ import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Home = () => {
+export default function Home () {
   const user = useUser()
   const [posts, setPosts] = useState()
 
@@ -55,5 +55,3 @@ const Home = () => {
     </Page>
   )
 }
-
-export default Home
