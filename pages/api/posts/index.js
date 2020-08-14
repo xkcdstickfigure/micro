@@ -15,14 +15,14 @@ export default async (req, res) => {
   ) return res.status(400).json({ err: 'micro.post.length' })
 
   // Verify Parent
-  let parent;
-  if (typeof parentId === "string") {
+  let parent
+  if (typeof parentId === 'string') {
     parent = await db.Post.findOne({
       where: {
         id: parentId
       }
     })
-    if (!parent) return res.status(400).json({err: 'micro.post.parent'})
+    if (!parent) return res.status(400).json({ err: 'micro.post.parent' })
   }
 
   // Create post
