@@ -124,7 +124,7 @@ export default function Post ({ id, onLoad, onError }) {
               </div>
             </div>
             <div>{post.content}</div>
-            {post.image && <img className='mt-5 rounded-lg' src={post.image} />}
+            {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
           </Box.Content>
           <Box.Footer
             className='rounded-bl-none flex justify-between cursor-pointer'
