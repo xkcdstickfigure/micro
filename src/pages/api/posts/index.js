@@ -35,6 +35,14 @@ export default async (req, res) => {
     parentId: parent ? parent.id : null
   })
 
+  // Upvote post
+  await db.Interaction.create({
+    id: uuid(),
+    user: user.id,
+    postId: post.id,
+    vote: 'up'
+  })
+
   // Response
   res.json({ id: post.id })
 }
