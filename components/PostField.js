@@ -8,7 +8,8 @@ export default function PostField (props) {
 
   const submit = () => {
     axios.post('/api/posts', {
-      content: value
+      content: value,
+      parent: props.parent
     })
       .then(res => console.log(res.data))
       .catch(() => {})
