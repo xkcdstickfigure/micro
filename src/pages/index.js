@@ -9,17 +9,20 @@ import axios from 'axios'
 
 export default function Home () {
   const user = useUser()
-  const [posts, setPosts] = useState()
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
     const updateFeed = () => axios.get('/api/feed')
-      .then(res => setPosts(res.data.posts))
+      .then(({ data }) => {
+        const newPosts = data.posts.filter(a => posts.indexOf(a) === -1);
+        if (newPosts.length > 0) setPosts(data.posts.filter(a => posts.indexOf(a) === -1).concat(posts));
+      })
       .catch(() => {})
 
     updateFeed()
-    const interval = setInterval(updateFeed, 60000)
+    const interval = setInterval(updateFeed, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [posts])
 
   return (
     <Page>
@@ -51,7 +54,7 @@ export default function Home () {
         <PostField placeholder="What's up?" />
       </div>
 
-      {posts ? posts.map(id => <Post key={id} id={id} />) : <p>Loading...</p>}
+      {posts.length > 0 ? posts.map(id => <Post key={id} id={id} />) : <p>Loading...</p>}
     </Page>
   )
 }

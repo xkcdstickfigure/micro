@@ -32,7 +32,7 @@ export default async (req, res) => {
         },
         attributes: ['id'],
         order: [['createdAt', 'DESC']],
-        limit: 100
+        limit: 10
       })
     ).map(p => p.id)
   })
