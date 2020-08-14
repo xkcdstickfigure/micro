@@ -6,6 +6,18 @@ export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
   if (!user) return res.status(401).send({ err: 'badAuthorization' })
 
+  // Before timestamp
+  let before
+  if (typeof req.query.before === 'string') {
+    if (
+      !isNaN(req.query.before) &&
+      isFinite(req.query.before) &&
+      Number(req.query.before) > 0
+    ) before = Number(req.query.before)
+    else return res.status(400).json({ err: 'badRequest' })
+  }
+
+  // Response
   res.json({
     posts: (
       await db.Post.findAll({
@@ -26,9 +38,11 @@ export default async (req, res) => {
             }
           ],
           parentId: null,
-          createdAt: {
-            [Op.gt]: new Date().getTime() - 1000 * 60 * 60 * 24 * 2
-          }
+          ...(before ? {
+            createdAt: {
+              [Op.lt]: before
+            }
+          } : {})
         },
         attributes: ['id'],
         order: [['createdAt', 'DESC']],

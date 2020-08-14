@@ -6,16 +6,18 @@ import PostField from '../components/PostField'
 import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import TrackVisibility from 'react-on-screen'
 
 export default function Home () {
   const user = useUser()
   const [posts, setPosts] = useState([])
 
+  // Load new posts
   useEffect(() => {
     const updateFeed = () => axios.get('/api/feed')
       .then(({ data }) => {
-        const newPosts = data.posts.filter(a => posts.indexOf(a) === -1)
-        if (newPosts.length > 0) setPosts(data.posts.filter(a => posts.indexOf(a) === -1).concat(posts))
+        const newPosts = data.posts.filter(p => posts.indexOf(p) === -1)
+        if (newPosts.length > 0) setPosts(newPosts.concat(posts))
       })
       .catch(() => {})
 
@@ -23,6 +25,15 @@ export default function Home () {
     const interval = setInterval(updateFeed, 30000)
     return () => clearInterval(interval)
   }, [posts])
+
+  // Load old posts
+  const loadOlderPosts = () => {
+    // Get last post
+    axios.get(`/api/posts/${posts[posts.length - 1]}`)
+      .then(res => axios.get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`)
+        .then(res => setPosts(posts.concat(res.data.posts.filter(p => posts.indexOf(p) === -1))))
+      )
+  }
 
   return (
     <Page>
@@ -54,7 +65,13 @@ export default function Home () {
         <PostField placeholder="What's up?" />
       </div>
 
-      {posts.length > 0 ? posts.map(id => <Post key={id} id={id} />) : <p>Loading...</p>}
+      {posts.length > 0 ? posts.map(id => (
+        <TrackVisibility key={id}>{({ isVisible }) => {
+          if (isVisible && posts.indexOf(id) >= posts.length - 5) loadOlderPosts()
+          return <Post id={id} />
+        }}
+        </TrackVisibility>
+      )) : <p>Loading...</p>}
     </Page>
   )
 }
