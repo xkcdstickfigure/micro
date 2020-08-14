@@ -24,6 +24,7 @@ export default function PostPage () {
             post.author.id === user.id ? 'Continue the conversation...' : `Reply to ${post.author.nickname}...`
           }
           parent={post.id}
+          key={`reply-${post.id}`}
         />
       ) : <></>}
 
