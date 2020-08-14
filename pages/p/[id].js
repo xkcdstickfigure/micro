@@ -16,12 +16,14 @@ export default function PostPage () {
         id={id}
         onLoad={data => setPost(data)}
       />
-      <PostField
-        placeholder={post ? (
+      {post ? (
+        <PostField
+          placeholder={
             post.author.id === user.id ? 'Continue the conversation...' : `Reply to ${post.author.nickname}...`
-        ) : null}
-        parent={post ? post.id : null}
-      />
+          }
+          parent={post.id}
+        />
+      ) : <></>}
 
       {post ? post.children.list.map(id => <Post key={id} id={id} />) : <></>}
     </Page>
