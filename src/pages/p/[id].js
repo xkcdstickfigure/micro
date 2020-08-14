@@ -16,6 +16,7 @@ export default function PostPage () {
 
       <Post
         id={id}
+        expanded
         onLoad={data => setPost(data)}
       />
       {post ? (

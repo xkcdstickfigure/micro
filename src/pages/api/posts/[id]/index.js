@@ -80,6 +80,13 @@ export default async (req, res) => {
         interaction ? ['down', 'neutral', 'up'].indexOf(interaction.vote) - 1 : 0
       ) : null
     },
+    interactions: user && user.id === post.author ? (
+      await db.Interaction.count({
+        where: {
+          postId: post.id
+        }
+      })
+    ) : null,
     createdAt: post.createdAt
   })
 }

@@ -1,11 +1,11 @@
 import { Avatar, Box, Button } from '@reactants/ui'
-import { Plus, Minus, MessageCircle } from 'react-feather'
+import { Plus, Minus, MessageCircle, Eye } from 'react-feather'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Link from 'next/link'
 
-export default function Post ({ id, onLoad, onError }) {
+export default function Post ({ id, expanded, onLoad, onError }) {
   const [post, setPost] = useState()
   const [author, setAuthor] = useState()
   const [score, setScore] = useState()
@@ -32,6 +32,9 @@ export default function Post ({ id, onLoad, onError }) {
       .catch(err => {
         if (onError) onError(err)
       })
+
+    // Interaction
+    if (expanded) axios.post(`/api/posts/${encodeURIComponent(id)}/interaction`)
   }, [id])
 
   // On Load callback
@@ -131,9 +134,18 @@ export default function Post ({ id, onLoad, onError }) {
             style={{ background: 'transparent' }}
           >
             <span>{moment(post.createdAt).format('LLL')}</span>
-            <span className='flex items-center'>
-              {post.children.count}
-              <MessageCircle className='ml-1.5' size={17} />
+            <span className='flex items-center space-x-2'>
+              {post.interactions !== null ? (
+                <div className='flex items-center'>
+                  {post.interactions}
+                  <Eye className='ml-1.5' size={17} />
+                </div>
+              ) : <></>}
+
+              <div className='flex items-center'>
+                {post.children.count}
+                <MessageCircle className='ml-1.5' size={17} />
+              </div>
             </span>
           </Box.Footer>
         </a>
