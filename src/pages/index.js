@@ -14,8 +14,8 @@ export default function Home () {
   useEffect(() => {
     const updateFeed = () => axios.get('/api/feed')
       .then(({ data }) => {
-        const newPosts = data.posts.filter(a => posts.indexOf(a) === -1);
-        if (newPosts.length > 0) setPosts(data.posts.filter(a => posts.indexOf(a) === -1).concat(posts));
+        const newPosts = data.posts.filter(a => posts.indexOf(a) === -1)
+        if (newPosts.length > 0) setPosts(data.posts.filter(a => posts.indexOf(a) === -1).concat(posts))
       })
       .catch(() => {})
 
