@@ -14,7 +14,7 @@ export default function PostField (props) {
       content: value,
       parent: props.parent
     })
-      .then(res => Router.push(`/p/${res.data.id}`))
+      .then(res => Router.push('/p/[id]', `/p/${res.data.id}`))
       .catch(() => setLoading(false))
   }
 
