@@ -60,7 +60,7 @@ export default async (req, res) => {
         }
       }
     )
-  } catch (err) { console.log(err) }
+  } catch (err) {}
 
   // Create post
   const post = await db.Post.create({
