@@ -32,7 +32,7 @@ export default function Post ({ id, onLoad, onError }) {
       .catch(err => {
         if (onError) onError(err)
       })
-  }, [])
+  }, [id])
 
   // On Load callback
   useEffect(() => {
