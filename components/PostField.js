@@ -2,17 +2,20 @@ import { Box, Textarea, Button } from '@reactants/ui'
 import { Image } from 'react-feather'
 import { useState } from 'react'
 import axios from 'axios'
+import Router from 'next/router'
 
 export default function PostField (props) {
   const [value, setValue] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const submit = () => {
+    setLoading(true)
     axios.post('/api/posts', {
       content: value,
       parent: props.parent
     })
-      .then(res => console.log(res.data))
-      .catch(() => {})
+      .then(res => Router.push(`/p/${res.data.id}`))
+      .catch(() => setLoading(false))
   }
 
   return (
@@ -38,7 +41,7 @@ export default function PostField (props) {
           <Image size={20} strokeWidth={1.75} />
         </Button>
         <Button
-          disabled={!value}
+          disabled={!value || loading}
           size='sm'
           onClick={submit}
         >
