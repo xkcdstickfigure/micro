@@ -28,7 +28,10 @@ export default async (req, res) => {
   // Parse content
   const parsedContent = parseContent(content)
   let mentions = parsedContent
-    .filter(segment => segment.type === 'user')
+    .filter(segment => (
+      segment.type === 'user' &&
+      segment.string.length === 36
+    ))
     .map(segment => segment.string)
 
   // Verify Parent
