@@ -38,7 +38,7 @@ export default function Page ({ title, breadcrumbs, children }) {
                 className='font-medium text-lg inline-flex items-center'
               >
                 <Circle className='text-gray-500 inline w-5 mr-2' />
-                Micro
+                Micro β2
               </Breadcrumb.Item>
             </Link>
 
