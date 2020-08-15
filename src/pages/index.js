@@ -31,8 +31,10 @@ export default function Home () {
   const loadOlderPosts = () => {
     // Get last post
     axios.get(`/api/posts/${posts[posts.length - 1]}`)
-      .then(res => axios.get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`)
-        .then(res => setPosts(posts.concat(res.data.posts.filter(p => posts.indexOf(p) === -1))))
+      .then(res =>
+        // Get posts before last post
+        axios.get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`)
+          .then(res => setPosts(posts.concat(res.data.posts.filter(p => posts.indexOf(p) === -1))))
       )
   }
 
