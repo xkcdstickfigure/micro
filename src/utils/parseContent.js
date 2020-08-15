@@ -1,4 +1,4 @@
-export default text => {
+const parseContent = text => {
   const segments = []
 
   let segment = {
@@ -57,3 +57,5 @@ export default text => {
 
   return segments
 }
+
+export default parseContent

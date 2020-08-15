@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Link from 'next/link'
+import Tags from './ContentTags'
 
 export default function Post ({ id, expanded, onLoad, onError }) {
   const [post, setPost] = useState()
@@ -126,7 +127,9 @@ export default function Post ({ id, expanded, onLoad, onError }) {
                 </div>
               </div>
             </div>
-            <div>{post.content}</div>
+            <div>
+              <Tags links={expanded}>{post.content}</Tags>
+            </div>
             {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
           </Box.Content>
           <Box.Footer
