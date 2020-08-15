@@ -11,7 +11,7 @@ export default function PostPage () {
   const [post, setPost] = useState()
 
   return (
-    <Page title={post ? `${post.author.name}#${post.author.tag}: ${post.content.split('\n')[0]}` : null}>
+    <Page title={post ? `${post.users[post.author].name}: ${post.content.split('\n')[0]}` : null}>
       {post && post.parent ? <Parent id={post.parent} /> : <></>}
 
       <Post
