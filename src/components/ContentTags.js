@@ -20,8 +20,8 @@ export default function ContentTags ({ children, links }) {
       text: segment.string,
       tag: links ? (
         <Link href='/tag/[tag]' as={`/tag/${segment.string}`} key={i}>
-          <a className='normal' onClick={e => e.stopPropagation()}>
-                        #{segment.string}
+          <a className='text-primary' onClick={e => e.stopPropagation()}>
+                #{segment.string}
           </a>
         </Link>
       ) : (
@@ -30,7 +30,7 @@ export default function ContentTags ({ children, links }) {
       user: user ? (
         links ? (
           <Link href='/u/[id]' as={`/u/${segment.string}`} key={i}>
-            <a className='normal' onClick={e => e.stopPropagation()}>
+            <a className='text-primary' onClick={e => e.stopPropagation()}>
               {user.name}
             </a>
           </Link>

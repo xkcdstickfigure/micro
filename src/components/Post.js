@@ -50,6 +50,47 @@ export default function Post ({ id, expanded, onLoad, onError }) {
     if (voteChanged) axios.post(`/api/posts/${post.id}/vote`, { vote })
   }, [vote])
 
+  const content = skeleton ? <></> : (
+    <>
+      <Box.Content>
+        <div className='flex items-center mb-3'>
+          <Avatar id={author.id} className='mr-3' size={32.5} />
+          <div>
+            <div className='text-black dark:text-white text-lg'>
+              {author.name}
+              {author.plus && (
+                <sup className='select-none text-primary'>+</sup>
+              )}
+            </div>
+          </div>
+        </div>
+        <div>
+          <Tags links={expanded}>{post.content}</Tags>
+        </div>
+        {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
+      </Box.Content>
+      <Box.Footer
+        className='rounded-bl-none flex justify-between cursor-pointer'
+        style={{ background: 'transparent' }}
+      >
+        <span>{moment(post.createdAt).format('LLL')}</span>
+        <span className='flex items-center space-x-2'>
+          {post.interactions !== null ? (
+            <div className='flex items-center'>
+              {post.interactions}
+              <Eye className='ml-1.5' size={17} />
+            </div>
+          ) : <></>}
+
+          <div className='flex items-center'>
+            {post.children.count}
+            <MessageCircle className='ml-1.5' size={17} />
+          </div>
+        </span>
+      </Box.Footer>
+    </>
+  )
+
   return skeleton ? (
     <Box className='flex'>
       <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
@@ -111,48 +152,16 @@ export default function Post ({ id, expanded, onLoad, onError }) {
         </Button>
       </div>
 
-      <Link href='/p/[id]' as={`/p/${post.id}`}>
-        <a
-          className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
-        >
-          <Box.Content>
-            <div className='flex items-center mb-3'>
-              <Avatar id={author.id} className='mr-3' size={32.5} />
-              <div>
-                <div className='text-black dark:text-white text-lg'>
-                  {author.name}
-                  {author.plus && (
-                    <sup className='select-none text-primary'>+</sup>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div>
-              <Tags links={expanded}>{post.content}</Tags>
-            </div>
-            {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
-          </Box.Content>
-          <Box.Footer
-            className='rounded-bl-none flex justify-between cursor-pointer'
-            style={{ background: 'transparent' }}
-          >
-            <span>{moment(post.createdAt).format('LLL')}</span>
-            <span className='flex items-center space-x-2'>
-              {post.interactions !== null ? (
-                <div className='flex items-center'>
-                  {post.interactions}
-                  <Eye className='ml-1.5' size={17} />
-                </div>
-              ) : <></>}
-
-              <div className='flex items-center'>
-                {post.children.count}
-                <MessageCircle className='ml-1.5' size={17} />
-              </div>
-            </span>
-          </Box.Footer>
-        </a>
-      </Link>
+      {expanded ? (
+        <div className='block w-full'>{content}</div>
+      ) : (
+        <Link href='/p/[id]' as={`/p/${post.id}`}>
+          <a
+            className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
+          >{content}
+          </a>
+        </Link>
+      )}
     </Box>
   )
 }
