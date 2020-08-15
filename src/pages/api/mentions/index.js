@@ -1,6 +1,6 @@
-import db from '../../db'
+import db from '../../../db'
 import { literal } from 'sequelize'
-import auth from '../../utils/auth'
+import auth from '../../../utils/auth'
 
 export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)

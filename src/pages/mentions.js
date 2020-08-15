@@ -1,8 +1,12 @@
 import Page from '../components/Page'
 import Post from '../components/Post'
 import axios from 'axios'
+import { useEffect } from 'react'
 
 const Mentions = ({ posts }) => {
+  // Mark as read
+  useEffect(() => { axios.post('/api/mentions/read') }, [])
+
   return (
     <Page title='Mentions and Replies'>
       {posts.length > 0
