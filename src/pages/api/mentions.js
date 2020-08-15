@@ -24,6 +24,9 @@ export default async (req, res) => {
         order: [[literal('createdAt'), 'DESC']],
         limit: 100
       })
-    ).map(p => p.postId)
+    ).map(p => ({
+      id: p.postId,
+      read: p.read
+    }))
   })
 }
