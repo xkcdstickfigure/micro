@@ -8,11 +8,9 @@ import Tags from './ContentTags'
 
 export default function Post ({ id, expanded, onLoad, onError }) {
   const [post, setPost] = useState()
-  const [author, setAuthor] = useState()
   const [score, setScore] = useState()
   const [vote, setVote] = useState()
   const [voteChanged, setVoteChanged] = useState(false)
-  const skeleton = !post || !author
 
   // Load data
   useEffect(() => {
@@ -22,13 +20,7 @@ export default function Post ({ id, expanded, onLoad, onError }) {
         setPost(data)
         setScore(data.vote.score)
         setVote(data.vote.me)
-
-        // Get author
-        axios.get(`/api/users/${encodeURIComponent(data.author)}`)
-          .then(({ data }) => setAuthor(data))
-          .catch(err => {
-            if (onError) onError(err)
-          })
+        if (onLoad) onLoad(data)
       })
       .catch(err => {
         if (onError) onError(err)
@@ -38,11 +30,6 @@ export default function Post ({ id, expanded, onLoad, onError }) {
     if (expanded) axios.post(`/api/posts/${encodeURIComponent(id)}/interaction`)
   }, [id])
 
-  // On Load callback
-  useEffect(() => {
-    if (onLoad && post && author) onLoad({ ...post, author })
-  }, [post, author])
-
   // Vote change
   useEffect(() => {
     if (!post || vote === null) return
@@ -50,15 +37,15 @@ export default function Post ({ id, expanded, onLoad, onError }) {
     if (voteChanged) axios.post(`/api/posts/${post.id}/vote`, { vote })
   }, [vote])
 
-  const content = skeleton ? <></> : (
+  const content = !post ? <></> : (
     <>
       <Box.Content>
         <div className='flex items-center mb-3'>
-          <Avatar id={author.id} className='mr-3' size={32.5} />
+          <Avatar id={post.author} className='mr-3' size={32.5} />
           <div>
             <div className='text-black dark:text-white text-lg'>
-              {author.name}
-              {author.plus && (
+              {post.users[post.author].name}
+              {post.users[post.author].plus && (
                 <sup className='select-none text-primary'>+</sup>
               )}
             </div>
@@ -91,7 +78,7 @@ export default function Post ({ id, expanded, onLoad, onError }) {
     </>
   )
 
-  return skeleton ? (
+  return !post ? (
     <Box className='flex'>
       <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
         <Button color='transparent' style={{ padding: 0, opacity: 0.5 }}>
