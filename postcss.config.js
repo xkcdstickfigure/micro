@@ -22,7 +22,8 @@ module.exports = {
             content: [
               './src/**/*.js',
               './node_modules/@reactants/ui/dist/index.js'
-            ]
+            ],
+            css: ['./node_modules/@reactants/ui/dist/index.css']
           }
         ],
         'postcss-preset-env'
