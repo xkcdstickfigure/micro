@@ -11,7 +11,10 @@ export default async (req, res) => {
     posts: (
       await db.Mention.findAll({
         where: {
-          user: user.id
+          user: user.id,
+          ...(typeof req.query.unread === 'string' ? {
+            read: false
+          } : {})
         },
         attributes: {
           include: [
