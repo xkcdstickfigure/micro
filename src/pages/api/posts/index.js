@@ -3,6 +3,8 @@ import { v4 as uuid } from 'uuid'
 import db from '../../../db'
 import config from '../../../config'
 import axios from 'axios'
+import parseContent from '../../../utils/parseContent'
+import getUser from '../../../utils/getUser'
 
 const {
   CONTENT_SCORE_URI,
@@ -23,6 +25,12 @@ export default async (req, res) => {
     content.length > config.maxPostLength
   ) return res.status(400).json({ err: 'micro.post.length' })
 
+  // Parse content
+  const parsedContent = parseContent(content)
+  let mentions = parsedContent
+    .filter(segment => segment.type === 'user')
+    .map(segment => segment.string)
+
   // Verify Parent
   let parent
   if (typeof parentId === 'string') {
@@ -32,6 +40,8 @@ export default async (req, res) => {
       }
     })
     if (!parent) return res.status(400).json({ err: 'micro.post.parent' })
+    mentions.push(parent.author)
+    mentions = mentions.concat((await parent.getMentions()).map(m => m.user))
   }
 
   // Content score
@@ -79,6 +89,36 @@ export default async (req, res) => {
     postId: post.id,
     vote: 'up'
   })
+
+  // Create mentions
+  mentions = Array.from(new Set(mentions))
+  if (mentions.indexOf(user.id) > -1) mentions.splice(mentions.indexOf(user.id), 1)
+  await Promise.all(mentions.map(async id => {
+    let u
+
+    // Check for Alles user
+    try {
+      u = await getUser(id)
+    } catch (err) {}
+
+    // Check database for non-Alles user
+    if (!u) {
+      u = await db.User.findOne({
+        where: {
+          id
+        }
+      })
+    }
+
+    // Create mention record
+    if (u) {
+      await db.Mention.create({
+        id: uuid(),
+        user: id,
+        postId: post.id
+      })
+    }
+  }))
 
   // Response
   res.json({ id: post.id })

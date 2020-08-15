@@ -18,13 +18,11 @@ export default async (req, res) => {
 
   // Check database for non-Alles user
   if (!u) {
-    try {
-      u = await db.User.findOne({
-        where: {
-          id: req.query.id
-        }
-      })
-    } catch (err) {}
+    u = await db.User.findOne({
+      where: {
+        id: req.query.id
+      }
+    })
   }
 
   // Missing user
