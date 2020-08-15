@@ -87,6 +87,7 @@ export default async (req, res) => {
         }
       })
     ) : null,
-    createdAt: post.createdAt
+    createdAt: post.createdAt,
+    mentions: (await post.getMentions({attributes: ['user']})).map(m => m.user)
   })
 }
