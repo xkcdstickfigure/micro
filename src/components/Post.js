@@ -41,17 +41,15 @@ export default function Post ({ id, expanded, onLoad, onError }) {
     <>
       <Box.Content>
         <div className='flex items-center mb-3'>
-          <Avatar
-            {...(
-              post.users[post.author].alles ? {
-                id: post.author
-              } : post.users[post.author].avatar ? {
-                src: `https://fs.alles.cx/${post.users[post.author].avatar}`
-              } : {
-                id: '_'
-              }
-            )} className='mr-3' size={32.5}
-          />
+          <Avatar {...(
+            post.users[post.author].alles ? {
+              id: post.author
+            } : post.users[post.author].avatar ? {
+              src: `https://fs.alles.cx/${post.users[post.author].avatar}`
+            } : {
+              id: '_'
+            }
+          )} className='mr-3' size={32.5} />
           <div>
             <div className='text-black dark:text-white text-lg'>
               {post.users[post.author].name}
