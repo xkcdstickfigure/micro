@@ -22,7 +22,9 @@ export default function PostPage () {
       {post ? (
         <PostField
           placeholder={
-            post.author.id === user.id ? 'Continue the conversation...' : `Reply to ${post.author.nickname}...`
+            post.author === user.id
+              ? 'Continue the conversation...'
+              : `Reply to ${post.users[post.author].nickname}...`
           }
           parent={post.id}
           key={`reply-${post.id}`}

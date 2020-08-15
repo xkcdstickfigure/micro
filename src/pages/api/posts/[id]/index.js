@@ -53,6 +53,7 @@ export default async (req, res) => {
   usersArray.forEach(u => {
     users[u.user.id] = ({
       name: u.user.name,
+      nickname: u.alles ? u.user.nickname : u.user.name,
       plus: u.alles ? u.user.plus : false,
       alles: u.alles,
       avatar: u.alles ? null : u.user.avatar
