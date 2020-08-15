@@ -27,7 +27,7 @@ export default function Post ({ id, expanded, onLoad, onError }) {
       })
 
     // Interaction
-    if (expanded) axios.post(`/api/posts/${encodeURIComponent(id)}/interaction`)
+    if (expanded) axios.post(`/api/posts/${encodeURIComponent(id)}/interaction`).catch(() => {})
   }, [id])
 
   // Vote change
