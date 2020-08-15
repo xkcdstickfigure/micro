@@ -18,12 +18,11 @@ module.exports = {
 
               return broadMatches.concat(innerMatches)
             },
-            whitelist: ['dark', 'html', 'body'],
+            whitelist: ['dark', 'html', 'body', 'nprogress'],
             content: [
               './src/**/*.js',
               './node_modules/@reactants/ui/dist/index.js'
-            ],
-            css: ['./node_modules/@reactants/ui/dist/index.css']
+            ]
           }
         ],
         'postcss-preset-env'
