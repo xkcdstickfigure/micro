@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-export default function Page (props) {
+export default function Page ({ title, breadcrumbs, children }) {
   const user = useUser()
   const router = useRouter()
   const [notificationsCount, setNotificationsCount] = useState(0)
@@ -27,7 +27,7 @@ export default function Page (props) {
   return (
     <>
       <Head>
-        <title>{props.title ? `Micro • ${props.title}` : 'Alles Micro'}</title>
+        <title>{title ? `Micro • ${title}` : 'Alles Micro'}</title>
       </Head>
 
       <Header>
@@ -41,6 +41,8 @@ export default function Page (props) {
                 Micro
               </Breadcrumb.Item>
             </Link>
+
+            {breadcrumbs}
           </Breadcrumb>
 
           <div className='flex items-center space-x-3'>
@@ -58,7 +60,7 @@ export default function Page (props) {
         </div>
       </Header>
 
-      <div className='sm:max-w-xl p-5 mx-auto my-5 space-y-7'>{props.children}</div>
+      <div className='sm:max-w-xl p-5 mx-auto my-5 space-y-7'>{children}</div>
     </>
   )
 }

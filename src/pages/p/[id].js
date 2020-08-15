@@ -4,6 +4,7 @@ import PostField from '../../components/PostField'
 import Post from '../../components/Post'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { Breadcrumb, Avatar } from '@reactants/ui'
 
 export default function PostPage () {
   const user = useUser()
@@ -11,7 +12,24 @@ export default function PostPage () {
   const [post, setPost] = useState()
 
   return (
-    <Page title={post ? `${post.users[post.author].name}: ${post.content.split('\n')[0]}` : null}>
+    <Page
+      title={post ? `${post.users[post.author].name}: ${post.content.split('\n')[0]}` : null}
+      breadcrumbs={post ? (
+        <Breadcrumb.Item>
+          <Avatar
+            {...(
+              post.users[post.author].alles ? {
+                id: post.author
+              } : post.users[post.author].avatar ? {
+                src: `https://fs.alles.cx/${post.users[post.author].avatar}`
+              } : {
+                id: '_'
+              }
+            )} size={25}
+          />
+        </Breadcrumb.Item>
+      ) : null}
+    >
       {post && post.parent ? <Parent id={post.parent} /> : <></>}
 
       <Post
