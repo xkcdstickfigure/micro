@@ -10,7 +10,7 @@ const Mentions = ({ posts }) => {
   return (
     <Page title='Mentions and Replies'>
       {posts.length > 0
-        ? posts.map(p => <Post id={p.id} key={p.id} />)
+        ? posts.map(p => <Post id={p.id} bubble={!p.read} key={p.id} />)
         : <p>You don't have any notifications just yet!</p>}
     </Page>
   )

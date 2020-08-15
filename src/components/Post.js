@@ -6,7 +6,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import Tags from './ContentTags'
 
-export default function Post ({ id, expanded, onLoad, onError }) {
+export default function Post ({ id, expanded, bubble, onLoad, onError }) {
   const [post, setPost] = useState()
   const [score, setScore] = useState()
   const [vote, setVote] = useState()
@@ -128,41 +128,55 @@ export default function Post ({ id, expanded, onLoad, onError }) {
       </div>
     </Box>
   ) : (
-    <Box className='flex'>
-      <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
-        <Button
-          onClick={() => {
-            setVoteChanged(true)
-            setVote(vote === 1 ? 0 : 1)
-          }}
-          style={{ padding: 0 }}
-          {...{ color: vote === 1 ? undefined : 'transparent' }}
-        >
-          <Plus size={17.5} />
-        </Button>
-        <span>{score}</span>
-        <Button
-          onClick={() => {
-            setVoteChanged(true)
-            setVote(vote === -1 ? 0 : -1)
-          }}
-          style={{ padding: 0 }}
-          {...{ color: vote === -1 ? undefined : 'transparent' }}
-        >
-          <Minus size={17.5} />
-        </Button>
-      </div>
+    <Box className='relative'>
+      <div className='flex'>
+        <div className='space-y-3 flex bg-white rounded-tl-lg rounded-bl-lg dark:bg-gray-750 border-r p-2.5 border-gray-200 dark:border-gray-700 flex-col items-center justify-center'>
+          <Button
+            onClick={() => {
+              setVoteChanged(true)
+              setVote(vote === 1 ? 0 : 1)
+            }}
+            style={{ padding: 0 }}
+            {...{ color: vote === 1 ? undefined : 'transparent' }}
+          >
+            <Plus size={17.5} />
+          </Button>
+          <span>{score}</span>
+          <Button
+            onClick={() => {
+              setVoteChanged(true)
+              setVote(vote === -1 ? 0 : -1)
+            }}
+            style={{ padding: 0 }}
+            {...{ color: vote === -1 ? undefined : 'transparent' }}
+          >
+            <Minus size={17.5} />
+          </Button>
+        </div>
 
-      {expanded ? (
-        <div className='block w-full'>{content}</div>
-      ) : (
-        <Link href='/p/[id]' as={`/p/${post.id}`}>
-          <a
-            className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
-          >{content}
-          </a>
-        </Link>
-      )}
+        {expanded ? (
+          <div className='block w-full'>{content}</div>
+        ) : (
+          <Link href='/p/[id]' as={`/p/${post.id}`}>
+            <a
+              className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
+            >{content}
+            </a>
+          </Link>
+        )}
+
+        {bubble ? (
+          <div
+            className='bg-primary opacity-75 rounded-full absolute'
+            style={{
+              width: 20,
+              height: 20,
+              top: -5,
+              right: -5
+            }}
+          />
+        ) : <></>}
+      </div>
     </Box>
   )
 }
