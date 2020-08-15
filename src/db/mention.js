@@ -10,6 +10,11 @@ export default db => {
     user: {
       type: DataTypes.UUID,
       allowNull: false
+    },
+    read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   }, {
     timestamps: false
