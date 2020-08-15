@@ -1,7 +1,7 @@
 import parseContent from '../utils/parseContent'
 import Link from 'next/link'
 
-export default function ContentTags ({ children, links, names = {} }) {
+export default function ContentTags ({ children, links, users = {} }) {
   const segments = parseContent(children)
   return segments.map((segment, i) => {
     return ({
@@ -15,15 +15,15 @@ export default function ContentTags ({ children, links, names = {} }) {
       ) : (
         <span className='text-primary' key={i}>#{segment.string}</span>
       ),
-      user: names[segment.string] ? (
+      user: users[segment.string] ? (
         links ? (
           <Link href='/u/[id]' as={`/u/${segment.string}`} key={i}>
             <a className='text-primary' onClick={e => e.stopPropagation()}>
-              {names[segment.string]}
+              {users[segment.string].name}
             </a>
           </Link>
         ) : (
-          <span className='text-primary' key={i}>{names[segment.string]}</span>
+          <span className='text-primary' key={i}>{users[segment.string].name}</span>
         )
       ) : `@${segment.string}`
     }[segment.type])
