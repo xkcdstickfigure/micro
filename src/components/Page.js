@@ -1,11 +1,28 @@
-import { Circle } from 'react-feather'
+import { Circle, Bell } from 'react-feather'
 import { Header, Breadcrumb, Avatar } from '@reactants/ui'
 import { useUser } from '../utils/userContext'
 import Head from 'next/head'
 import Link from 'next/link'
 
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+
 export default function Page (props) {
   const user = useUser()
+  const router = useRouter()
+  const [notificationsCount, setNotificationsCount] = useState(0)
+
+  // Get notifications count
+  useEffect(() => {
+    const updateNotificationCount = () => axios.get('/api/mentions?unread')
+      .then(({ data }) => setNotificationsCount(data.posts.length))
+      .catch(() => {})
+
+    updateNotificationCount()
+    const interval = setInterval(updateNotificationCount, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <>
@@ -26,7 +43,16 @@ export default function Page (props) {
             </Link>
           </Breadcrumb>
 
-          <div className='flex items-center'>
+          <div className='flex items-center space-x-3'>
+            {notificationsCount && router.pathname !== '/mentions' ? (
+              <Link href='/mentions'>
+                <a className='select-none hover:bg-danger-85 transition duration-200 ease bg-danger text-white rounded-full flex items-center justify-center py-0.5 px-2.5 space-x-1'>
+                  <Bell size={0.35 * 37.5} />
+                  <span>{notificationsCount}</span>
+                </a>
+              </Link>
+            ) : <></>}
+
             <Avatar id={user.id} size={37.5} />
           </div>
         </div>
