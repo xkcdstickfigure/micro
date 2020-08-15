@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 
 export default db => {
-  db.Interaction = db.define('interaction', {
+  db.Mention = db.define('mention', {
     id: {
       primaryKey: true,
       type: DataTypes.UUID,
@@ -10,15 +10,12 @@ export default db => {
     user: {
       type: DataTypes.UUID,
       allowNull: false
-    },
-    vote: {
-      type: DataTypes.ENUM('up', 'neutral', 'down'),
-      defaultValue: 'neutral',
-      allowNull: false
     }
+  }, {
+    timestamps: false
   })
 
   // Post Association
-  db.Post.hasMany(db.Interaction)
-  db.Interaction.belongsTo(db.Post)
+  db.Post.hasMany(db.Mention)
+  db.Mention.belongsTo(db.Post)
 }

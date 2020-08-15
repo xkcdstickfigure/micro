@@ -4,6 +4,7 @@ import user from './user'
 import follower from './follower'
 import post from './post'
 import interaction from './interaction'
+import mention from './mention'
 
 const db = new Sequelize(
   process.env.DB_NAME,
@@ -24,3 +25,4 @@ user(db)
 follower(db)
 post(db)
 interaction(db)
+mention(db)
