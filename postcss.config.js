@@ -18,7 +18,7 @@ module.exports = {
 
               return broadMatches.concat(innerMatches)
             },
-            whitelist: ['dark', 'html', 'body', 'nprogress'],
+            whitelist: ['dark', 'html', 'body'],
             content: [
               './src/**/*.js',
               './node_modules/@reactants/ui/dist/index.js'
