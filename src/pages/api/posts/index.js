@@ -97,27 +97,13 @@ export default async (req, res) => {
   mentions = Array.from(new Set(mentions))
   if (mentions.indexOf(user.id) > -1) mentions.splice(mentions.indexOf(user.id), 1)
   await Promise.all(mentions.map(async id => {
-    let u
-
-    // Check for Alles user
-    try {
-      u = await getUser(id)
-    } catch (err) {}
-
-    // Check database for non-Alles user
-    if (!u) {
-      u = await db.User.findOne({
-        where: {
-          id
-        }
-      })
-    }
+    const u = await getUser(id)
 
     // Create mention record
     if (u) {
       await db.Mention.create({
         id: uuid(),
-        user: id,
+        user: u.user.id,
         postId: post.id
       })
     }

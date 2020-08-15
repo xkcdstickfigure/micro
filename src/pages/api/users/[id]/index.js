@@ -7,43 +7,26 @@ export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
   if (typeof req.query.id !== 'string') return res.status(400).json({ err: 'badRequest' })
 
-  // Declare user
-  let u
-
-  // Check for Alles user
-  try {
-    u = await getUser(req.query.id)
-    u.alles = true
-  } catch (err) {}
-
-  // Check database for non-Alles user
-  if (!u) {
-    u = await db.User.findOne({
-      where: {
-        id: req.query.id
-      }
-    })
-  }
-
-  // Missing user
+  // Get user
+  const u = await getUser(req.query.id)
   if (!u) return res.status(404).json({ err: 'missingResource' })
 
   // Response
   res.json({
-    id: u.id,
+    id: u.user.id,
     alles: !!u.alles,
-    name: u.name,
-    tag: u.alles ? u.tag : '0000',
-    plus: u.alles ? u.plus : false,
-    nickname: u.alles ? u.nickname : u.name,
-    avatar: u.alles ? null : u.avatar,
-    createdAt: u.createdAt,
-    xp: u.alles ? u.xp : null,
+    name: u.user.name,
+    tag: u.alles ? u.user.tag : '0000',
+    plus: u.alles ? u.user.plus : false,
+    nickname: u.alles ? u.user.nickname : u.user.name,
+    avatar: u.alles ? null : u.user.avatar,
+    createdAt: u.user.createdAt,
+    xp: u.alles ? u.user.xp : null,
     posts: {
       recent: (
         await db.Post.findAll({
           where: {
-            author: u.id,
+            author: u.user.id,
             parentId: null
           },
           attributes: ['id'],
@@ -53,13 +36,13 @@ export default async (req, res) => {
       ).map(p => p.id),
       count: await db.Post.count({
         where: {
-          author: u.id,
+          author: u.user.id,
           parentId: null
         }
       }),
       replies: await db.Post.count({
         where: {
-          author: u.id,
+          author: u.user.id,
           parentId: {
             [Op.not]: null
           }
@@ -69,12 +52,12 @@ export default async (req, res) => {
     followers: {
       count: await db.Follower.count({
         where: {
-          following: u.id
+          following: u.user.id
         }
       }),
       me: user ? !!(await db.Follower.findOne({
         where: {
-          following: u.id,
+          following: u.user.id,
           user: user.id
         }
       })) : null
@@ -82,13 +65,13 @@ export default async (req, res) => {
     following: {
       count: await db.Follower.count({
         where: {
-          user: u.id
+          user: u.user.id
         }
       }),
       me: user ? !!(await db.Follower.findOne({
         where: {
           following: user.id,
-          user: u.id
+          user: u.user.id
         }
       })) : null
     }

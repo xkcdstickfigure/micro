@@ -1,6 +1,8 @@
 import db from '../../../../db'
 import { Op } from 'sequelize'
 import auth from '../../../../utils/auth'
+import getUser from '../../../../utils/getUser'
+import parseContent from '../../../../utils/parseContent'
 
 export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
@@ -39,6 +41,20 @@ export default async (req, res) => {
       }
     })
   ) : null
+
+  // Get referenced user data
+  const referencedUsers = (await Promise.all(
+    parseContent(post.content)
+      .filter(segment => (
+        segment.type === 'user' &&
+        segment.string.length === 36
+      ))
+      .map(({ string: id }) => getUser(id))
+  )).filter(u => !!u)
+
+  // Names
+  const names = {}
+  referencedUsers.forEach(({ user: u }) => { names[u.id] = u.name })
 
   // Response
   res.json({
@@ -88,6 +104,7 @@ export default async (req, res) => {
       })
     ) : null,
     createdAt: post.createdAt,
-    mentions: (await post.getMentions({attributes: ['user']})).map(m => m.user)
+    mentions: (await post.getMentions({ attributes: ['user'] })).map(m => m.user),
+    names
   })
 }

@@ -65,7 +65,7 @@ export default function Post ({ id, expanded, onLoad, onError }) {
           </div>
         </div>
         <div>
-          <Tags links={expanded}>{post.content}</Tags>
+          <Tags links={expanded} names={post.names}>{post.content}</Tags>
         </div>
         {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
       </Box.Content>
