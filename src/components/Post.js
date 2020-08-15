@@ -61,7 +61,11 @@ export default function Post ({ id, expanded, onLoad, onError }) {
             </div>
           </div>
         </div>
-        <div style={{ whiteSpace: 'pre-wrap' }}>
+        <div style={{
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word'
+        }}
+        >
           <Tags links={expanded} users={post.users}>{post.content}</Tags>
         </div>
         {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
