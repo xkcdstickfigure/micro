@@ -14,7 +14,15 @@ export default function PostPage () {
 
   return (
     <Page
-      title={post ? `${post.users[post.author].name}: ${plainContent(post.content, post.users)}` : null}
+      title={post ? `${post.users[post.author].name}: ${
+        plainContent(post.content, (() => {
+          const names = {}
+          Object.keys(post.users).forEach(
+            id => { names[id] = post.users[id].name }
+          )
+          return names
+        })())
+      }` : null}
       breadcrumbs={post ? (
         <Breadcrumb.Item>
           <Avatar
