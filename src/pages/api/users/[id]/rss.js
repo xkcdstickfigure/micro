@@ -62,6 +62,8 @@ export default async (req, res) => {
                 <title>${esc(content.split('\n')[0])}</title>
                 <link>https://micro.alles.cx/p/${p.id}</link>
                 <description>${esc(content)}</description>
+                <pubDate>${p.createdAt.toUTCString()}</pubDate>
+                <guid>alles-micro:${p.id}</guid>
             </item>`
         }))).join('')}
     </channel>
