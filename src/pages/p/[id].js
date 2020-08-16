@@ -15,7 +15,7 @@ export default function PostPage () {
   return (
     <Page
       title={post ? `${post.users[post.author].name}: ${
-        plainContent(post.content, (() => {
+        plainContent(post.content.split('\n')[0], (() => {
           const names = {}
           Object.keys(post.users).forEach(
             id => { names[id] = post.users[id].name }

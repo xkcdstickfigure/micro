@@ -1,7 +1,7 @@
 import parseContent from './parseContent'
 
 export default function plainContent (content, names) {
-  return parseContent(content.split('\n')[0])
+  return parseContent(content)
     .map(segment => ({
       text: segment.string,
       tag: `#${segment.string}`,
