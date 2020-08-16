@@ -20,6 +20,7 @@ const db = new Sequelize(
   }
 )
 export default db
+db.sync()
 
 user(db)
 follower(db)
