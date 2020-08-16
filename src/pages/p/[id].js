@@ -5,6 +5,7 @@ import Post from '../../components/Post'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Breadcrumb, Avatar } from '@reactants/ui'
+import plainContent from '../../utils/plainContent'
 
 export default function PostPage () {
   const user = useUser()
@@ -13,7 +14,7 @@ export default function PostPage () {
 
   return (
     <Page
-      title={post ? `${post.users[post.author].name}: ${post.content.split('\n')[0]}` : null}
+      title={post ? `${post.users[post.author].name}: ${plainContent(post.content, post.users)}` : null}
       breadcrumbs={post ? (
         <Breadcrumb.Item>
           <Avatar
