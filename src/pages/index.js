@@ -47,16 +47,20 @@ export default function Home () {
           </h4>
 
           <div className='flex space-x-4'>
-            <a className='transition duration-100 hover:opacity-75'>
-              <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
-                <User />
-              </Box>
-            </a>
+            <Link href='/u/[id]' as={`/u/${user.id}`}>
+              <a className='transition duration-100 hover:opacity-75'>
+                <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
+                  <User />
+                </Box>
+              </a>
+            </Link>
+
             <a className='transition duration-100 hover:opacity-75'>
               <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
                 <Users />
               </Box>
             </a>
+            
             <Link href='/mentions'>
               <a className='transition duration-100 hover:opacity-75'>
                 <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>
