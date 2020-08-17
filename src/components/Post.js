@@ -37,32 +37,42 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
     if (voteChanged) axios.post(`/api/posts/${post.id}/vote`, { vote })
   }, [vote])
 
-  const content = !post ? <></> : (
+  const author = post && (
+    <div className='flex items-center mb-3'>
+      <Avatar
+        {...(
+          post.users[post.author].alles ? {
+            id: post.author
+          } : post.users[post.author].avatar ? {
+            src: `https://fs.alles.cx/${post.users[post.author].avatar}`
+          } : {
+            id: '_'
+          }
+        )}
+        className='mr-3'
+        size={32.5}
+      />
+      <div>
+        <div className='text-black dark:text-white text-lg'>
+          {post.users[post.author].name}
+          {post.users[post.author].plus && (
+            <sup className='select-none text-primary'>+</sup>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+
+  const content = post && (
     <>
       <Box.Content>
-        <div className='flex items-center mb-3'>
-          <Avatar
-            {...(
-              post.users[post.author].alles ? {
-                id: post.author
-              } : post.users[post.author].avatar ? {
-                src: `https://fs.alles.cx/${post.users[post.author].avatar}`
-              } : {
-                id: '_'
-              }
-            )}
-            className='mr-3'
-            size={32.5}
-          />
-          <div>
-            <div className='text-black dark:text-white text-lg'>
-              {post.users[post.author].name}
-              {post.users[post.author].plus && (
-                <sup className='select-none text-primary'>+</sup>
-              )}
-            </div>
-          </div>
-        </div>
+        {expanded ? (
+          <Link href='/u/[id]' as={`/u/${post.author}`}>
+            <a>
+              {author}
+            </a>
+          </Link>
+        ) : author}
         <div style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word'
@@ -162,7 +172,8 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
           <Link href='/p/[id]' as={`/p/${post.id}`}>
             <a
               className='block hover:opacity-75 transition duration-100 cursor-pointer w-full'
-            >{content}
+            >
+              {content}
             </a>
           </Link>
         )}
