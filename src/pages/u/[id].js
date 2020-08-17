@@ -57,25 +57,23 @@ const UserPage = withRouter(({ user: u }) => {
                 )}
                 size={150}
               />
-              {online ? (
+              {online && (
                 <div
                   className='absolute w-4 h-4 right-5 bottom-4 rounded-full'
                   style={{
                     background: '#07de40'
                   }}
                 />
-              ) : <></>}
+              )}
             </div>
           </div>
 
           <h1 className='text-center text-3xl font-medium mt-2'>
             {u.name}
-            {u.alles ? <span className='text-primary text-sm'>#{u.tag}</span> : <></>}
+            {u.alles && <span className='text-primary text-sm'>#{u.tag}</span>}
           </h1>
 
-          {u.nickname !== u.name ? <h2 className='text-center text-xl italic'>{u.nickname}</h2> : <></>}
-
-          {u.plus ? <Label>Plus</Label> : <></>}
+          {u.nickname !== u.name && <h2 className='text-center text-xl italic'>{u.nickname}</h2>}
         </Box.Content>
       </Box>
 
@@ -131,11 +129,3 @@ UserPage.getInitialProps = async ctx => {
 }
 
 export default UserPage
-
-function Label ({ children }) {
-  return (
-    <h3 className='text-center'>
-      <span className='uppercase bg-primary text-white rounded-full px-2 font-medium select-none text-sm'>{children}</span>
-    </h3>
-  )
-}
