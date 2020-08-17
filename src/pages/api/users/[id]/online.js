@@ -1,3 +1,1 @@
-export default (_req, res) => {
-  res.json({ online: Math.floor(Math.random() * 2) === 0 })
-}
+export default (_req, res) => res.json({ online: false })
