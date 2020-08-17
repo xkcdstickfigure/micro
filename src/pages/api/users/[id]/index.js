@@ -2,6 +2,7 @@ import db from '../../../../db'
 import { Op } from 'sequelize'
 import getUser from '../../../../utils/getUser'
 import auth from '../../../../utils/auth'
+import staff from '../../../../staff'
 
 export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
@@ -74,6 +75,11 @@ export default async (req, res) => {
           user: u.user.id
         }
       })) : null
-    }
+    },
+    labels: [
+      u.user.id === '6b984a0f-368f-4388-944b-6d9ccb40e450' && 'alles',
+      staff.includes(u.user.id) && 'staff',
+      u.alles && u.user.plus && 'plus'
+    ].filter(label => !!label)
   })
 }

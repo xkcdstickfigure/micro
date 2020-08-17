@@ -7,7 +7,7 @@ import { Box, Breadcrumb, Avatar, Button } from '@reactants/ui'
 import axios from 'axios'
 import NotFound from '../404'
 import { useState, useEffect } from 'react'
-import staff from '../../staff'
+import labels from '../../labels'
 
 const UserPage = withRouter(({ user: u }) => {
   const user = useUser()
@@ -106,9 +106,7 @@ const UserPage = withRouter(({ user: u }) => {
           </h3>
 
           <div className='flex flex-wrap justify-center'>
-            {staff.includes(u.id) && <Label color='#ff0000'>Staff</Label>}
-            {u.plus && <Label color='#ffdf00'>Alles+</Label>}
-            {/* <Label color="#bfff00">Developer</Label> */}
+            {u.labels.map(id => <Label key={id} color={labels[id].color}>{labels[id].name}</Label>)}
           </div>
 
           {u.following.me && <p className='text-center mt-3 italic text-sm'>{u.nickname} is following you</p>}
