@@ -88,7 +88,8 @@ const UserPage = withRouter(({ user: u }) => {
                 setFollowing(!following)
                 axios.post(`/api/users/${u.id}/${following ? 'unfollow' : 'follow'}`).catch(() => {})
               }}
-            >Follow{following && 'ing'}
+            >
+              Follow{following && 'ing'}
             </Button>
           </div>
 
@@ -100,6 +101,13 @@ const UserPage = withRouter(({ user: u }) => {
               <strong>{u.posts.count}</strong> Post{u.posts.count === 1 ? '' : 's'}
             </span>
           </h3>
+
+          {u.plus && <div className='flex justify-center mt-3'>
+            <span
+              className='border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 select-none inline-block mx-auto px-3 rounded-full'
+            >✨ Alles+
+            </span>
+          </div>}
 
           {u.following.me && <p className='text-center mt-3 italic text-sm'>{u.nickname} is following you</p>}
         </Box.Content>
