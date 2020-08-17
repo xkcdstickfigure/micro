@@ -60,7 +60,7 @@ export default function Home () {
                 <Users />
               </Box>
             </a>
-            
+
             <Link href='/mentions'>
               <a className='transition duration-100 hover:opacity-75'>
                 <Box className='rounded-full p-2 text-gray-600 dark:text-gray-300'>

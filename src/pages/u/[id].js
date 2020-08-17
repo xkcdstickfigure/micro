@@ -104,12 +104,15 @@ const UserPage = withRouter(({ user: u }) => {
             </span>
           </h3>
 
-          {u.plus && <div className='flex justify-center mt-3'>
-            <span
-              className='border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 select-none inline-block mx-auto px-3 rounded-full'
-            >✨ Alles+
-            </span>
-          </div>}
+          {u.plus && (
+            <div className='flex justify-center mt-3'>
+              <span
+                className='border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 select-none inline-block mx-auto px-3 rounded-full'
+              >
+                ✨ Alles+
+              </span>
+            </div>
+          )}
 
           {u.following.me && <p className='text-center mt-3 italic text-sm'>{u.nickname} is following you</p>}
         </Box.Content>
