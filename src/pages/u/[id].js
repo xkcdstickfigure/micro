@@ -56,6 +56,28 @@ const UserPage = withRouter(({ user: u }) => {
         </Box.Content>
       </Box>
 
+      {u.alles ? (
+        <Box>
+          <Box.Content>
+            <div className='flex'>
+              <p className='flex-grow'>Level {u.xp.level}</p>
+              <p className='text-right ml-5'>{u.xp.total} xp</p>
+            </div>
+            <div
+              className='w-full h-5 mt-3 rounded-lg overflow-hidden' style={{
+                background: 'rgb(239,239,239)'
+              }}
+            >
+              <div
+                className='h-full bg-primary' style={{
+                  width: `${u.xp.levelProgress * 100}%`
+                }}
+              />
+            </div>
+          </Box.Content>
+        </Box>
+      ) : <></>}
+
       {user.id === u.id ? <PostField placeholder='Say something about yourself!' /> : <></>}
 
       {u.posts.recent.map(p => <Post id={p} key={p} />)}
