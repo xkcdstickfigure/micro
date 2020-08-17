@@ -73,7 +73,16 @@ const UserPage = withRouter(({ user: u }) => {
             {u.alles && <span className='text-primary text-sm'>#{u.tag}</span>}
           </h1>
 
-          {u.nickname !== u.name && <h2 className='text-center text-xl italic'>{u.nickname}</h2>}
+          {u.nickname !== u.name && <h2 className='text-center text-xl'>{u.nickname}</h2>}
+
+          <h3 className='text-center space-x-3 mt-3'>
+            <span>
+              <strong>{u.followers.count}</strong> Followers
+            </span>
+            <span>
+              <strong>{u.posts.count}</strong> Posts
+            </span>
+          </h3>
         </Box.Content>
       </Box>
 
