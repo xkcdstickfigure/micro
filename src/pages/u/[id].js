@@ -104,15 +104,11 @@ const UserPage = withRouter(({ user: u }) => {
             </span>
           </h3>
 
-          {u.plus && (
-            <div className='flex justify-center mt-3'>
-              <span
-                className='border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 select-none inline-block mx-auto px-3 rounded-full'
-              >
-                ✨ Alles+
-              </span>
-            </div>
-          )}
+          <div className='flex flex-wrap justify-center'>
+            {/* <Label color="#ff0000">Staff</Label> */}
+            {u.plus && <Label color='#ffdf00'>Alles+</Label>}
+            {/* <Label color="#bfff00">Developer</Label> */}
+          </div>
 
           {u.following.me && <p className='text-center mt-3 italic text-sm'>{u.nickname} is following you</p>}
         </Box.Content>
@@ -170,3 +166,19 @@ UserPage.getInitialProps = async ctx => {
 }
 
 export default UserPage
+
+function Label ({ color, children }) {
+  return (
+    <div
+      className='border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 select-none mx-1 px-3 rounded-full mt-3 flex'
+    >
+      <div className='flex justify-center flex-col'>
+        <div
+          className='w-3 h-3 rounded-full inline-block mr-1'
+          style={{ backgroundColor: color }}
+        />
+      </div>
+      {children}
+    </div>
+  )
+}
