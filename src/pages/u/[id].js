@@ -43,7 +43,7 @@ const UserPage = withRouter(({ user: u }) => {
                   id: '_'
                 }
               )}
-              size={200}
+              size={150}
             />
           </div>
 
