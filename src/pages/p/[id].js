@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { Breadcrumb, Avatar } from '@reactants/ui'
 import plainContent from '../../utils/plainContent'
 import NotFound from '../404'
+import Link from 'next/link'
 
 export default function PostPage () {
   const user = useUser()
@@ -25,22 +26,24 @@ export default function PostPage () {
           return names
         })())
       }` : null}
-      breadcrumbs={post ? (
-        <Breadcrumb.Item>
-          <Avatar
-            {...(
-              post.users[post.author].alles ? {
-                id: post.author
-              } : post.users[post.author].avatar ? {
-                src: `https://fs.alles.cx/${post.users[post.author].avatar}`
-              } : {
-                id: '_'
-              }
-            )}
-            size={25}
-          />
-        </Breadcrumb.Item>
-      ) : null}
+      breadcrumbs={post && (
+        <Link href='/u/[id]' as={`/u/${post.author}`}>
+          <Breadcrumb.Item>
+            <Avatar
+              {...(
+                post.users[post.author].alles ? {
+                  id: post.author
+                } : post.users[post.author].avatar ? {
+                  src: `https://fs.alles.cx/${post.users[post.author].avatar}`
+                } : {
+                  id: '_'
+                }
+              )}
+              size={25}
+            />
+          </Breadcrumb.Item>
+        </Link>
+      )}
     >
       {post && post.parent ? <Parent id={post.parent} /> : <></>}
 
