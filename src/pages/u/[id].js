@@ -7,6 +7,7 @@ import { Box, Breadcrumb, Avatar, Button } from '@reactants/ui'
 import axios from 'axios'
 import NotFound from '../404'
 import { useState, useEffect } from 'react'
+import staff from '../../staff'
 
 const UserPage = withRouter(({ user: u }) => {
   const user = useUser()
@@ -105,7 +106,7 @@ const UserPage = withRouter(({ user: u }) => {
           </h3>
 
           <div className='flex flex-wrap justify-center'>
-            {/* <Label color="#ff0000">Staff</Label> */}
+            {staff.includes(u.id) && <Label color='#ff0000'>Staff</Label>}
             {u.plus && <Label color='#ffdf00'>Alles+</Label>}
             {/* <Label color="#bfff00">Developer</Label> */}
           </div>
