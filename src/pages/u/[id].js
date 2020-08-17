@@ -8,29 +8,28 @@ import axios from 'axios'
 
 const UserPage = withRouter(({ u: user }) => {
   return (
-    <Page>
-    </Page>
+    <Page />
   )
 })
 
 UserPage.getInitialProps = async ctx => {
-    try {
-        return {
-            user: (await axios.get(
+  try {
+    return {
+      user: (await axios.get(
                 `${process.env.NEXT_PUBLIC_ORIGIN}/api/users/${encodeURIComponent(ctx.query.id)}`,
                 {
-                    headers: ctx.req && ctx.req.headers.cookie ? {
-                        cookie: ctx.req.headers.cookie
-                    } : {}
+                  headers: ctx.req && ctx.req.headers.cookie ? {
+                    cookie: ctx.req.headers.cookie
+                  } : {}
                 }
-            )).data
-        }
-    } catch (err) {
-        if (ctx.res) ctx.res.statusCode = 404
-        return {
-            user: null
-        }
+      )).data
     }
+  } catch (err) {
+    if (ctx.res) ctx.res.statusCode = 404
+    return {
+      user: null
+    }
+  }
 }
 
 export default UserPage
