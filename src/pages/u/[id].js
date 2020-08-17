@@ -83,6 +83,7 @@ const UserPage = withRouter(({ user: u }) => {
               style={{ width: 100 }}
               onClick={() => {
                 setFollowing(!following)
+                axios.post(`/api/users/${u.id}/${following ? 'unfollow' : 'follow'}`).catch(() => {})
               }}
             >Follow{following && 'ing'}
             </Button>
