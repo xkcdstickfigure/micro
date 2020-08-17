@@ -14,6 +14,7 @@ const UserPage = withRouter(({ user: u }) => {
   const [following, setFollowing] = useState(u.followers.me)
   const followerCount = u.followers.count + following - u.followers.me
 
+  // Check online
   useEffect(() => {
     const getOnline = () => axios.get(`/api/users/${u.id}/online`)
       .then(({ data }) => setOnline(data.online))
