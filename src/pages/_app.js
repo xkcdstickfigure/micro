@@ -3,11 +3,23 @@ import App from 'next/app'
 import Router from 'next/router'
 import { UserContext } from '../utils/userContext'
 import NProgress from 'nprogress'
+import { useEffect } from 'react'
 
 import '@reactants/ui/dist/index.css'
 import '../nprogress.css'
 
 export default function app ({ Component, pageProps, user }) {
+  // Online ping
+  if (user) {
+    useEffect(() => {
+      const ping = () => axios.post('/api/online').catch(() => {})
+      ping()
+      const interval = setInterval(ping, 15000)
+      return () => clearInterval(interval)
+    }, [])
+  }
+
+  // Return with Context
   return (
     <UserContext.Provider value={user}>
       <Component {...pageProps} />
