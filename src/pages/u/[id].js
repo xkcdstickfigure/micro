@@ -12,6 +12,7 @@ const UserPage = withRouter(({ user: u }) => {
   const user = useUser()
   const [online, setOnline] = useState(false)
   const [following, setFollowing] = useState(u.followers.me)
+  const followerCount = u.followers.count + following - u.followers.me
 
   useEffect(() => {
     const getOnline = () => axios.get(`/api/users/${u.id}/online`)
@@ -91,10 +92,10 @@ const UserPage = withRouter(({ user: u }) => {
 
           <h3 className='text-center space-x-3 mt-3'>
             <span>
-              <strong>{u.followers.count + following - u.followers.me}</strong> Followers
+              <strong>{followerCount}</strong> Follower{followerCount === 1 ? '' : 's'}
             </span>
             <span>
-              <strong>{u.posts.count}</strong> Posts
+              <strong>{u.posts.count}</strong> Post{u.posts.count === 1 ? '' : 's'}
             </span>
           </h3>
         </Box.Content>
