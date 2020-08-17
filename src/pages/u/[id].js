@@ -5,11 +5,12 @@ import Post from '../../components/Post'
 import { withRouter } from 'next/router'
 import { Breadcrumb, Avatar } from '@reactants/ui'
 import axios from 'axios'
+import NotFound from '../404'
 
-const UserPage = withRouter(({ u: user }) => {
-  return (
+const UserPage = withRouter(({ user: u }) => {
+  return u ? (
     <Page />
-  )
+  ) : <NotFound />
 })
 
 UserPage.getInitialProps = async ctx => {
