@@ -50,7 +50,9 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
               } : {
                 id: '_'
               }
-            )} className='mr-3' size={32.5}
+            )}
+            className='mr-3'
+            size={32.5}
           />
           <div>
             <div className='text-black dark:text-white text-lg'>

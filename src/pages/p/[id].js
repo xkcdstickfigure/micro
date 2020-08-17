@@ -36,7 +36,8 @@ export default function PostPage () {
               } : {
                 id: '_'
               }
-            )} size={25}
+            )}
+            size={25}
           />
         </Breadcrumb.Item>
       ) : null}
