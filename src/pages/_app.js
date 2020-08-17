@@ -42,7 +42,7 @@ app.getInitialProps = async appContext => {
 
     return { ...props, user }
   } catch (err) {
-    redirect(`https://alles.cx/login?next=${encodeURIComponent(process.env.NEXT_PUBLIC_ORIGIN + ctx.pathname)}`)
+    redirect(`https://alles.cx/login?next=${encodeURIComponent(process.env.NEXT_PUBLIC_ORIGIN + ctx.asPath)}`)
     return { ...props }
   }
 }
