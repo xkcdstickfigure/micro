@@ -19,8 +19,9 @@ const UserPage = withRouter(({ user: u }) => {
       .then(({ data }) => setOnline(data.online))
       .catch(() => setOnline(false))
 
-    setInterval(getOnline, 5000)
     getOnline()
+    const interval = setInterval(getOnline, 5000)
+    return () => clearInterval(interval)
   }, [])
 
   return u ? (
