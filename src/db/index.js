@@ -5,6 +5,7 @@ import follower from './follower'
 import post from './post'
 import interaction from './interaction'
 import mention from './mention'
+import ping from './ping'
 
 const db = new Sequelize(
   process.env.DB_NAME,
@@ -20,10 +21,12 @@ const db = new Sequelize(
   }
 )
 export default db
-db.sync()
 
 user(db)
 follower(db)
 post(db)
 interaction(db)
 mention(db)
+ping(db)
+
+db.sync()
