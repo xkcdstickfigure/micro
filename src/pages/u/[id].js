@@ -8,6 +8,8 @@ import axios from 'axios'
 import NotFound from '../404'
 
 const UserPage = withRouter(({ user: u }) => {
+  const user = useUser()
+
   return u ? (
     <Page
       title={u.name}
@@ -53,6 +55,10 @@ const UserPage = withRouter(({ user: u }) => {
           {u.nickname !== u.name ? <h2 className='text-center text-xl italic'>{u.nickname}</h2> : <></>}
         </Box.Content>
       </Box>
+
+      {user.id === u.id ? <PostField placeholder='Say something about yourself!' /> : <></>}
+
+      {u.posts.recent.map(p => <Post id={p} key={p} />)}
     </Page>
   ) : <NotFound />
 })
