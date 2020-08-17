@@ -79,19 +79,21 @@ const UserPage = withRouter(({ user: u }) => {
 
           {u.nickname !== u.name && <h2 className='text-center text-xl'>{u.nickname}</h2>}
 
-          <div className='flex justify-center mt-3'>
-            <Button
-              size='sm'
-              color={following ? 'primary' : 'secondary'}
-              style={{ width: 100 }}
-              onClick={() => {
-                setFollowing(!following)
-                axios.post(`/api/users/${u.id}/${following ? 'unfollow' : 'follow'}`).catch(() => {})
-              }}
-            >
-              Follow{following && 'ing'}
-            </Button>
-          </div>
+          {user.id !== u.id && (
+            <div className='flex justify-center mt-3'>
+              <Button
+                size='sm'
+                color={following ? 'primary' : 'secondary'}
+                style={{ width: 100 }}
+                onClick={() => {
+                  setFollowing(!following)
+                  axios.post(`/api/users/${u.id}/${following ? 'unfollow' : 'follow'}`).catch(() => {})
+                }}
+              >
+                Follow{following && 'ing'}
+              </Button>
+            </div>
+          )}
 
           <h3 className='text-center space-x-3 mt-3'>
             <span>
