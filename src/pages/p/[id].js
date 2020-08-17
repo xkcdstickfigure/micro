@@ -6,13 +6,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Breadcrumb, Avatar } from '@reactants/ui'
 import plainContent from '../../utils/plainContent'
+import NotFound from '../404'
 
 export default function PostPage () {
   const user = useUser()
   const { id } = useRouter().query
   const [post, setPost] = useState()
+  const [notFound, setNotFound] = useState(false)
 
-  return (
+  return !notFound ? (
     <Page
       title={post ? `${post.users[post.author].name}: ${
         plainContent(post.content.split('\n')[0], (() => {
@@ -45,6 +47,7 @@ export default function PostPage () {
         id={id}
         expanded
         onLoad={data => setPost(data)}
+        onError={() => setNotFound(true)}
       />
       {post ? (
         <PostField
@@ -60,7 +63,7 @@ export default function PostPage () {
 
       {post ? post.children.list.map(id => <Post key={id} id={id} />) : <></>}
     </Page>
-  )
+  ) : <NotFound />
 }
 
 function Parent ({ id }) {
