@@ -6,9 +6,20 @@ import { withRouter } from 'next/router'
 import { Box, Breadcrumb, Avatar } from '@reactants/ui'
 import axios from 'axios'
 import NotFound from '../404'
+import { useState, useEffect } from 'react'
 
 const UserPage = withRouter(({ user: u }) => {
   const user = useUser()
+  const [online, setOnline] = useState(false)
+
+  useEffect(() => {
+    const getOnline = () => axios.get(`/api/users/${u.id}/online`)
+      .then(({ data }) => setOnline(data.online))
+      .catch(() => setOnline(false))
+
+    setInterval(getOnline, 5000)
+    getOnline()
+  }, [])
 
   return u ? (
     <Page
@@ -33,18 +44,28 @@ const UserPage = withRouter(({ user: u }) => {
       <Box>
         <Box.Content>
           <div className='flex justify-center'>
-            <Avatar
-              {...(
-                u.alles ? {
-                  id: u.id
-                } : u.avatar ? {
-                  src: `https://fs.alles.cx/${u.avatar}`
-                } : {
-                  id: '_'
-                }
-              )}
-              size={150}
-            />
+            <div className='relative'>
+              <Avatar
+                {...(
+                  u.alles ? {
+                    id: u.id
+                  } : u.avatar ? {
+                    src: `https://fs.alles.cx/${u.avatar}`
+                  } : {
+                    id: '_'
+                  }
+                )}
+                size={150}
+              />
+              {online ? (
+                <div
+                  className='absolute w-4 h-4 right-5 bottom-4 rounded-full'
+                  style={{
+                    background: '#07de40'
+                  }}
+                />
+              ) : <></>}
+            </div>
           </div>
 
           <h1 className='text-center text-3xl font-medium mt-2'>
@@ -66,12 +87,14 @@ const UserPage = withRouter(({ user: u }) => {
               <p className='text-right ml-5'>{u.xp.total} xp</p>
             </div>
             <div
-              className='w-full h-5 mt-3 rounded-full overflow-hidden' style={{
+              className='w-full h-5 mt-3 rounded-full overflow-hidden'
+              style={{
                 background: 'rgb(239,239,239)'
               }}
             >
               <div
-                className='h-full bg-primary' style={{
+                className='h-full bg-primary'
+                style={{
                   width: `${u.xp.levelProgress * 100}%`
                 }}
               />
