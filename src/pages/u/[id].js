@@ -53,6 +53,8 @@ const UserPage = withRouter(({ user: u }) => {
           </h1>
 
           {u.nickname !== u.name ? <h2 className='text-center text-xl italic'>{u.nickname}</h2> : <></>}
+
+          {u.plus ? <Label>Plus</Label> : <></>}
         </Box.Content>
       </Box>
 
@@ -64,7 +66,7 @@ const UserPage = withRouter(({ user: u }) => {
               <p className='text-right ml-5'>{u.xp.total} xp</p>
             </div>
             <div
-              className='w-full h-5 mt-3 rounded-lg overflow-hidden' style={{
+              className='w-full h-5 mt-3 rounded-full overflow-hidden' style={{
                 background: 'rgb(239,239,239)'
               }}
             >
@@ -106,3 +108,11 @@ UserPage.getInitialProps = async ctx => {
 }
 
 export default UserPage
+
+function Label ({ children }) {
+  return (
+    <h3 className='text-center'>
+      <span className='uppercase bg-primary text-white rounded-full px-2 font-medium select-none text-sm'>{children}</span>
+    </h3>
+  )
+}
