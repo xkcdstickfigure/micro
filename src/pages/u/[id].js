@@ -98,6 +98,8 @@ const UserPage = withRouter(({ user: u }) => {
               <strong>{u.posts.count}</strong> Post{u.posts.count === 1 ? '' : 's'}
             </span>
           </h3>
+
+          {u.following.me && <p className='text-center mt-3 italic text-sm'>{u.nickname} is following you</p>}
         </Box.Content>
       </Box>
 
