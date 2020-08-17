@@ -3,7 +3,7 @@ import Page from '../../components/Page'
 import PostField from '../../components/PostField'
 import Post from '../../components/Post'
 import { withRouter } from 'next/router'
-import { Box, Breadcrumb, Avatar } from '@reactants/ui'
+import { Box, Breadcrumb, Avatar, Button } from '@reactants/ui'
 import axios from 'axios'
 import NotFound from '../404'
 import { useState, useEffect } from 'react'
@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react'
 const UserPage = withRouter(({ user: u }) => {
   const user = useUser()
   const [online, setOnline] = useState(false)
+  const [following, setFollowing] = useState(u.followers.me)
 
   useEffect(() => {
     const getOnline = () => axios.get(`/api/users/${u.id}/online`)
@@ -75,9 +76,21 @@ const UserPage = withRouter(({ user: u }) => {
 
           {u.nickname !== u.name && <h2 className='text-center text-xl'>{u.nickname}</h2>}
 
+          <div className='flex justify-center mt-3'>
+            <Button
+              size='sm'
+              color={following ? 'primary' : 'secondary'}
+              style={{ width: 100 }}
+              onClick={() => {
+                setFollowing(!following)
+              }}
+            >Follow{following && 'ing'}
+            </Button>
+          </div>
+
           <h3 className='text-center space-x-3 mt-3'>
             <span>
-              <strong>{u.followers.count}</strong> Followers
+              <strong>{u.followers.count + following - u.followers.me}</strong> Followers
             </span>
             <span>
               <strong>{u.posts.count}</strong> Posts
