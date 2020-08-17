@@ -101,7 +101,7 @@ const UserPage = withRouter(({ user: u }) => {
         </Box>
       ) : <></>}
 
-      {user.id === u.id ? <PostField placeholder='Say something about yourself!' /> : <></>}
+      {user.id === u.id && <PostField placeholder='Say something about yourself!' />}
 
       {u.posts.recent.map(p => <Post id={p} key={p} />)}
     </Page>
