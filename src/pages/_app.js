@@ -10,7 +10,7 @@ import '../nprogress.css'
 
 export default function app ({ Component, pageProps, user }) {
   // Online ping
-  if (user) {
+  if (user && process.env.NODE_ENV !== 'development') {
     useEffect(() => {
       const ping = () => axios.post('/api/online').catch(() => {})
       ping()
