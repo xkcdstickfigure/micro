@@ -1,24 +1,24 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require("sequelize");
 
-export default db => {
-  db.Interaction = db.define('interaction', {
+export default (db) => {
+  db.Interaction = db.define("interaction", {
     id: {
       primaryKey: true,
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
     },
     user: {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
     },
     vote: {
-      type: DataTypes.ENUM('up', 'neutral', 'down'),
-      defaultValue: 'neutral',
-      allowNull: false
-    }
-  })
+      type: DataTypes.ENUM("up", "neutral", "down"),
+      defaultValue: "neutral",
+      allowNull: false,
+    },
+  });
 
   // Post Association
-  db.Post.hasMany(db.Interaction)
-  db.Interaction.belongsTo(db.Post)
-}
+  db.Post.hasMany(db.Interaction);
+  db.Interaction.belongsTo(db.Post);
+};

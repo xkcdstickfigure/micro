@@ -1,14 +1,14 @@
 {
-    "alles": {
-        "name": "Alles",
-        "color": "rgb(var(--color-primary))"
-    },
-    "staff": {
-        "name": "Staff",
-        "color": "#ff0000"
-    },
-    "plus": {
-        "name": "Alles+",
-        "color": "#ffdf00"
-    }
+  "alles": {
+    "name": "Alles",
+    "color": "rgb(var(--color-primary))"
+  },
+  "staff": {
+    "name": "Staff",
+    "color": "#ff0000"
+  },
+  "plus": {
+    "name": "Alles+",
+    "color": "#ffdf00"
+  }
 }

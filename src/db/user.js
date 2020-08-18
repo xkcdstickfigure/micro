@@ -1,28 +1,28 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from "sequelize";
 
-export default db => {
+export default (db) => {
   db.User = db.define(
-    'user',
+    "user",
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       secret: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       avatar: {
-        type: DataTypes.STRING
-      }
+        type: DataTypes.STRING,
+      },
     },
     {
       paranoid: true,
-      updatedAt: false
+      updatedAt: false,
     }
-  )
-}
+  );
+};

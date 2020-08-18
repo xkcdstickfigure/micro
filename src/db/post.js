@@ -1,42 +1,42 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from "sequelize";
 
-export default db => {
+export default (db) => {
   db.Post = db.define(
-    'post',
+    "post",
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       author: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       content: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       image: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       score: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       paranoid: true,
-      updatedAt: false
+      updatedAt: false,
     }
-  )
+  );
 
   // Reply Association
   db.Post.hasMany(db.Post, {
-    foreignKey: 'parentId',
-    as: 'children'
-  })
+    foreignKey: "parentId",
+    as: "children",
+  });
   db.Post.belongsTo(db.Post, {
-    as: 'parent'
-  })
-}
+    as: "parent",
+  });
+};

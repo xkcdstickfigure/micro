@@ -1,26 +1,26 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from "sequelize";
 
-export default db => {
+export default (db) => {
   db.Follower = db.define(
-    'follower',
+    "follower",
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       user: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       following: {
         type: DataTypes.UUID,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       paranoid: true,
-      updatedAt: false
+      updatedAt: false,
     }
-  )
-}
+  );
+};

@@ -1,10 +1,10 @@
-import db from '../../../db'
-import { literal } from 'sequelize'
-import auth from '../../../utils/auth'
+import db from "../../../db";
+import { literal } from "sequelize";
+import auth from "../../../utils/auth";
 
 export default async (req, res) => {
-  const user = await auth(req.cookies.sessionToken)
-  if (!user) return res.status(401).send({ err: 'badAuthorization' })
+  const user = await auth(req.cookies.sessionToken);
+  if (!user) return res.status(401).send({ err: "badAuthorization" });
 
   // Response
   res.json({
@@ -12,24 +12,26 @@ export default async (req, res) => {
       await db.Mention.findAll({
         where: {
           user: user.id,
-          ...(typeof req.query.unread === 'string' ? {
-            read: false
-          } : {})
+          ...(typeof req.query.unread === "string"
+            ? {
+                read: false,
+              }
+            : {}),
         },
         attributes: {
           include: [
             [
-              literal('(select createdAt from posts where posts.id = postId)'),
-              'createdAt'
-            ]
-          ]
+              literal("(select createdAt from posts where posts.id = postId)"),
+              "createdAt",
+            ],
+          ],
         },
-        order: [[literal('createdAt'), 'DESC']],
-        limit: 100
+        order: [[literal("createdAt"), "DESC"]],
+        limit: 100,
       })
-    ).map(p => ({
+    ).map((p) => ({
       id: p.postId,
-      read: p.read
-    }))
-  })
-}
+      read: p.read,
+    })),
+  });
+};

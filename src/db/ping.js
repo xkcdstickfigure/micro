@@ -1,25 +1,25 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from "sequelize";
 
-export default db => {
+export default (db) => {
   db.Ping = db.define(
-    'ping',
+    "ping",
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       user: {
         type: DataTypes.UUID,
-        allowNull: false
+        allowNull: false,
       },
       address: {
         type: DataTypes.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
-      updatedAt: false
+      updatedAt: false,
     }
-  )
-}
+  );
+};

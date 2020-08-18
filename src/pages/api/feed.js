@@ -1,20 +1,21 @@
-import db from '../../db'
-import { Op, literal } from 'sequelize'
-import auth from '../../utils/auth'
+import db from "../../db";
+import { Op, literal } from "sequelize";
+import auth from "../../utils/auth";
 
 export default async (req, res) => {
-  const user = await auth(req.cookies.sessionToken)
-  if (!user) return res.status(401).send({ err: 'badAuthorization' })
+  const user = await auth(req.cookies.sessionToken);
+  if (!user) return res.status(401).send({ err: "badAuthorization" });
 
   // Before timestamp
-  let before
-  if (typeof req.query.before === 'string') {
+  let before;
+  if (typeof req.query.before === "string") {
     if (
       !isNaN(req.query.before) &&
       isFinite(req.query.before) &&
       Number(req.query.before) > 0
-    ) before = Number(req.query.before)
-    else return res.status(400).json({ err: 'badRequest' })
+    )
+      before = Number(req.query.before);
+    else return res.status(400).json({ err: "badRequest" });
   }
 
   // Response
@@ -30,24 +31,26 @@ export default async (req, res) => {
                   // find a better solution. Sequelize doesn't seem to support replacements in
                   // literals here, and user ids will always be UUIDs, so it's good enough :/
                   `(select following from followers where user = "${user.id}")`
-                )
-              }
+                ),
+              },
             },
             {
-              author: user.id
-            }
+              author: user.id,
+            },
           ],
           parentId: null,
-          ...(before ? {
-            createdAt: {
-              [Op.lt]: before
-            }
-          } : {})
+          ...(before
+            ? {
+                createdAt: {
+                  [Op.lt]: before,
+                },
+              }
+            : {}),
         },
-        attributes: ['id'],
-        order: [['createdAt', 'DESC']],
-        limit: 10
+        attributes: ["id"],
+        order: [["createdAt", "DESC"]],
+        limit: 10,
       })
-    ).map(p => p.id)
-  })
-}
+    ).map((p) => p.id),
+  });
+};

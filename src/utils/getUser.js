@@ -1,10 +1,10 @@
-import axios from 'axios'
-import db from '../db'
-const { NEXUS_ID, NEXUS_SECRET, NEXUS_URI } = process.env
+import axios from "axios";
+import db from "../db";
+const { NEXUS_ID, NEXUS_SECRET, NEXUS_URI } = process.env;
 
-export default async id => {
+export default async (id) => {
   // Declare user
-  let u
+  let u;
 
   // Check for Alles user
   try {
@@ -13,12 +13,12 @@ export default async id => {
         await axios.get(`${NEXUS_URI}/users/${encodeURIComponent(id)}`, {
           auth: {
             username: NEXUS_ID,
-            password: NEXUS_SECRET
-          }
+            password: NEXUS_SECRET,
+          },
         })
       ).data,
-      alles: true
-    }
+      alles: true,
+    };
   } catch (err) {}
 
   // Check database for non-Alles user
@@ -26,13 +26,13 @@ export default async id => {
     u = {
       user: await db.User.findOne({
         where: {
-          id
-        }
+          id,
+        },
       }),
-      alles: false
-    }
+      alles: false,
+    };
   }
 
   // Return
-  return u.user ? u : null
-}
+  return u.user ? u : null;
+};

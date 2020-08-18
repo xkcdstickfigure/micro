@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "NODE_ENV=production next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write \"**/*.+(js|jsx|json|css)\""
   },
   "dependencies": {
     "@charliewilco/gluejar": "^1.0.0",
@@ -26,5 +27,8 @@
     "sequelize": "^6.3.4",
     "sharp": "^0.25.4",
     "uuid": "7.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
   }
 }
