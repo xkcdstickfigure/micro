@@ -1,3 +1,5 @@
 {
-    "maxPostLength": 500
+    "maxPostLength": 500,
+    "minTagLength": 3,
+    "maxTagLength": 64
 }

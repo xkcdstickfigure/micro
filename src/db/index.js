@@ -5,6 +5,7 @@ import follower from './follower'
 import post from './post'
 import interaction from './interaction'
 import mention from './mention'
+import tag from './tag'
 import ping from './ping'
 
 const db = new Sequelize(
@@ -27,6 +28,7 @@ follower(db)
 post(db)
 interaction(db)
 mention(db)
+tag(db)
 ping(db)
 
 db.sync()

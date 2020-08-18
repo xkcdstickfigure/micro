@@ -27,12 +27,25 @@ export default async (req, res) => {
 
   // Parse content
   const parsedContent = parseContent(content)
+
   let mentions = parsedContent
     .filter(segment => (
       segment.type === 'user' &&
       segment.string.length === 36
     ))
     .map(segment => segment.string)
+
+  const tags = Array.from(
+    new Set(
+      parsedContent
+        .filter(segment => (
+          segment.type === 'tag' &&
+          segment.string.length >= config.minTagLength &&
+          segment.string.length <= config.maxTagLength
+        ))
+        .map(segment => segment.string)
+    )
+  )
 
   // Verify Parent
   let parent
@@ -108,6 +121,13 @@ export default async (req, res) => {
       })
     }
   }))
+
+  // Create tags
+  await Promise.all(tags.map(name => db.Tag.create({
+    id: uuid(),
+    name,
+    postId: post.id
+  })))
 
   // Response
   res.json({ id: post.id })
