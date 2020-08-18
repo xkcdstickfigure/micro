@@ -20,6 +20,9 @@ export default (db) => {
       image: {
         type: DataTypes.STRING,
       },
+      url: {
+        type: DataTypes.STRING,
+      },
       score: {
         type: DataTypes.INTEGER,
         allowNull: false,

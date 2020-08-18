@@ -7,6 +7,7 @@ import parseContent from "../../../utils/parseContent";
 import getUser from "../../../utils/getUser";
 import sharp from "sharp";
 import FormData from "form-data";
+import isUrl from "is-valid-http-url";
 
 const {
   CONTENT_SCORE_URI,
@@ -21,12 +22,20 @@ const api = async (req, res) => {
   if (!user) return res.status(401).send({ err: "badAuthorization" });
 
   if (!req.body) return res.status(400).json({ err: "badRequest" });
-  const { content, image, parent: parentId } = req.body;
+  const { content, image, url, parent: parentId } = req.body;
 
+  // Validate Content
   if (typeof content !== "string")
     return res.status(400).json({ err: "badRequest" });
   if (content.length < 1 || content.length > config.maxPostLength)
     return res.status(400).json({ err: "micro.post.length" });
+
+  // Validate URL
+  if (
+    typeof url === "string" &&
+    (!url.startsWith("https://") || url.length > 255 || !isUrl(url))
+  )
+    return res.status(400).json({ err: "micro.post.invalidUrl" });
 
   // Parse content
   const parsedContent = parseContent(content);
@@ -134,6 +143,7 @@ const api = async (req, res) => {
     alles: true,
     content,
     image: imageId,
+    url: typeof url === "string" ? url : null,
     score,
     parentId: parent ? parent.id : null,
   });
