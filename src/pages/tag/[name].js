@@ -30,7 +30,7 @@ TagPage.getInitialProps = async ctx => {
     ).data.posts
   } catch (err) {}
 
-  if (posts.length === 0) ctx.res.statusCode = 404
+  if (ctx.res && posts.length === 0) ctx.res.statusCode = 404
 
   return {
     name: ctx.query.name ? ctx.query.name.toLowerCase() : 'undefined',
