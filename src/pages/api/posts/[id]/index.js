@@ -97,6 +97,7 @@ export default async (req, res) => {
     },
     content: post.content,
     image: post.image,
+    url: post.url,
     vote: {
       score: upvotes - downvotes,
       me: user

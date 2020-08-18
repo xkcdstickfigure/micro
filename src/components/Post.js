@@ -8,6 +8,9 @@ import Tags from "./ContentTags";
 import { useUser } from "../utils/userContext";
 import Router from "next/router";
 
+const linkClasses =
+  "mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border";
+
 export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const [post, setPost] = useState();
   const [score, setScore] = useState();
@@ -98,6 +101,18 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
             src={`https://fs.alles.cx/${post.image}`}
           />
         )}
+        {post.url &&
+          (expanded ? (
+            <a
+              className={`${linkClasses} block`}
+              href={post.url}
+              target="_blank"
+            >
+              {post.url}
+            </a>
+          ) : (
+            <div className={linkClasses}>{post.url}</div>
+          ))}
       </Box.Content>
       <Box.Footer
         className={`rounded-bl-none flex justify-between ${
@@ -205,7 +220,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         </div>
 
         {expanded ? (
-          <div className="block w-full">{content}</div>
+          <div className="block w-full min-w-0 flex-shrink">{content}</div>
         ) : (
           <Link href="/p/[id]" as={`/p/${post.id}`}>
             <a className="block hover:opacity-75 transition duration-100 cursor-pointer w-full">
