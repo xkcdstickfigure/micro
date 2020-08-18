@@ -175,12 +175,44 @@ const UserPage = withRouter(({ user: u }) => {
 });
 
 UserPage.getInitialProps = async (ctx) => {
+  const urlId = ctx.query.id;
+  let id;
+
+  // User ID
+  if (urlId && urlId.length === 36) id = urlId;
+  // Alias
+  else if (urlId && urlId.length <= 25) {
+    try {
+      id = (
+        await axios.get(
+          `${process.env.NEXT_PUBLIC_ORIGIN}/api/alias/${encodeURIComponent(
+            urlId
+          )}`
+        )
+      ).data.user;
+    } catch (err) {
+      if (ctx.res) ctx.res.statusCode = 404;
+      return {
+        user: null,
+      };
+    }
+  }
+
+  // Invalid ID
+  else {
+    if (ctx.res) ctx.res.statusCode = 404;
+    return {
+      user: null,
+    };
+  }
+
+  // Get User
   try {
     return {
       user: (
         await axios.get(
           `${process.env.NEXT_PUBLIC_ORIGIN}/api/users/${encodeURIComponent(
-            ctx.query.id
+            id
           )}`,
           {
             headers:
