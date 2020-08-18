@@ -1,16 +1,19 @@
 import { Avatar, Box, Button } from '@reactants/ui'
-import { Plus, Minus, MessageCircle, Eye } from 'react-feather'
+import { Plus, Minus, MessageCircle, Eye, Trash } from 'react-feather'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Link from 'next/link'
 import Tags from './ContentTags'
+import { useUser } from '../utils/userContext'
+import Router from 'next/router'
 
 export default function Post ({ id, expanded, bubble, onLoad, onError }) {
   const [post, setPost] = useState()
   const [score, setScore] = useState()
   const [vote, setVote] = useState()
   const [voteChanged, setVoteChanged] = useState(false)
+  const user = useUser()
 
   // Load data
   useEffect(() => {
@@ -83,17 +86,34 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
         {post.image && <img className='mt-5 rounded-lg' src={`https://fs.alles.cx/${post.image}`} />}
       </Box.Content>
       <Box.Footer
-        className='rounded-bl-none flex justify-between cursor-pointer'
+        className={`rounded-bl-none flex justify-between ${expanded ? '' : 'cursor-pointer'}`}
         style={{ background: 'transparent' }}
       >
         <span>{moment(post.createdAt).format('LLL')}</span>
         <span className='flex items-center space-x-2'>
-          {post.interactions !== null ? (
+          {post.author === user.id && expanded && (
+            <div className='cursor-pointer hover:text-danger mr-2'>
+              <Trash
+                className='ml-1.5'
+                size={17}
+                onClick={() => {
+                  axios.delete(`/api/posts/${post.id}/delete`)
+                    .then(() => {
+                      if (post.parent) Router.push('/p/[id]', `/p/${post.parent}`)
+                      else Router.push('/')
+                    })
+                    .catch(() => {})
+                }}
+              />
+            </div>
+          )}
+
+          {post.interactions !== null && (
             <div className='flex items-center'>
               {post.interactions}
               <Eye className='ml-1.5' size={17} />
             </div>
-          ) : <></>}
+          )}
 
           <div className='flex items-center'>
             {post.children.count}
@@ -178,7 +198,7 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
           </Link>
         )}
 
-        {bubble ? (
+        {bubble && (
           <div
             className='bg-primary opacity-75 rounded-full absolute'
             style={{
@@ -188,7 +208,7 @@ export default function Post ({ id, expanded, bubble, onLoad, onError }) {
               right: -5
             }}
           />
-        ) : <></>}
+        )}
       </div>
     </Box>
   )
