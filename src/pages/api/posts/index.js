@@ -5,6 +5,8 @@ import config from '../../../config'
 import axios from 'axios'
 import parseContent from '../../../utils/parseContent'
 import getUser from '../../../utils/getUser'
+import sharp from 'sharp'
+import FormData from 'form-data'
 
 const {
   CONTENT_SCORE_URI,
@@ -18,7 +20,9 @@ export default async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
   if (!user) return res.status(401).send({ err: 'badAuthorization' })
 
-  const { content, parent: parentId } = req.body
+  if (!req.body) return res.status(400).json({ err: 'badRequest' })
+  const { content, image, parent: parentId } = req.body
+
   if (typeof content !== 'string') return res.status(400).json({ err: 'badRequest' })
   if (
     content.length < 1 ||
@@ -88,12 +92,47 @@ export default async (req, res) => {
     )
   } catch (err) {}
 
+  // Upload image
+  let imageId
+  if (typeof image === 'string') {
+    try {
+      // Convert to Buffer
+      let img = Buffer.from(image.split(';base64,')[1], 'base64')
+
+      // Resize
+      img = await sharp(img)
+        .resize({
+          width: user.plus ? 1000 : 500,
+          fit: 'cover'
+        })
+        .png()
+        .toBuffer()
+
+      // Upload to AllesFS
+      const formData = new FormData()
+      formData.append('file', img, {
+        filename: 'image'
+      })
+      formData.append('public', 'true')
+      imageId = (
+        await axios.post(process.env.ALLESFS_URI, formData.getBuffer(), {
+          auth: {
+            username: process.env.ALLESFS_ID,
+            password: process.env.ALLESFS_SECRET
+          },
+          headers: formData.getHeaders()
+        })
+      ).data
+    } catch (err) {}
+  }
+
   // Create post
   const post = await db.Post.create({
     id: uuid(),
     author: user.id,
     alles: true,
     content,
+    image: imageId,
     score,
     parentId: parent ? parent.id : null
   })
