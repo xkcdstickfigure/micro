@@ -1,13 +1,13 @@
-import { useUser } from "../../utils/userContext";
-import Page from "../../components/Page";
-import PostField from "../../components/PostField";
-import Post from "../../components/Post";
+import { useUser } from "../utils/userContext";
+import Page from "../components/Page";
+import PostField from "../components/PostField";
+import Post from "../components/Post";
 import { withRouter } from "next/router";
 import { Box, Breadcrumb, Avatar, Button } from "@reactants/ui";
 import axios from "axios";
-import NotFound from "../404";
+import NotFound from "./404";
 import { useState, useEffect } from "react";
-import labels from "../../labels";
+import labels from "../labels";
 
 const UserPage = withRouter(({ user: u }) => {
   if (!u) return <NotFound />;
@@ -175,7 +175,7 @@ const UserPage = withRouter(({ user: u }) => {
 });
 
 UserPage.getInitialProps = async (ctx) => {
-  const urlId = ctx.query.id;
+  const urlId = ctx.query.user;
   let id;
 
   // User ID
@@ -198,8 +198,8 @@ UserPage.getInitialProps = async (ctx) => {
       // Correct URL
       if (urlId !== alias.name) {
         if (ctx.res)
-          ctx.res.writeHead(302, { location: `/u/${alias.name}` }).end();
-        else Router.push("/u/[id]", `/u/${alias.name}`);
+          ctx.res.writeHead(302, { location: `/${alias.name}` }).end();
+        else Router.push("/[user]", `/${alias.name}`);
       }
 
       id = alias.user;

@@ -17,7 +17,7 @@ export default function NotFound() {
       <ConfusedCat />
       <p className="text-right text-sm">
         Confused Alles Cat by{" "}
-        <Link href="/u/[id]" as="/u/93e0b06c-e129-415a-aa0a-476473f4d0d2">
+        <Link href="/[user]" as="/93e0b06c-e129-415a-aa0a-476473f4d0d2">
           <a className="text-primary">Will Jones</a>
         </Link>
       </p>

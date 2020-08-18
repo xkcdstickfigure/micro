@@ -76,7 +76,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
     <>
       <Box.Content>
         {expanded ? (
-          <Link href="/u/[id]" as={`/u/${post.author}`}>
+          <Link href="/[user]" as={`/${post.author}`}>
             <a>{author}</a>
           </Link>
         ) : (

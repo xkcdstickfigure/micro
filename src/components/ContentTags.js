@@ -19,7 +19,7 @@ export default function ContentTags({ children, links, users = {} }) {
       ),
       user: users[segment.string] ? (
         links ? (
-          <Link href="/u/[id]" as={`/u/${segment.string}`} key={i}>
+          <Link href="/[user]" as={`/${segment.string}`} key={i}>
             <a className="text-primary" onClick={(e) => e.stopPropagation()}>
               {users[segment.string].name}
             </a>

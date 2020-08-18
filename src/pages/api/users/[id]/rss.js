@@ -28,13 +28,13 @@ export default async (req, res) => {
 <rss version="2.0">
     <channel>
         <title>${esc(u.user.name)} on Alles Micro</title>
-        <link>https://micro.alles.cx/u/${u.user.id}</link>
+        <link>https://micro.alles.cx/${u.user.id}</link>
         <description>Posts by ${esc(
           u.alles ? u.user.nickname : u.user.name
         )} on Alles Micro</description>
         <image>
             <title>${esc(u.user.name)}</title>
-            <link>https://micro.alles.cx/u/${u.user.id}</link>
+            <link>https://micro.alles.cx/${u.user.id}</link>
             <url>${
               u.alles
                 ? `https://avatar.alles.cc/${u.user.id}?size=100`

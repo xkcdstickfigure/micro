@@ -58,7 +58,7 @@ export default function Home() {
           </h4>
 
           <div className="flex space-x-4">
-            <Link href="/u/[id]" as={`/u/${user.id}`}>
+            <Link href="/[user]" as={`/${user.id}`}>
               <a className="transition duration-100 hover:opacity-75">
                 <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
                   <User />

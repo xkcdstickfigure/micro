@@ -33,7 +33,7 @@ export default function PostPage() {
       }
       breadcrumbs={
         post && (
-          <Link href="/u/[id]" as={`/u/${post.author}`}>
+          <Link href="/[user]" as={`/${post.author}`}>
             <Breadcrumb.Item>
               <Avatar
                 {...(post.users[post.author].alles
