@@ -7,6 +7,7 @@ import interaction from "./interaction";
 import mention from "./mention";
 import tag from "./tag";
 import ping from "./ping";
+import alias from "./alias";
 
 const db = new Sequelize(
   process.env.DB_NAME,
@@ -30,5 +31,6 @@ interaction(db);
 mention(db);
 tag(db);
 ping(db);
+alias(db);
 
 db.sync();
