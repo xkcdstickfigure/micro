@@ -16,7 +16,7 @@ const {
   NEXUS_SECRET
 } = process.env
 
-export default async (req, res) => {
+const api = async (req, res) => {
   const user = await auth(req.cookies.sessionToken)
   if (!user) return res.status(401).send({ err: 'badAuthorization' })
 
@@ -171,3 +171,15 @@ export default async (req, res) => {
   // Response
   res.json({ id: post.id })
 }
+
+// API Config
+const conf = {
+  api: {
+    bodyParser: {
+      sizeLimit: config.imageSize
+    }
+  }
+}
+
+// Exports
+export { api as default, conf as config }
