@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import labels from "../../labels";
 
 const UserPage = withRouter(({ user: u }) => {
+  if (!u) return <NotFound />;
+
   const user = useUser();
   const [online, setOnline] = useState(false);
   const [following, setFollowing] = useState(u.followers.me);
@@ -28,7 +30,7 @@ const UserPage = withRouter(({ user: u }) => {
     return () => clearInterval(interval);
   }, []);
 
-  return u ? (
+  return (
     <Page
       title={u.name}
       breadcrumbs={
@@ -169,8 +171,6 @@ const UserPage = withRouter(({ user: u }) => {
         <Post id={p} key={p} />
       ))}
     </Page>
-  ) : (
-    <NotFound />
   );
 });
 
