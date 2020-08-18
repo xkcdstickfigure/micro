@@ -179,17 +179,30 @@ UserPage.getInitialProps = async (ctx) => {
   let id;
 
   // User ID
-  if (urlId && urlId.length === 36) id = urlId;
+  if (urlId && urlId.length === 36) {
+    id = urlId;
+  }
+
   // Alias
   else if (urlId && urlId.length <= 25) {
     try {
-      id = (
+      // Get Alias
+      const alias = (
         await axios.get(
           `${process.env.NEXT_PUBLIC_ORIGIN}/api/alias/${encodeURIComponent(
             urlId
           )}`
         )
-      ).data.user;
+      ).data;
+
+      // Correct URL
+      if (urlId !== alias.name) {
+        if (ctx.res)
+          ctx.res.writeHead(302, { location: `/u/${alias.name}` }).end();
+        else Router.push("/u/[id]", `/u/${alias.name}`);
+      }
+
+      id = alias.user;
     } catch (err) {
       if (ctx.res) ctx.res.statusCode = 404;
       return {
