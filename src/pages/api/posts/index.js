@@ -73,36 +73,6 @@ const api = async (req, res) => {
     mentions = mentions.concat((await parent.getMentions()).map((m) => m.user));
   }
 
-  // Content score
-  let score = 0;
-  try {
-    score = (
-      await axios.post(
-        CONTENT_SCORE_URI,
-        { content },
-        {
-          headers: {
-            authorization: CONTENT_SCORE_SECRET,
-          },
-        }
-      )
-    ).data;
-  } catch (err) {}
-
-  // Update reputation
-  try {
-    await axios.post(
-      `${NEXUS_URI}/users/${user.id}/reputation`,
-      { score },
-      {
-        auth: {
-          username: NEXUS_ID,
-          password: NEXUS_SECRET,
-        },
-      }
-    );
-  } catch (err) {}
-
   // Upload image
   let imageId;
   if (typeof image === "string") {
