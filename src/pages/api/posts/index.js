@@ -9,14 +9,6 @@ import sharp from "sharp";
 import FormData from "form-data";
 import isUrl from "is-valid-http-url";
 
-const {
-  CONTENT_SCORE_URI,
-  CONTENT_SCORE_SECRET,
-  NEXUS_URI,
-  NEXUS_ID,
-  NEXUS_SECRET,
-} = process.env;
-
 const api = async (req, res) => {
   const user = await auth(req);
   if (!user) return res.status(401).send({ err: "badAuthorization" });
