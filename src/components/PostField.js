@@ -1,5 +1,5 @@
-import { Box, Textarea, Button } from "@reactants/ui";
-import { Image, X } from "react-feather";
+import { Box, Textarea, Input, Button } from "@reactants/ui";
+import { Image, Link, X } from "react-feather";
 import { useState, createRef } from "react";
 import axios from "axios";
 import Router from "next/router";
@@ -8,6 +8,8 @@ import { Gluejar } from "@charliewilco/gluejar";
 export default function PostField(props) {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [urlInput, setUrlInput] = useState(false);
+  const [url, setUrl] = useState("");
   const [imageUpload, setImage] = useState();
   const [pastedImages, setPastedImages] = useState(0);
   const imageInput = createRef();
@@ -19,6 +21,13 @@ export default function PostField(props) {
       .post("/api/posts", {
         content: value,
         image: imageUpload,
+        url: !url
+          ? null
+          : url.startsWith("https://")
+          ? url
+          : url.startsWith("http://")
+          ? url.replace("http://", "https://")
+          : `https://${url}`,
         parent: props.parent,
       })
       .then((res) => Router.push("/p/[id]", `/p/${res.data.id}`))
@@ -63,8 +72,8 @@ export default function PostField(props) {
               }}
             />
 
-            {imageUpload ? (
-              <div className="p-5 relative">
+            {imageUpload && (
+              <div className="p-5 pb-0 relative">
                 <img
                   className="rounded-lg border border-gray-200 dark:border-gray-600"
                   src={imageUpload}
@@ -77,8 +86,6 @@ export default function PostField(props) {
                   <X />
                 </Box>
               </div>
-            ) : (
-              <></>
             )}
 
             <input
@@ -89,15 +96,37 @@ export default function PostField(props) {
               onChange={(e) => handleImageUpload(e.target.files[0])}
             />
 
+            {urlInput && (
+              <div className="m-5">
+                <Input
+                  label="Link"
+                  placeholder="https://abaer.dev"
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+              </div>
+            )}
+
             <Box.Footer className="flex justify-between">
-              <Button
-                color="transparent"
-                style={{ padding: "0 5px" }}
-                size="lg"
-                onClick={() => imageInput.current.click()}
-              >
-                <Image size={20} strokeWidth={1.75} />
-              </Button>
+              <div className="flex">
+                <Button
+                  color="transparent"
+                  style={{ padding: "0 5px" }}
+                  size="lg"
+                  onClick={() => imageInput.current.click()}
+                >
+                  <Image size={20} strokeWidth={1.75} />
+                </Button>
+
+                <Button
+                  color="transparent"
+                  style={{ padding: "0 5px" }}
+                  size="lg"
+                  onClick={() => setUrlInput(true)}
+                >
+                  <Link size={20} strokeWidth={1.75} />
+                </Button>
+              </div>
+
               <Button disabled={!value || loading} size="sm" onClick={submit}>
                 {props.parent ? "Reply" : "Post"}
               </Button>
