@@ -1,25 +1,17 @@
-import auth from "../../../utils/auth";
+import auth from "../../../../utils/botAuth";
 import { v4 as uuid } from "uuid";
-import db from "../../../db";
-import config from "../../../config";
+import db from "../../../../db";
+import config from "../../../../config";
 import axios from "axios";
-import parseContent from "../../../utils/parseContent";
-import getUser from "../../../utils/getUser";
+import parseContent from "../../../../utils/parseContent";
+import getUser from "../../../../utils/getUser";
 import sharp from "sharp";
 import FormData from "form-data";
 import isUrl from "is-valid-http-url";
 
-const {
-  CONTENT_SCORE_URI,
-  CONTENT_SCORE_SECRET,
-  NEXUS_URI,
-  NEXUS_ID,
-  NEXUS_SECRET,
-} = process.env;
-
 const api = async (req, res) => {
-  const user = await auth(req);
-  if (!user) return res.status(401).send({ err: "badAuthorization" });
+  const bot = await auth(req);
+  if (!bot) return res.status(401).send({ err: "badAuthorization" });
 
   if (!req.body) return res.status(400).json({ err: "badRequest" });
   const { content, image, url, parent: parentId } = req.body;
@@ -67,41 +59,22 @@ const api = async (req, res) => {
         id: parentId,
       },
     });
-    if (!parent) return res.status(400).json({ err: "micro.post.parent" });
+    if (
+      !parent ||
+      (bot.id !== parent.author &&
+        (
+          await parent.getMentions({
+            where: {
+              user: bot.id,
+            },
+          })
+        ).length === 0)
+    )
+      return res.status(400).json({ err: "micro.post.parent" });
 
     mentions.push(parent.author);
     mentions = mentions.concat((await parent.getMentions()).map((m) => m.user));
   }
-
-  // Content score
-  let score = 0;
-  try {
-    score = (
-      await axios.post(
-        CONTENT_SCORE_URI,
-        { content },
-        {
-          headers: {
-            authorization: CONTENT_SCORE_SECRET,
-          },
-        }
-      )
-    ).data;
-  } catch (err) {}
-
-  // Update reputation
-  try {
-    await axios.post(
-      `${NEXUS_URI}/users/${user.id}/reputation`,
-      { score },
-      {
-        auth: {
-          username: NEXUS_ID,
-          password: NEXUS_SECRET,
-        },
-      }
-    );
-  } catch (err) {}
 
   // Upload image
   let imageId;
@@ -113,7 +86,7 @@ const api = async (req, res) => {
       // Resize
       img = await sharp(img)
         .resize({
-          width: user.plus ? 1000 : 500,
+          width: 500,
           fit: "cover",
         })
         .png()
@@ -140,26 +113,18 @@ const api = async (req, res) => {
   // Create post
   const post = await db.Post.create({
     id: uuid(),
-    author: user.id,
+    author: bot.id,
     content,
     image: imageId,
     url: typeof url === "string" ? url : null,
-    score,
+    score: 0,
     parentId: parent ? parent.id : null,
-  });
-
-  // Upvote post
-  await db.Interaction.create({
-    id: uuid(),
-    user: user.id,
-    postId: post.id,
-    vote: "up",
   });
 
   // Create mentions
   mentions = Array.from(new Set(mentions));
-  if (mentions.indexOf(user.id) > -1)
-    mentions.splice(mentions.indexOf(user.id), 1);
+  if (mentions.indexOf(bot.id) > -1)
+    mentions.splice(mentions.indexOf(bot.id), 1);
   await Promise.all(
     mentions.map(async (id) => {
       const u = await getUser(id);
