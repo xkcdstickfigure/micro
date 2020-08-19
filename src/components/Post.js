@@ -151,7 +151,11 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
                 size={17}
                 onClick={() => {
                   axios
-                    .delete(`/api/posts/${post.id}/delete`)
+                    .delete(`/api/posts/${post.id}/delete`, {
+                      headers: {
+                        Authorization: user.sessionToken,
+                      },
+                    })
                     .then(() => {
                       if (post.parent)
                         Router.push("/p/[id]", `/p/${post.parent}`);
