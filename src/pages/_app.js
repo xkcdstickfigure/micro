@@ -15,11 +15,15 @@ export default function app({ Component, pageProps, user }) {
     useEffect(() => {
       const ping = () =>
         axios
-          .post("/api/online", {
-            headers: {
-              Authorization: user.sessionToken,
-            },
-          })
+          .post(
+            "/api/online",
+            {},
+            {
+              headers: {
+                Authorization: user.sessionToken,
+              },
+            }
+          )
           .catch(() => {});
       ping();
       const interval = setInterval(ping, 15000);
