@@ -106,7 +106,6 @@ const api = async (req, res) => {
     content,
     image: imageId,
     url: typeof url === "string" ? url : null,
-    score,
     parentId: parent ? parent.id : null,
   });
 

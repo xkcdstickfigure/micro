@@ -23,10 +23,6 @@ export default (db) => {
       url: {
         type: DataTypes.STRING,
       },
-      score: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
     },
     {
       paranoid: true,
