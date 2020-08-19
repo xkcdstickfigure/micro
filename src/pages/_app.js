@@ -13,7 +13,14 @@ export default function app({ Component, pageProps, user }) {
   // Online ping
   if (user && process.env.NODE_ENV !== "development") {
     useEffect(() => {
-      const ping = () => axios.post("/api/online").catch(() => {});
+      const ping = () =>
+        axios
+          .post("/api/online", {
+            headers: {
+              Authorization: user.sessionToken,
+            },
+          })
+          .catch(() => {});
       ping();
       const interval = setInterval(ping, 15000);
       return () => clearInterval(interval);
