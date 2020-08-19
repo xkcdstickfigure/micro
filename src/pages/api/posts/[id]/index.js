@@ -63,6 +63,9 @@ export default async (req, res) => {
     };
   });
 
+  if (!users[post.author])
+    return res.status(404).json({ err: "missingResource" });
+
   // Response
   res.json({
     id: post.id,
