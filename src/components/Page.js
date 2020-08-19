@@ -3,7 +3,6 @@ import { Header, Breadcrumb, Avatar } from "@reactants/ui";
 import { useUser } from "../utils/userContext";
 import Head from "next/head";
 import Link from "next/link";
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -42,7 +41,7 @@ export default function Page({ title, breadcrumbs, children }) {
             <Link href="/">
               <Breadcrumb.Item className="font-medium text-lg inline-flex items-center">
                 <Circle className="text-gray-500 inline w-5 mr-2" />
-                Micro β2
+                Micro
               </Breadcrumb.Item>
             </Link>
 
