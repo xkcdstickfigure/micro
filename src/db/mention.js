@@ -13,6 +13,11 @@ export default (db) => {
         type: DataTypes.UUID,
         allowNull: false,
       },
+      notified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       read: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
