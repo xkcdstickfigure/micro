@@ -4,6 +4,7 @@ import axios from "axios";
 import { Breadcrumb, Box } from "@reactants/ui";
 import Link from "next/link";
 import { Users } from "react-feather";
+import cookies from "next-cookies";
 
 const Followers = ({ count, users }) => (
   <Page
@@ -31,16 +32,18 @@ const Followers = ({ count, users }) => (
   </Page>
 );
 
-Followers.getInitialProps = async (ctx) =>
-  (
-    await axios.get(`${process.env.NEXT_PUBLIC_ORIGIN}/api/following`, {
-      headers:
-        ctx.req && ctx.req.headers.cookie
-          ? {
-              cookie: ctx.req.headers.cookie,
-            }
-          : {},
-    })
-  ).data;
+Followers.getInitialProps = async (ctx) => {
+  try {
+    return (
+      await axios.get(`${process.env.NEXT_PUBLIC_ORIGIN}/api/following`, {
+        headers: {
+          Authorization: cookies(ctx).sessionToken,
+        },
+      })
+    ).data;
+  } catch (err) {
+    return {};
+  }
+};
 
 export default Followers;

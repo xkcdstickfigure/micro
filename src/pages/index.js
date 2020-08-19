@@ -17,7 +17,11 @@ export default function Home() {
   useEffect(() => {
     const updateFeed = () =>
       axios
-        .get("/api/feed")
+        .get("/api/feed", {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        })
         .then(({ data }) => {
           const newPosts = data.posts.filter((p) => posts.indexOf(p) === -1);
           if (newPosts.length > 0) setPosts(newPosts.concat(posts));
@@ -35,7 +39,11 @@ export default function Home() {
     axios.get(`/api/posts/${posts[posts.length - 1]}`).then((res) =>
       // Get posts before last post
       axios
-        .get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`)
+        .get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`, {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        })
         .then((res) =>
           setPosts(
             posts.concat(res.data.posts.filter((p) => posts.indexOf(p) === -1))

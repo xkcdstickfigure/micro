@@ -4,6 +4,7 @@ import Router from "next/router";
 import { UserContext } from "../utils/userContext";
 import NProgress from "nprogress";
 import { useEffect } from "react";
+import cookies from "next-cookies";
 
 import "@reactants/ui/dist/index.css";
 import "../nprogress.css";
@@ -31,6 +32,7 @@ export default function app({ Component, pageProps, user }) {
 app.getInitialProps = async (appContext) => {
   const props = await App.getInitialProps(appContext);
   const { ctx } = appContext;
+  const { sessionToken } = cookies(ctx);
   const isServer = typeof window === "undefined";
 
   const redirect = (location) =>
@@ -40,7 +42,7 @@ app.getInitialProps = async (appContext) => {
       ? (window.location.href = location)
       : Router.push(location);
 
-  if (ctx.pathname === "/_error") return { ...props };
+  if (ctx.pathname === "/_error") return props;
 
   try {
     const user = (
@@ -49,23 +51,21 @@ app.getInitialProps = async (appContext) => {
           process.env.NEXT_PUBLIC_ORIGIN ? process.env.NEXT_PUBLIC_ORIGIN : ""
         }/api/me`,
         {
-          headers: isServer
-            ? {
-                cookie: ctx.req ? ctx.req.headers.cookie : "",
-              }
-            : {},
+          headers: {
+            Authorization: sessionToken,
+          },
         }
       )
     ).data;
 
-    return { ...props, user };
+    return { ...props, user: { ...user, sessionToken } };
   } catch (err) {
     redirect(
       `https://alles.cx/login?next=${encodeURIComponent(
         process.env.NEXT_PUBLIC_ORIGIN + ctx.asPath
       )}`
     );
-    return { ...props };
+    return props;
   }
 };
 

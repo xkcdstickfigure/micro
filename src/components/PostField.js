@@ -4,8 +4,10 @@ import { useState, createRef } from "react";
 import axios from "axios";
 import Router from "next/router";
 import { Gluejar } from "@charliewilco/gluejar";
+import { useUser } from "../utils/userContext";
 
 export default function PostField(props) {
+  const user = useUser();
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [urlInput, setUrlInput] = useState(false);
@@ -18,18 +20,26 @@ export default function PostField(props) {
   const submit = () => {
     setLoading(true);
     axios
-      .post("/api/posts", {
-        content: value,
-        image: imageUpload,
-        url: !url
-          ? null
-          : url.startsWith("https://")
-          ? url
-          : url.startsWith("http://")
-          ? url.replace("http://", "https://")
-          : `https://${url}`,
-        parent: props.parent,
-      })
+      .post(
+        "/api/posts",
+        {
+          content: value,
+          image: imageUpload,
+          url: !url
+            ? null
+            : url.startsWith("https://")
+            ? url
+            : url.startsWith("http://")
+            ? url.replace("http://", "https://")
+            : `https://${url}`,
+          parent: props.parent,
+        },
+        {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        }
+      )
       .then((res) => Router.push("/p/[id]", `/p/${res.data.id}`))
       .catch(() => setLoading(false));
   };

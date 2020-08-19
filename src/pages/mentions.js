@@ -3,11 +3,23 @@ import Post from "../components/Post";
 import axios from "axios";
 import { useEffect } from "react";
 import { Breadcrumb } from "@reactants/ui";
+import { useUser } from "../utils/userContext";
+import cookies from "next-cookies";
 
 const Mentions = ({ posts }) => {
+  const user = useUser();
+
   // Mark as read
   useEffect(() => {
-    axios.post("/api/mentions/read");
+    axios.post(
+      "/api/mentions/read",
+      {},
+      {
+        headers: {
+          Authorization: user.sessionToken,
+        },
+      }
+    );
   }, []);
 
   return (
@@ -24,16 +36,18 @@ const Mentions = ({ posts }) => {
   );
 };
 
-Mentions.getInitialProps = async (ctx) =>
-  (
-    await axios.get(`${process.env.NEXT_PUBLIC_ORIGIN}/api/mentions`, {
-      headers:
-        ctx.req && ctx.req.headers.cookie
-          ? {
-              cookie: ctx.req.headers.cookie,
-            }
-          : {},
-    })
-  ).data;
+Mentions.getInitialProps = async (ctx) => {
+  try {
+    return (
+      await axios.get(`${process.env.NEXT_PUBLIC_ORIGIN}/api/mentions`, {
+        headers: {
+          Authorization: cookies(ctx).sessionToken,
+        },
+      })
+    ).data;
+  } catch (err) {
+    return {};
+  }
+};
 
 export default Mentions;

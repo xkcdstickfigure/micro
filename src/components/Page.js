@@ -17,7 +17,11 @@ export default function Page({ title, breadcrumbs, children }) {
   useEffect(() => {
     const updateNotificationCount = () =>
       axios
-        .get("/api/mentions?unread")
+        .get("/api/mentions?unread", {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        })
         .then(({ data }) => setNotificationsCount(data.posts.length))
         .catch(() => {});
 

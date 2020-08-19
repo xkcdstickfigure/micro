@@ -8,6 +8,7 @@ import axios from "axios";
 import NotFound from "./404";
 import { useState, useEffect } from "react";
 import labels from "../labels";
+import cookies from "next-cookies";
 
 const UserPage = withRouter(({ user: u }) => {
   if (!u) return <NotFound />;
@@ -100,7 +101,13 @@ const UserPage = withRouter(({ user: u }) => {
                   setFollowing(!following);
                   axios
                     .post(
-                      `/api/users/${u.id}/${following ? "unfollow" : "follow"}`
+                      `/api/users/${u.id}/${following ? "unfollow" : "follow"}`,
+                      {},
+                      {
+                        headers: {
+                          Authorization: user.sessionToken,
+                        },
+                      }
                     )
                     .catch(() => {});
                 }}
@@ -228,21 +235,16 @@ UserPage.getInitialProps = async (ctx) => {
             id
           )}`,
           {
-            headers:
-              ctx.req && ctx.req.headers.cookie
-                ? {
-                    cookie: ctx.req.headers.cookie,
-                  }
-                : {},
+            headers: {
+              Authorization: cookies(ctx).sessionToken,
+            },
           }
         )
       ).data,
     };
   } catch (err) {
     if (ctx.res) ctx.res.statusCode = 404;
-    return {
-      user: null,
-    };
+    return {};
   }
 };
 

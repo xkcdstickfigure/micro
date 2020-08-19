@@ -2,7 +2,7 @@ import axios from "axios";
 const { NEXUS_ID, NEXUS_SECRET, NEXUS_URI } = process.env;
 
 export default async (req) => {
-  if (!req.cookies.sessionToken) return;
+  if (!req.headers.authorization) return;
 
   try {
     // Get session from token
@@ -10,7 +10,7 @@ export default async (req) => {
       await axios.post(
         `${NEXUS_URI}/sessions/token`,
         {
-          token: req.cookies.sessionToken,
+          token: req.headers.authorization,
         },
         {
           auth: {

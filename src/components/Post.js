@@ -22,7 +22,11 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
   useEffect(() => {
     // Get post
     axios
-      .get(`/api/posts/${encodeURIComponent(id)}`)
+      .get(`/api/posts/${encodeURIComponent(id)}`, {
+        headers: {
+          Authorization: user.sessionToken,
+        },
+      })
       .then(({ data }) => {
         setPost(data);
         setScore(data.vote.score);
@@ -36,7 +40,15 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
     // Interaction
     if (expanded)
       axios
-        .post(`/api/posts/${encodeURIComponent(id)}/interaction`)
+        .post(
+          `/api/posts/${encodeURIComponent(id)}/interaction`,
+          {},
+          {
+            headers: {
+              Authorization: user.sessionToken,
+            },
+          }
+        )
         .catch(() => {});
   }, [id]);
 
@@ -44,7 +56,16 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
   useEffect(() => {
     if (!post || vote === null) return;
     setScore(post.vote.score + vote - post.vote.me);
-    if (voteChanged) axios.post(`/api/posts/${post.id}/vote`, { vote });
+    if (voteChanged)
+      axios.post(
+        `/api/posts/${post.id}/vote`,
+        { vote },
+        {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        }
+      );
   }, [vote]);
 
   const author = post && (
