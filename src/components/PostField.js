@@ -85,7 +85,7 @@ export default function PostField(props) {
             {imageUpload && (
               <div className="p-5 pb-0 relative">
                 <img
-                  className="rounded-lg border border-gray-200 dark:border-gray-600"
+                  className="w-full rounded-lg border border-gray-200 dark:border-gray-600"
                   src={imageUpload}
                   onError={() => setImage()}
                 />
