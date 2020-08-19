@@ -66,11 +66,13 @@ export default function Home() {
               </a>
             </Link>
 
-            <a className="transition duration-100 hover:opacity-75">
-              <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
-                <Users />
-              </Box>
-            </a>
+            <Link href="/followers">
+              <a className="transition duration-100 hover:opacity-75">
+                <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
+                  <Users />
+                </Box>
+              </a>
+            </Link>
 
             <Link href="/mentions">
               <a className="transition duration-100 hover:opacity-75">
