@@ -19,6 +19,9 @@ export default (db) => {
       avatar: {
         type: DataTypes.STRING,
       },
+      webhook: {
+        type: DataTypes.STRING,
+      },
     },
     {
       paranoid: true,
