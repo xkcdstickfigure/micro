@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import auth from "../../../../utils/auth";
 
 export default async (req, res) => {
-  const user = await auth(req.cookies.sessionToken);
+  const user = await auth(req);
   if (!user) return res.status(401).json({ err: "badAuthorization" });
   if (
     typeof req.query.id !== "string" ||

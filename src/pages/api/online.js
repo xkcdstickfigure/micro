@@ -5,7 +5,7 @@ import getAddress from "../../utils/getAddress";
 import { v4 as uuid } from "uuid";
 
 export default async (req, res) => {
-  const user = await auth(req.cookies.sessionToken);
+  const user = await auth(req);
   if (!user) return res.status(401).send({ err: "badAuthorization" });
 
   // Don't add ping if already pinged recently

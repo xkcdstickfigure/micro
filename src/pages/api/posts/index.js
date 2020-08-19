@@ -18,7 +18,7 @@ const {
 } = process.env;
 
 const api = async (req, res) => {
-  const user = await auth(req.cookies.sessionToken);
+  const user = await auth(req);
   if (!user) return res.status(401).send({ err: "badAuthorization" });
 
   if (!req.body) return res.status(400).json({ err: "badRequest" });

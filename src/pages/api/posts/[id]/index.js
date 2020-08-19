@@ -4,7 +4,7 @@ import auth from "../../../../utils/auth";
 import getUser from "../../../../utils/getUser";
 
 export default async (req, res) => {
-  const user = await auth(req.cookies.sessionToken);
+  const user = await auth(req);
   if (typeof req.query.id !== "string")
     return res.status(400).json({ err: "badRequest" });
 
