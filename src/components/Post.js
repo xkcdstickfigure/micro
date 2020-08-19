@@ -28,9 +28,12 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         },
       })
       .then(({ data }) => {
+        if (!data.users[data.author]) throw new Error("Author does not exist");
+
         setPost(data);
         setScore(data.vote.score);
         setVote(data.vote.me);
+
         if (onLoad) onLoad(data);
       })
       .catch((err) => {
