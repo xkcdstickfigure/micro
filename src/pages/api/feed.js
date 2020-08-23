@@ -30,7 +30,7 @@ export default async (req, res) => {
                   // Yeah, I know, this doesn't look very safe but I spent hours trying to
                   // find a better solution. Sequelize doesn't seem to support replacements in
                   // literals here, and user ids will always be UUIDs, so it's good enough :/
-                  `(select following from followers where user = "${user.id}")`
+                  `(select following from followers where user = "${user.id}" and deletedAt is null)`
                 ),
               },
             },
