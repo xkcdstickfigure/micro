@@ -1,5 +1,5 @@
-import { Box } from "@alleshq/reactants";
-import { User, AtSign, Users } from "react-feather";
+import { Box, useTheme } from "@alleshq/reactants";
+import { User, AtSign, Users, Sun, Moon } from "react-feather";
 import { useUser } from "../utils/userContext";
 import Page from "../components/Page";
 import PostField from "../components/PostField";
@@ -12,6 +12,8 @@ import Link from "next/link";
 export default function Home() {
   const user = useUser();
   const [posts, setPosts] = useState([]);
+  const { theme, toggleTheme } = useTheme();
+  const ThemeIcon = theme === "light" ? Moon : Sun;
 
   // Load new posts
   useEffect(() => {
@@ -89,6 +91,15 @@ export default function Home() {
                 </Box>
               </a>
             </Link>
+
+            <a
+              className="transition duration-100 hover:opacity-75 cursor-pointer"
+              onClick={() => toggleTheme()}
+            >
+              <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
+                <ThemeIcon />
+              </Box>
+            </a>
           </div>
         </div>
 
