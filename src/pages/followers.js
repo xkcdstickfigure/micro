@@ -1,7 +1,7 @@
 import Page from "../components/Page";
 import User from "../components/UserRow";
 import axios from "axios";
-import { Breadcrumb, Box } from "@reactants/ui";
+import { Breadcrumb, Box } from "@alleshq/reactants";
 import Link from "next/link";
 import { Users } from "react-feather";
 import cookies from "next-cookies";

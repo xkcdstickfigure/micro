@@ -6,7 +6,7 @@ import NProgress from "nprogress";
 import { useEffect } from "react";
 import cookies from "next-cookies";
 
-import "@reactants/ui/dist/index.css";
+import "@alleshq/reactants/dist/index.css";
 import "../nprogress.css";
 
 export default function app({ Component, pageProps, user }) {

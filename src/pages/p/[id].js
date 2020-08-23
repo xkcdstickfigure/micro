@@ -4,7 +4,7 @@ import PostField from "../../components/PostField";
 import Post from "../../components/Post";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Breadcrumb, Avatar } from "@reactants/ui";
+import { Breadcrumb, Avatar } from "@alleshq/reactants";
 import plainContent from "../../utils/plainContent";
 import NotFound from "../404";
 import Link from "next/link";
@@ -36,19 +36,13 @@ export default function PostPage() {
           <Link href="/[user]" as={`/${post.author}`}>
             <Breadcrumb.Item>
               <Avatar
-                {...(post.users[post.author].alles
-                  ? {
-                      id: post.author,
-                    }
-                  : post.users[post.author].avatar
-                  ? {
-                      src: `https://fs.alles.cx/${
-                        post.users[post.author].avatar
-                      }`,
-                    }
-                  : {
-                      id: "_",
-                    })}
+                src={
+                  post.users[post.author].alles
+                    ? `https://avatar.alles.cc/${post.author}?size=25`
+                    : post.users[post.author].avatar
+                    ? `https://fs.alles.cx/${post.users[post.author].avatar}`
+                    : `https://avatar.alles.cc/_?size=25`
+                }
                 size={25}
               />
             </Breadcrumb.Item>

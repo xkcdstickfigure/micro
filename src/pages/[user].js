@@ -3,7 +3,7 @@ import Page from "../components/Page";
 import PostField from "../components/PostField";
 import Post from "../components/Post";
 import { withRouter } from "next/router";
-import { Box, Breadcrumb, Avatar, Button } from "@reactants/ui";
+import { Box, Breadcrumb, Avatar, Button } from "@alleshq/reactants";
 import axios from "axios";
 import NotFound from "./404";
 import { useState, useEffect } from "react";
@@ -37,17 +37,13 @@ const UserPage = withRouter(({ user: u }) => {
       breadcrumbs={
         <Breadcrumb.Item>
           <Avatar
-            {...(u.alles
-              ? {
-                  id: u.id,
-                }
-              : u.avatar
-              ? {
-                  src: `https://fs.alles.cx/${u.avatar}`,
-                }
-              : {
-                  id: "_",
-                })}
+            src={
+              u.alles
+                ? `https://avatar.alles.cc/${u.id}?size=25`
+                : u.avatar
+                ? `https://fs.alles.cx/${u.avatar}`
+                : `https://avatar.alles.cc/_?size=25`
+            }
             size={25}
           />
         </Breadcrumb.Item>
@@ -58,17 +54,13 @@ const UserPage = withRouter(({ user: u }) => {
           <div className="flex justify-center">
             <div className="relative">
               <Avatar
-                {...(u.alles
-                  ? {
-                      id: u.id,
-                    }
-                  : u.avatar
-                  ? {
-                      src: `https://fs.alles.cx/${u.avatar}`,
-                    }
-                  : {
-                      id: "_",
-                    })}
+                src={
+                  u.alles
+                    ? `https://avatar.alles.cc/${u.id}?size=150`
+                    : u.avatar
+                    ? `https://fs.alles.cx/${u.avatar}`
+                    : `https://avatar.alles.cc/_?size=150`
+                }
                 size={150}
               />
               {online && (

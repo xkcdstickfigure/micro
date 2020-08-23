@@ -2,7 +2,7 @@ import Page from "../components/Page";
 import Post from "../components/Post";
 import axios from "axios";
 import { useEffect } from "react";
-import { Breadcrumb } from "@reactants/ui";
+import { Breadcrumb } from "@alleshq/reactants";
 import { useUser } from "../utils/userContext";
 import cookies from "next-cookies";
 

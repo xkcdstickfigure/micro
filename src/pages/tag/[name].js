@@ -2,7 +2,7 @@ import Page from "../../components/Page";
 import Post from "../../components/Post";
 import PostField from "../../components/PostField";
 import axios from "axios";
-import { Breadcrumb } from "@reactants/ui";
+import { Breadcrumb } from "@alleshq/reactants";
 import { withRouter } from "next/router";
 
 const TagPage = withRouter(({ name, posts }) => (

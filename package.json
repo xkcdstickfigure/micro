@@ -9,9 +9,9 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|css)\""
   },
   "dependencies": {
+    "@alleshq/reactants": "^1.0.0",
     "@charliewilco/gluejar": "^1.0.0",
     "@fullhuman/postcss-purgecss": "^2.3.0",
-    "@reactants/ui": "^3.4.0",
     "axios": "^0.19.2",
     "escape-html": "^1.0.3",
     "form-data": "^3.0.0",

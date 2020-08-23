@@ -1,5 +1,5 @@
 import { Circle, Bell } from "react-feather";
-import { Header, Breadcrumb, Avatar } from "@reactants/ui";
+import { Header, Breadcrumb, Avatar } from "@alleshq/reactants";
 import { useUser } from "../utils/userContext";
 import Head from "next/head";
 import Link from "next/link";
@@ -60,7 +60,10 @@ export default function Page({ title, breadcrumbs, children }) {
               <></>
             )}
 
-            <Avatar id={user.id} size={37.5} />
+            <Avatar
+              src={`https://avatar.alles.cc/${user.id}?size=40`}
+              size={37.5}
+            />
           </div>
         </div>
       </Header>

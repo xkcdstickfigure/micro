@@ -1,4 +1,4 @@
-import { Box, Textarea, Input, Button } from "@reactants/ui";
+import { Box, Textarea, Input, Button } from "@alleshq/reactants";
 import { Image, Link, X } from "react-feather";
 import { useState, createRef } from "react";
 import axios from "axios";

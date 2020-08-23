@@ -1,4 +1,4 @@
-import { Box, Avatar } from "@reactants/ui";
+import { Box, Avatar } from "@alleshq/reactants";
 import Link from "next/link";
 
 export default function UserRow({ id, name, tag, alles, avatar }) {
@@ -8,11 +8,13 @@ export default function UserRow({ id, name, tag, alles, avatar }) {
         <Box>
           <Box.Content className="flex">
             <Avatar
-              {...(alles
-                ? { id }
-                : avatar
-                ? { src: `https://fs.alles.cx/${avatar}` }
-                : { id: "_" })}
+              src={
+                alles
+                  ? `https://avatar.alles.cc/${id}?size=25`
+                  : avatar
+                  ? `https://fs.alles.cx/${avatar}`
+                  : `https://avatar.alles.cc/_?size=25`
+              }
               size={25}
             />
             <p className="ml-3 text-lg">

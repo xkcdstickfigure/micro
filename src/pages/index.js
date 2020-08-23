@@ -1,4 +1,4 @@
-import { Box } from "@reactants/ui";
+import { Box } from "@alleshq/reactants";
 import { User, AtSign, Users } from "react-feather";
 import { useUser } from "../utils/userContext";
 import Page from "../components/Page";

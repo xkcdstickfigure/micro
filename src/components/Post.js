@@ -1,4 +1,4 @@
-import { Avatar, Box, Button } from "@reactants/ui";
+import { Avatar, Box, Button } from "@alleshq/reactants";
 import { Plus, Minus, MessageCircle, Eye, Trash } from "react-feather";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -72,17 +72,13 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const author = post && (
     <div className="flex items-center mb-3">
       <Avatar
-        {...(post.users[post.author].alles
-          ? {
-              id: post.author,
-            }
-          : post.users[post.author].avatar
-          ? {
-              src: `https://fs.alles.cx/${post.users[post.author].avatar}`,
-            }
-          : {
-              id: "_",
-            })}
+        src={
+          post.users[post.author].alles
+            ? `https://avatar.alles.cc/${post.author}?size=35`
+            : post.users[post.author].avatar
+            ? `https://fs.alles.cx/${post.users[post.author].avatar}`
+            : `https://avatar.alles.cc/_?size=35`
+        }
         className="mr-3"
         size={32.5}
       />
