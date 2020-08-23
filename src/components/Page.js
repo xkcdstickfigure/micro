@@ -1,5 +1,5 @@
 import { Circle, Bell } from "react-feather";
-import { Header, Breadcrumb, Avatar } from "@alleshq/reactants";
+import { Header, Breadcrumb, Avatar, useTheme } from "@alleshq/reactants";
 import { useUser } from "../utils/userContext";
 import Head from "next/head";
 import Link from "next/link";
@@ -11,6 +11,7 @@ export default function Page({ title, breadcrumbs, children }) {
   const user = useUser();
   const router = useRouter();
   const [notificationsCount, setNotificationsCount] = useState(0);
+  useTheme();
 
   // Get notifications count
   useEffect(() => {

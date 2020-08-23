@@ -185,7 +185,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         <Button color="transparent" style={{ padding: 0, opacity: 0.5 }}>
           <Plus size={17.5} />
         </Button>
-        <span className="w-3 h-3 bg-gray-200 rounded-full" />
+        <span className="w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded-full" />
         <Button color="transparent" style={{ padding: 0, opacity: 0.5 }}>
           <Minus size={17.5} />
         </Button>
@@ -195,22 +195,22 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         <Box.Content>
           <div className="flex items-center mb-3">
             <div
-              className="mr-3 bg-gray-200 rounded-full"
+              className="mr-3 bg-gray-200 dark:bg-gray-700 rounded-full"
               style={{ width: 32.5, height: 32.5 }}
             />
             <div className="space-y-1">
-              <div className="bg-gray-200 rounded-sm dark:bg-white h-3 w-10" />
-              <div className="bg-gray-200 rounded-sm h-3 w-15" />
+              <div className="bg-gray-200 dark:bg-gray-700 rounded-sm dark:bg-white h-3 w-10" />
+              <div className="bg-gray-200 dark:bg-gray-700 rounded-sm h-3 w-15" />
             </div>
           </div>
-          <div className="bg-gray-200 h-15 rounded w-full" />
+          <div className="bg-gray-200 dark:bg-gray-700 h-15 rounded w-full" />
         </Box.Content>
         <Box.Footer
           className="rounded-bl-none flex justify-between"
           style={{ background: "transparent" }}
         >
-          <span className="bg-gray-200 w-20 h-3 rounded-sm" />
-          <span className="bg-gray-200 w-13 h-3 rounded-sm" />
+          <span className="bg-gray-200 dark:bg-gray-700 w-20 h-3 rounded-sm" />
+          <span className="bg-gray-200 dark:bg-gray-700 w-13 h-3 rounded-sm" />
         </Box.Footer>
       </div>
     </Box>
