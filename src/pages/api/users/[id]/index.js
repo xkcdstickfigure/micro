@@ -2,7 +2,7 @@ import db from "../../../../db";
 import { Op } from "sequelize";
 import getUser from "../../../../utils/getUser";
 import auth from "../../../../utils/auth";
-import staff from "../../../../staff";
+import isStaff from "../../../../utils/staff";
 
 export default async (req, res) => {
   const user = await auth(req);
@@ -83,7 +83,7 @@ export default async (req, res) => {
     },
     labels: [
       u.user.id === "6b984a0f-368f-4388-944b-6d9ccb40e450" && "alles",
-      staff.includes(u.user.id) && "staff",
+      isStaff(u.user.id) && "staff",
       u.alles && u.user.plus && "plus",
     ].filter((label) => !!label),
   });
