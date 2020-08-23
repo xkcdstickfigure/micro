@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alleshq/reactants@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@alleshq/reactants/-/reactants-1.0.0.tgz#70832359ebb62c01850093be81b0ead8af696552"
-  integrity sha512-kIBbd5KDe49arh/bwJXvp/f2PGX1bDyjIVzWqWezgKxRU7pY/XkX8bGYrfpq4swJhCz91ogXv+s0sUGnQB+gPQ==
+"@alleshq/reactants@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@alleshq/reactants/-/reactants-1.0.1.tgz#0e8f781ea8d9c331d5038f586a716010499d88b9"
+  integrity sha512-xVUYW/kJ8xSkkDHqs6zDn1Va0dtcBwZ3Hzzaq+2zAdQsI38RQIiPsbgJjPrhk3gbLb1Obx1MglEGQR7RBN3CuQ==
 
 "@ampproject/toolbox-core@^2.5.4", "@ampproject/toolbox-core@^2.6.0":
   version "2.6.0"

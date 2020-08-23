@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|css)\""
   },
   "dependencies": {
-    "@alleshq/reactants": "^1.0.0",
+    "@alleshq/reactants": "^1.0.1",
     "@charliewilco/gluejar": "^1.0.0",
     "@fullhuman/postcss-purgecss": "^2.3.0",
     "axios": "^0.19.2",
