@@ -103,7 +103,7 @@ export default function Home() {
           </div>
         </div>
 
-        <PostField placeholder="What's up?" />
+        <PostField placeholder="What's up? #BlackLivesMatter" />
       </div>
 
       {posts.length > 0 ? (
