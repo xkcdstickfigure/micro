@@ -143,12 +143,7 @@ const UserPage = withRouter(({ user: u }) => {
               <p className="flex-grow">Level {u.xp.level}</p>
               <p className="text-right ml-5">{u.xp.total} xp</p>
             </div>
-            <div
-              className="w-full h-5 mt-3 rounded-full overflow-hidden"
-              style={{
-                background: "rgb(239,239,239)",
-              }}
-            >
+            <div className="w-full h-5 mt-3 rounded-full overflow-hidden border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700">
               <div
                 className="h-full bg-primary"
                 style={{
