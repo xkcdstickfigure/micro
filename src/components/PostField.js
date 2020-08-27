@@ -79,6 +79,7 @@ export default function PostField(props) {
                 background: "transparent",
                 border: "none",
                 padding: "15px",
+                paddingBottom: 0,
               }}
             />
 
@@ -107,7 +108,7 @@ export default function PostField(props) {
             />
 
             {urlInput && (
-              <div className="m-5">
+              <div className="m-5 mb-0">
                 <Input
                   label="Link"
                   placeholder="https://abaer.dev"
@@ -116,7 +117,7 @@ export default function PostField(props) {
               </div>
             )}
 
-            <Box.Footer className="flex justify-between">
+            <Box.Footer className="flex justify-between mt-5">
               <div className="flex">
                 <Button
                   color="transparent"
