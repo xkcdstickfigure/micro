@@ -102,7 +102,7 @@ export default function PostField(props) {
               ref={imageInput}
               type="file"
               accept="image/png, image/jpeg"
-              style={{ display: "none" }}
+              className="hidden"
               onChange={(e) => handleImageUpload(e.target.files[0])}
             />
 
