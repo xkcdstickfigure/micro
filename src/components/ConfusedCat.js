@@ -5,11 +5,7 @@ export default function ConfusedCat() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 12000 12000"
       preserveAspectRatio="xMidYMid meet"
-      style={{
-        width: "100%",
-        margin: "20px auto 0",
-        display: "block",
-      }}
+      className="mx-auto w-full"
     >
       <g id="layer101" stroke="none">
         <path d="M7557 11247 c-73 -75 -167 -193 -167 -212 0 -4 -18 -34 -77 -130 -69 -112 -84 -240 -26 -218 7 3 13 17 13 32 0 14 25 76 56 136 31 61 64 125 72 143 9 17 20 32 24 32 4 0 8 5 8 11 0 6 11 25 25 43 14 18 25 36 25 41 0 4 16 27 35 51 19 23 35 46 35 51 1 4 14 19 30 33 33 27 38 40 15 40 -9 0 -39 -24 -68 -53z" />

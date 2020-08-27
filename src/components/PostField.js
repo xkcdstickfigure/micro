@@ -72,14 +72,11 @@ export default function PostField(props) {
           <>
             <Textarea
               placeholder={props.placeholder}
-              className="text-base"
+              className="text-base border-none pb-0"
               rows={4}
               onChange={(e) => setValue(e.target.value.trim())}
               style={{
                 background: "transparent",
-                border: "none",
-                padding: "15px",
-                paddingBottom: 0,
               }}
             />
 
