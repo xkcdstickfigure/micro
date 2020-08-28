@@ -5,6 +5,7 @@ import axios from "axios";
 import Router from "next/router";
 import { Gluejar } from "@charliewilco/gluejar";
 import { useUser } from "../utils/userContext";
+import config from "../config";
 
 export default function PostField(props) {
   const user = useUser();
@@ -135,9 +136,25 @@ export default function PostField(props) {
                 </Button>
               </div>
 
-              <Button disabled={!value || loading} size="sm" onClick={submit}>
-                {props.parent ? "Reply" : "Post"}
-              </Button>
+              <div className="flex space-x-3">
+                {value.length > config.maxPostLength - 100 && (
+                  <span
+                    className={`my-auto block ${
+                      value.length >= config.maxPostLength ? "text-danger" : ""
+                    }`}
+                  >
+                    {config.maxPostLength - value.length}
+                  </span>
+                )}
+                <Button
+                  disabled={!value || value.length > config.maxPostLength}
+                  loading={loading}
+                  size="sm"
+                  onClick={submit}
+                >
+                  {props.parent ? "Reply" : "Post"}
+                </Button>
+              </div>
             </Box.Footer>
           </>
         )}
