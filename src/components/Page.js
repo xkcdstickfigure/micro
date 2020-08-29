@@ -1,11 +1,12 @@
 import { Circle, Bell } from "react-feather";
-import { Header, Breadcrumb, Avatar, useTheme } from "@alleshq/reactants";
+import { Header, Breadcrumb, Avatar } from "@alleshq/reactants";
 import { useUser } from "../utils/userContext";
 import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useTheme } from "../utils/theme";
 
 export default function Page({ title, breadcrumbs, children }) {
   const user = useUser();

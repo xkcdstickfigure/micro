@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@alleshq/reactants";
+import { Box } from "@alleshq/reactants";
 import { User, AtSign, Users, Sun, Moon } from "react-feather";
 import { useUser } from "../utils/userContext";
 import Page from "../components/Page";
@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TrackVisibility from "react-on-screen";
 import Link from "next/link";
+import { useTheme } from "../utils/theme";
 
 export default function Home() {
   const user = useUser();
