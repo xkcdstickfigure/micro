@@ -13,7 +13,10 @@ export default function Home() {
   const user = useUser();
   const [posts, setPosts] = useState([]);
   const { theme, toggleTheme } = useTheme();
-  const ThemeIcon = theme === "light" ? Moon : Sun;
+  const [ThemeIcon, setThemeIcon] = useState(Moon);
+
+  // Theme Icon
+  useEffect(() => setThemeIcon(theme === "light" ? Moon : Sun), [theme]);
 
   // Load new posts
   useEffect(() => {
