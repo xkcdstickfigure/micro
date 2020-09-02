@@ -9,7 +9,7 @@ import { useUser } from "../utils/userContext";
 import Router from "next/router";
 
 const linkClasses =
-  "mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border";
+  "mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate";
 
 export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const [post, setPost] = useState();
@@ -133,10 +133,9 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
           ))}
       </Box.Content>
       <Box.Footer
-        className={`rounded-bl-none flex justify-between ${
+        className={`rounded-bl-none flex justify-between bg-transparent ${
           expanded ? "" : "cursor-pointer"
         }`}
-        style={{ background: "transparent" }}
       >
         <span>{moment(post.createdAt).format("LLL")}</span>
         <span className="flex items-center space-x-2">
@@ -242,10 +241,10 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         </div>
 
         {expanded ? (
-          <div className="block w-full min-w-0 flex-shrink">{content}</div>
+          <div className="block w-full min-w-0">{content}</div>
         ) : (
           <Link href="/p/[id]" as={`/p/${post.id}`}>
-            <a className="block hover:opacity-75 transition duration-100 cursor-pointer w-full">
+            <a className="block w-full min-w-0 hover:opacity-75 transition duration-100 cursor-pointer">
               {content}
             </a>
           </Link>
