@@ -18,21 +18,21 @@ export default function Home() {
   const [tag, setTag] = useState();
 
   // Theme Icon
-  useEffect(() => setThemeIcon(theme === "light" ? Moon : Sun), [theme]);
+  useEffect(() => {
+    setThemeIcon(theme === "light" ? Moon : Sun);
+  }, [theme]);
 
   // Get Tag
-  useEffect(
-    () =>
-      axios
-        .get("/api/tags", {
-          headers: {
-            Authorization: user.sessionToken,
-          },
-        })
-        .then(({ data }) => setTag(data.tag))
-        .catch(() => {}),
-    []
-  );
+  useEffect(() => {
+    axios
+      .get("/api/tags", {
+        headers: {
+          Authorization: user.sessionToken,
+        },
+      })
+      .then(({ data }) => setTag(data.tag))
+      .catch(() => {});
+  }, []);
 
   // Load new posts
   useEffect(() => {
