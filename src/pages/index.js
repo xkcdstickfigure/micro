@@ -15,9 +15,24 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const { theme, toggleTheme } = useTheme();
   const [ThemeIcon, setThemeIcon] = useState(Moon);
+  const [tag, setTag] = useState();
 
   // Theme Icon
   useEffect(() => setThemeIcon(theme === "light" ? Moon : Sun), [theme]);
+
+  // Get Tag
+  useEffect(
+    () =>
+      axios
+        .get("/api/tags", {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        })
+        .then(({ data }) => setTag(data.tag))
+        .catch(() => {}),
+    []
+  );
 
   // Load new posts
   useEffect(() => {
@@ -107,13 +122,7 @@ export default function Home() {
           </div>
         </div>
 
-        <PostField
-          placeholder={`What's up? #${
-            Math.floor(Math.random() * 1000) === 0
-              ? "BringBackBdrian"
-              : "BlackLivesMatter"
-          }`}
-        />
+        <PostField placeholder={`What's up?${tag ? ` #${tag}` : ``}`} />
       </div>
 
       {posts.length > 0 ? (
