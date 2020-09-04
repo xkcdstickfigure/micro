@@ -24,7 +24,7 @@ export default function PostField(props) {
       .post(
         "/api/posts",
         {
-          content: value,
+          content: value.trim(),
           image: imageUpload,
           url: !url
             ? null
@@ -75,7 +75,7 @@ export default function PostField(props) {
               placeholder={props.placeholder}
               className="text-base border-none pb-0"
               rows={4}
-              onChange={(e) => setValue(e.target.value.trim())}
+              onChange={(e) => setValue(e.target.value)}
               style={{
                 background: "transparent",
               }}
@@ -147,7 +147,7 @@ export default function PostField(props) {
                   </span>
                 )}
                 <Button
-                  disabled={!value || value.length > config.maxPostLength}
+                  disabled={!value.trim() || value.length > config.maxPostLength}
                   loading={loading}
                   size="sm"
                   onClick={submit}
