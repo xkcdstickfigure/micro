@@ -41,7 +41,6 @@ export default function app({ Component, pageProps, user }) {
 
 // User data
 app.getInitialProps = async (appContext) => {
-  const props = await App.getInitialProps(appContext);
   const { ctx } = appContext;
   const { sessionToken } = cookies(ctx);
   const isServer = typeof window === "undefined";
@@ -53,7 +52,7 @@ app.getInitialProps = async (appContext) => {
       ? (window.location.href = location)
       : Router.push(location);
 
-  if (ctx.pathname === "/_error") return props;
+  if (ctx.pathname === "/_error") return await App.getInitialProps(appContext);
 
   try {
     const user = (
@@ -69,14 +68,20 @@ app.getInitialProps = async (appContext) => {
       )
     ).data;
 
-    return { ...props, user: { ...user, sessionToken } };
+    return {
+      ...(await App.getInitialProps(appContext)),
+      user: {
+        ...user,
+        sessionToken
+      } 
+    };
   } catch (err) {
     redirect(
       `https://alles.cx/login?next=${encodeURIComponent(
         process.env.NEXT_PUBLIC_ORIGIN + ctx.asPath
       )}`
     );
-    return props;
+    return {};
   }
 };
 
