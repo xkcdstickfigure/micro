@@ -107,7 +107,13 @@ export default function Home() {
           </div>
         </div>
 
-        <PostField placeholder="What's up? #BlackLivesMatter" />
+        <PostField
+          placeholder={`What's up? #${
+            Math.floor(Math.random() * 1000) === 0
+              ? "BringBackBdrian"
+              : "BlackLivesMatter"
+          }`}
+        />
       </div>
 
       {posts.length > 0 ? (
