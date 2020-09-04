@@ -147,7 +147,9 @@ export default function PostField(props) {
                   </span>
                 )}
                 <Button
-                  disabled={!value.trim() || value.length > config.maxPostLength}
+                  disabled={
+                    !value.trim() || value.length > config.maxPostLength
+                  }
                   loading={loading}
                   size="sm"
                   onClick={submit}

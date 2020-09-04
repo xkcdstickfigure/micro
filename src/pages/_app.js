@@ -72,8 +72,8 @@ app.getInitialProps = async (appContext) => {
       ...(await App.getInitialProps(appContext)),
       user: {
         ...user,
-        sessionToken
-      } 
+        sessionToken,
+      },
     };
   } catch (err) {
     redirect(
