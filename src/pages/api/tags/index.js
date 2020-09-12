@@ -6,10 +6,6 @@ export default async (req, res) => {
 
   // Response
   res.json({
-    tag:
-      user.id === "c1d1fe95-cac7-4d92-8cd8-8f30d6ac5ca8" ||
-      Math.floor(Math.random() * 100) === 0
-        ? "BringBackBdrian"
-        : "BlackLivesMatter",
+    tag: "BlackLivesMatter"
   });
 };
