@@ -137,7 +137,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
           expanded ? "" : "cursor-pointer"
         }`}
       >
-        <span>{moment(post.createdAt).format("LLL")}</span>
+        <span>{moment(post.createdAt).fromNow()}</span>
         <span className="flex items-center space-x-2">
           {post.author === user.id && expanded && (
             <div className="cursor-pointer hover:text-danger mr-2">
