@@ -6,6 +6,6 @@ export default async (req, res) => {
 
   // Response
   res.json({
-    tag: "BlackLivesMatter"
+    tag: "BlackLivesMatter",
   });
 };
