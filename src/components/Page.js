@@ -16,6 +16,7 @@ export default function Page({ title, breadcrumbs, children }) {
 
   // Get notifications count
   useEffect(() => {
+    if (router.pathname === "/mentions") return;
     const updateNotificationCount = () =>
       axios
         .get("/api/mentions?unread", {
@@ -34,7 +35,10 @@ export default function Page({ title, breadcrumbs, children }) {
   return (
     <>
       <Head>
-        <title>{title ? `Micro • ${title}` : "Alles Micro"}</title>
+        <title>
+          {(notificationsCount > 0 ? `(${notificationsCount}) ` : ``) +
+            (title ? `Micro • ${title}` : `Alles Micro`)}
+        </title>
       </Head>
 
       <Header>
@@ -51,7 +55,7 @@ export default function Page({ title, breadcrumbs, children }) {
           </Breadcrumb>
 
           <div className="flex items-center space-x-3">
-            {notificationsCount && router.pathname !== "/mentions" ? (
+            {notificationsCount ? (
               <Link href="/mentions">
                 <a className="select-none hover:bg-danger-85 transition duration-200 ease bg-danger text-white rounded-full flex items-center justify-center py-0.5 px-2.5 space-x-1">
                   <Bell size={0.35 * 37.5} />
