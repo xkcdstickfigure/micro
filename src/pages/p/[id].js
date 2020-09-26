@@ -5,7 +5,6 @@ import Post from "../../components/Post";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Breadcrumb, Avatar } from "@alleshq/reactants";
-import plainContent from "../../utils/plainContent";
 import NotFound from "../404";
 import Link from "next/link";
 
@@ -17,32 +16,13 @@ export default function PostPage() {
 
   return !notFound ? (
     <Page
-      title={
-        post
-          ? `${post.users[post.author].name}: ${plainContent(
-              post.content.split("\n")[0],
-              (() => {
-                const names = {};
-                Object.keys(post.users).forEach((id) => {
-                  names[id] = post.users[id].name;
-                });
-                return names;
-              })()
-            )}`
-          : null
-      }
+      title={post && `${post.author.name}: ${post.content.split("\n")[0]}`}
       breadcrumbs={
         post && (
-          <Link href="/[user]" as={`/${post.author}`}>
+          <Link href="/[user]" as={`/${post.author.id}`}>
             <Breadcrumb.Item>
               <Avatar
-                src={
-                  post.users[post.author].alles
-                    ? `https://avatar.alles.cc/${post.author}?size=25`
-                    : post.users[post.author].avatar
-                    ? `https://fs.alles.cx/${post.users[post.author].avatar}`
-                    : `https://avatar.alles.cc/_?size=25`
-                }
+                src={`https://avatar.alles.cc/${post.author.id}?size=25`}
                 size={25}
               />
             </Breadcrumb.Item>
@@ -50,7 +30,7 @@ export default function PostPage() {
         )
       }
     >
-      {post && post.parent ? <Parent id={post.parent} /> : <></>}
+      {post && post.parent && <Parent id={post.parent} />}
 
       <Post
         id={id}
@@ -61,9 +41,9 @@ export default function PostPage() {
       {post ? (
         <PostField
           placeholder={
-            post.author === user.id
+            post.author.id === user.id
               ? "Continue the conversation..."
-              : `Reply to ${post.users[post.author].nickname}...`
+              : `Reply to ${post.author.nickname}...`
           }
           parent={post.id}
           key={`reply-${post.id}`}

@@ -2,7 +2,6 @@ import db from "../../../../db";
 import { Op } from "sequelize";
 import getUser from "../../../../utils/getUser";
 import auth from "../../../../utils/auth";
-import isStaff from "../../../../utils/staff";
 
 export default async (req, res) => {
   const user = await auth(req);
@@ -15,20 +14,18 @@ export default async (req, res) => {
 
   // Response
   res.json({
-    id: u.user.id,
-    alles: !!u.alles,
-    name: u.user.name,
-    tag: u.alles ? u.user.tag : "0000",
-    plus: u.alles ? u.user.plus : false,
-    nickname: u.alles ? u.user.nickname : u.user.name,
-    avatar: u.alles ? null : u.user.avatar,
-    createdAt: u.user.createdAt,
-    xp: u.alles ? u.user.xp : null,
+    id: u.id,
+    name: u.name,
+    tag: u.tag,
+    plus: u.plus,
+    nickname: u.nickname,
+    createdAt: u.createdAt,
+    xp: u.xp,
     posts: {
       recent: (
         await db.Post.findAll({
           where: {
-            author: u.user.id,
+            author: u.id,
             parentId: null,
           },
           attributes: ["id"],
@@ -38,13 +35,13 @@ export default async (req, res) => {
       ).map((p) => p.id),
       count: await db.Post.count({
         where: {
-          author: u.user.id,
+          author: u.id,
           parentId: null,
         },
       }),
       replies: await db.Post.count({
         where: {
-          author: u.user.id,
+          author: u.id,
           parentId: {
             [Op.not]: null,
           },
@@ -54,13 +51,13 @@ export default async (req, res) => {
     followers: {
       count: await db.Follower.count({
         where: {
-          following: u.user.id,
+          following: u.id,
         },
       }),
       me: user
         ? !!(await db.Follower.findOne({
             where: {
-              following: u.user.id,
+              following: u.id,
               user: user.id,
             },
           }))
@@ -69,22 +66,17 @@ export default async (req, res) => {
     following: {
       count: await db.Follower.count({
         where: {
-          user: u.user.id,
+          user: u.id,
         },
       }),
       me: user
         ? !!(await db.Follower.findOne({
             where: {
               following: user.id,
-              user: u.user.id,
+              user: u.id,
             },
           }))
         : null,
     },
-    labels: [
-      u.user.id === "6b984a0f-368f-4388-944b-6d9ccb40e450" && "alles",
-      isStaff(u.user.id) && "staff",
-      u.alles && u.user.plus && "plus",
-    ].filter((label) => !!label),
   });
 };

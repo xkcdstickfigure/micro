@@ -16,7 +16,7 @@ export default async (req, res) => {
   const following = await db.Follower.findOne({
     where: {
       user: user.id,
-      following: u.user.id,
+      following: u.id,
     },
   });
   if (!following) return res.json({});

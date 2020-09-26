@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 import db from "../../../db";
 import config from "../../../config";
 import axios from "axios";
-import parseContent from "../../../utils/parseContent";
 import getUser from "../../../utils/getUser";
 import sharp from "sharp";
 import FormData from "form-data";
@@ -29,28 +28,6 @@ const api = async (req, res) => {
   )
     return res.status(400).json({ err: "micro.post.invalidUrl" });
 
-  // Parse content
-  const parsedContent = parseContent(content);
-
-  let mentions = parsedContent
-    .filter(
-      (segment) => segment.type === "user" && segment.string.length === 36
-    )
-    .map((segment) => segment.string);
-
-  const tags = Array.from(
-    new Set(
-      parsedContent
-        .filter(
-          (segment) =>
-            segment.type === "tag" &&
-            segment.string.length >= config.minTagLength &&
-            segment.string.length <= config.maxTagLength
-        )
-        .map((segment) => segment.string)
-    )
-  );
-
   // Verify Parent
   let parent;
   if (typeof parentId === "string") {
@@ -60,9 +37,6 @@ const api = async (req, res) => {
       },
     });
     if (!parent) return res.status(400).json({ err: "micro.post.parent" });
-
-    mentions.push(parent.author);
-    mentions = mentions.concat((await parent.getMentions()).map((m) => m.user));
   }
 
   // Upload image
@@ -118,34 +92,27 @@ const api = async (req, res) => {
   });
 
   // Create mentions
-  mentions = Array.from(new Set(mentions));
-  if (mentions.indexOf(user.id) > -1)
-    mentions.splice(mentions.indexOf(user.id), 1);
-  await Promise.all(
-    mentions.map(async (id) => {
-      const u = await getUser(id);
+  if (parent) {
+    const mentions = Array.from(
+      (await parent.getMentions()).map((m) => m.user).concat(parent.author)
+    );
+    if (mentions.indexOf(user.id) > -1)
+      mentions.splice(mentions.indexOf(user.id), 1);
+    await Promise.all(
+      mentions.map(async (id) => {
+        const u = await getUser(id);
 
-      // Create mention record
-      if (u) {
-        await db.Mention.create({
-          id: uuid(),
-          user: u.user.id,
-          postId: post.id,
-        });
-      }
-    })
-  );
-
-  // Create tags
-  await Promise.all(
-    tags.map((name) =>
-      db.Tag.create({
-        id: uuid(),
-        name,
-        postId: post.id,
+        // Create mention record
+        if (u) {
+          await db.Mention.create({
+            id: uuid(),
+            user: u.id,
+            postId: post.id,
+          });
+        }
       })
-    )
-  );
+    );
+  }
 
   // Response
   res.json({ id: post.id });

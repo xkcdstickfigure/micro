@@ -3,41 +3,16 @@ import App from "next/app";
 import Router from "next/router";
 import { UserContext } from "../utils/userContext";
 import NProgress from "nprogress";
-import { useEffect } from "react";
 import cookies from "next-cookies";
 
 import "@alleshq/reactants/dist/index.css";
 import "../nprogress.css";
 
-export default function app({ Component, pageProps, user }) {
-  // Online ping
-  if (user && process.env.NODE_ENV !== "development") {
-    useEffect(() => {
-      const ping = () =>
-        axios
-          .post(
-            "/api/online",
-            {},
-            {
-              headers: {
-                Authorization: user.sessionToken,
-              },
-            }
-          )
-          .catch(() => {});
-      ping();
-      const interval = setInterval(ping, 15000);
-      return () => clearInterval(interval);
-    }, []);
-  }
-
-  // Return with Context
-  return (
-    <UserContext.Provider value={user}>
-      <Component {...pageProps} />
-    </UserContext.Provider>
-  );
-}
+const app = ({ Component, pageProps, user }) => (
+  <UserContext.Provider value={user}>
+    <Component {...pageProps} />
+  </UserContext.Provider>
+);
 
 // User data
 app.getInitialProps = async (appContext) => {
@@ -56,14 +31,11 @@ app.getInitialProps = async (appContext) => {
 
   try {
     const user = (
-      await axios.get(
-        `${process.env.NEXT_PUBLIC_ORIGIN}/api/me`,
-        {
-          headers: {
-            Authorization: sessionToken,
-          },
-        }
-      )
+      await axios.get(`${process.env.NEXT_PUBLIC_ORIGIN}/api/me`, {
+        headers: {
+          Authorization: sessionToken,
+        },
+      })
     ).data;
 
     return {
@@ -82,6 +54,8 @@ app.getInitialProps = async (appContext) => {
     return {};
   }
 };
+
+export default app;
 
 // Progress Bar
 Router.events.on("routeChangeStart", () => NProgress.start());

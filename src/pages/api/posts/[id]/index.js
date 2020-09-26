@@ -16,6 +16,10 @@ export default async (req, res) => {
   });
   if (!post) return res.status(404).json({ err: "missingResource" });
 
+  // Get author
+  const author = await getUser(post.author);
+  if (!author) return res.status(404).json({ err: "missingResource" });
+
   // Get upvotes
   const upvotes = await db.Interaction.count({
     where: {
@@ -42,34 +46,16 @@ export default async (req, res) => {
       })
     : null;
 
-  // Users
-  const usersArray = (
-    await Promise.all(
-      (await post.getMentions({ attributes: ["user"] }))
-        .map((m) => m.user)
-        .concat(post.author)
-        .map((id) => getUser(id))
-    )
-  ).filter((u) => !!u);
-
-  const users = {};
-  usersArray.forEach((u) => {
-    users[u.user.id] = {
-      name: u.user.name,
-      nickname: u.alles ? u.user.nickname : u.user.name,
-      plus: u.alles ? u.user.plus : false,
-      alles: u.alles,
-      avatar: u.alles ? null : u.user.avatar,
-    };
-  });
-
-  if (!users[post.author])
-    return res.status(404).json({ err: "missingResource" });
-
   // Response
   res.json({
     id: post.id,
-    author: post.author,
+    author: {
+      id: author.id,
+      name: author.name,
+      tag: author.tag,
+      nickname: author.nickname,
+      plus: author.plus,
+    },
     parent: post.parentId,
     children: {
       list: [
@@ -118,6 +104,5 @@ export default async (req, res) => {
           })
         : null,
     createdAt: post.createdAt,
-    users,
   });
 };

@@ -14,14 +14,14 @@ export default async (req, res) => {
   if (!u) return res.status(404).json({ err: "missingResource" });
 
   // Prevent following self
-  if (u.user.id === user.id)
+  if (u.id === user.id)
     return res.status(400).json({ err: "user.follow.self" });
 
   // Get follower record
   const following = await db.Follower.findOne({
     where: {
       user: user.id,
-      following: u.user.id,
+      following: u.id,
     },
   });
   if (following) return res.json({});
@@ -30,7 +30,7 @@ export default async (req, res) => {
   await db.Follower.create({
     id: uuid(),
     user: user.id,
-    following: u.user.id,
+    following: u.id,
   });
 
   // Response

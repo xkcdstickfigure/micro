@@ -15,24 +15,11 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const { theme, toggleTheme } = useTheme();
   const [ThemeIcon, setThemeIcon] = useState(Moon);
-  const [tag, setTag] = useState();
 
   // Theme Icon
   useEffect(() => {
     setThemeIcon(theme === "light" ? Moon : Sun);
   }, [theme]);
-
-  // Get Tag
-  useEffect(() => {
-    axios
-      .get("/api/tags", {
-        headers: {
-          Authorization: user.sessionToken,
-        },
-      })
-      .then(({ data }) => setTag(data.tag))
-      .catch(() => {});
-  }, []);
 
   // Load new posts
   useEffect(() => {
@@ -79,11 +66,7 @@ export default function Home() {
         <div className="flex justify-between">
           <h4 className="font-medium text-3xl">
             Hey, {user.nickname}
-            {user.plus ? (
-              <sup className="select-none text-primary">+</sup>
-            ) : (
-              <></>
-            )}
+            {user.plus && <sup className="select-none text-primary">+</sup>}
           </h4>
 
           <div className="flex space-x-4">
@@ -122,22 +105,22 @@ export default function Home() {
           </div>
         </div>
 
-        <PostField placeholder={`What's up?${tag ? ` #${tag}` : ``}`} />
+        <PostField placeholder="What's up?" />
       </div>
 
-      {posts.length > 0 ? (
-        posts.map((id) => (
-          <TrackVisibility key={id}>
-            {({ isVisible }) => {
-              if (isVisible && posts.indexOf(id) >= posts.length - 5)
-                loadOlderPosts();
-              return <Post id={id} />;
-            }}
-          </TrackVisibility>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+      {posts.map((id) => (
+        <TrackVisibility key={id}>
+          {({ isVisible }) => {
+            if (
+              isVisible &&
+              posts.indexOf(id) >= posts.length - 5 &&
+              posts.indexOf(id) >= 10
+            )
+              loadOlderPosts();
+            return <Post id={id} />;
+          }}
+        </TrackVisibility>
+      ))}
     </Page>
   );
 }

@@ -28,11 +28,9 @@ export default async (req, res) => {
           const u = await getUser(f.user);
           return (
             u && {
-              id: u.user.id,
-              name: u.user.name,
-              tag: u.alles ? u.user.tag : "0000",
-              alles: u.alles,
-              avatar: u.user.avatar,
+              id: u.id,
+              name: u.name,
+              tag: u.tag,
             }
           );
         })

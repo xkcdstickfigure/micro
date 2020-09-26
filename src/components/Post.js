@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
-import Tags from "./ContentTags";
 import { useUser } from "../utils/userContext";
 import Router from "next/router";
 
@@ -72,20 +71,14 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const author = post && (
     <div className="flex items-center mb-3">
       <Avatar
-        src={
-          post.users[post.author].alles
-            ? `https://avatar.alles.cc/${post.author}?size=35`
-            : post.users[post.author].avatar
-            ? `https://fs.alles.cx/${post.users[post.author].avatar}`
-            : `https://avatar.alles.cc/_?size=35`
-        }
+        src={`https://avatar.alles.cc/${post.author.id}?size=35`}
         className="mr-3"
         size={32.5}
       />
       <div>
         <div className="text-black dark:text-white text-lg">
-          {post.users[post.author].name}
-          {post.users[post.author].plus && (
+          {post.author.name}
+          {post.author.plus && (
             <sup className="select-none text-primary">+</sup>
           )}
         </div>
@@ -97,7 +90,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
     <>
       <Box.Content>
         {expanded ? (
-          <Link href="/[user]" as={`/${post.author}`}>
+          <Link href="/[user]" as={`/${post.author.id}`}>
             <a>{author}</a>
           </Link>
         ) : (
@@ -109,9 +102,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
             wordBreak: "break-word",
           }}
         >
-          <Tags links={expanded} users={post.users}>
-            {post.content}
-          </Tags>
+          {post.content}
         </div>
         {post.image && (
           <img
