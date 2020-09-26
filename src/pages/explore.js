@@ -12,7 +12,7 @@ const Followers = ({ users }) => (
     <Box>
       <Box.Content>
         <h1 className="text-xl font-medium flex-grow my-auto mr-5">
-          Find people to follow
+          Find People to Follow
         </h1>
       </Box.Content>
     </Box>

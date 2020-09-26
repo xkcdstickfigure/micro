@@ -12,7 +12,7 @@ import { useTheme } from "../utils/theme";
 
 export default function Home() {
   const user = useUser();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const { theme, toggleTheme } = useTheme();
   const [ThemeIcon, setThemeIcon] = useState(Moon);
 
@@ -31,8 +31,12 @@ export default function Home() {
           },
         })
         .then(({ data }) => {
-          const newPosts = data.posts.filter((p) => posts.indexOf(p) === -1);
-          if (newPosts.length > 0) setPosts(newPosts.concat(posts));
+          const newPosts = posts
+            ? data.posts.filter((p) => posts.indexOf(p) === -1)
+            : data.posts;
+          if (newPosts.length > 0)
+            setPosts(posts ? newPosts.concat(posts) : newPosts);
+          else if (!posts) setPosts([]);
         })
         .catch(() => {});
 
@@ -108,19 +112,34 @@ export default function Home() {
         <PostField placeholder="What's up?" />
       </div>
 
-      {posts.map((id) => (
-        <TrackVisibility key={id}>
-          {({ isVisible }) => {
-            if (
-              isVisible &&
-              posts.indexOf(id) >= posts.length - 5 &&
-              posts.indexOf(id) >= 10
-            )
-              loadOlderPosts();
-            return <Post id={id} />;
-          }}
-        </TrackVisibility>
-      ))}
+      {posts &&
+        (posts.length > 0 ? (
+          posts.map((id) => (
+            <TrackVisibility key={id}>
+              {({ isVisible }) => {
+                if (
+                  isVisible &&
+                  posts.indexOf(id) >= posts.length - 5 &&
+                  posts.indexOf(id) >= 10
+                )
+                  loadOlderPosts();
+                return <Post id={id} />;
+              }}
+            </TrackVisibility>
+          ))
+        ) : (
+          <Box>
+            <Box.Content>
+              <p>
+                It's a bit empty here. Find people to follow on the{" "}
+                <Link href="/explore">
+                  <a className="text-primary">Explore page</a>
+                </Link>
+                .
+              </p>
+            </Box.Content>
+          </Box>
+        ))}
     </Page>
   );
 }

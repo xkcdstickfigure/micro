@@ -19,6 +19,7 @@ export default async (req, res) => {
   }
 
   // Response
+  return res.json({ posts: [] });
   res.json({
     posts: (
       await db.Post.findAll({
