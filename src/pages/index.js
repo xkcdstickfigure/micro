@@ -48,20 +48,26 @@ export default function Home() {
   // Load old posts
   const loadOlderPosts = () => {
     // Get last post
-    axios.get(`/api/posts/${posts[posts.length - 1]}`).then((res) =>
-      // Get posts before last post
-      axios
-        .get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`, {
-          headers: {
-            Authorization: user.sessionToken,
-          },
-        })
-        .then((res) =>
-          setPosts(
-            posts.concat(res.data.posts.filter((p) => posts.indexOf(p) === -1))
+    axios
+      .get(`/api/posts/${posts[posts.length - 1]}`)
+      .then((res) =>
+        // Get posts before last post
+        axios
+          .get(`/api/feed?before=${new Date(res.data.createdAt).getTime()}`, {
+            headers: {
+              Authorization: user.sessionToken,
+            },
+          })
+          .then((res) =>
+            setPosts(
+              posts.concat(
+                res.data.posts.filter((p) => posts.indexOf(p) === -1)
+              )
+            )
           )
-        )
-    );
+          .catch(() => {})
+      )
+      .catch(() => {});
   };
 
   return (
@@ -117,11 +123,7 @@ export default function Home() {
           posts.map((id) => (
             <TrackVisibility key={id}>
               {({ isVisible }) => {
-                if (
-                  isVisible &&
-                  posts.indexOf(id) >= posts.length - 5 &&
-                  posts.indexOf(id) >= 10
-                )
+                if (isVisible && posts.indexOf(id) >= posts.length - 5)
                   loadOlderPosts();
                 return <Post id={id} />;
               }}
