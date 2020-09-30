@@ -130,7 +130,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
       >
         <span>{moment(post.createdAt).fromNow()}</span>
         <span className="flex items-center space-x-2">
-          {post.author === user.id && expanded && (
+          {post.author.id === user.id && expanded && (
             <div className="cursor-pointer hover:text-danger mr-2">
               <Trash
                 className="ml-1.5"
