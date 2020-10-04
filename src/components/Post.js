@@ -106,7 +106,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         </div>
         {post.image && (
           <img
-            className="mt-5 rounded-lg"
+            className="mt-5 w-full rounded-lg"
             src={`https://walnut1.alles.cc/${post.image}`}
           />
         )}
