@@ -55,17 +55,16 @@ const api = async (req, res) => {
         .png()
         .toBuffer();
 
-      // Upload to AllesFS
+      // Upload to WalnutFS
       const formData = new FormData();
       formData.append("file", img, {
         filename: "image",
       });
-      formData.append("public", "true");
       imageId = (
-        await axios.post(process.env.ALLESFS_URI, formData.getBuffer(), {
+        await axios.post(process.env.WALNUTFS_URI, formData.getBuffer(), {
           auth: {
-            username: process.env.ALLESFS_ID,
-            password: process.env.ALLESFS_SECRET,
+            username: process.env.WALNUTFS_ID,
+            password: process.env.WALNUTFS_SECRET,
           },
           headers: formData.getHeaders(),
         })
