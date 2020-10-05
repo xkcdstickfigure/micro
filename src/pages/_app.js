@@ -16,6 +16,7 @@ const app = ({ Component, pageProps, user }) => (
 
 // User data
 app.getInitialProps = async (appContext) => {
+  const props = await App.getInitialProps(appContext);
   const { ctx } = appContext;
   const { sessionToken } = cookies(ctx);
   const isServer = typeof window === "undefined";
@@ -27,7 +28,7 @@ app.getInitialProps = async (appContext) => {
       ? (window.location.href = location)
       : Router.push(location);
 
-  if (ctx.pathname === "/_error") return await App.getInitialProps(appContext);
+  if (ctx.pathname === "/_error") return props;
 
   try {
     const user = (
@@ -39,7 +40,7 @@ app.getInitialProps = async (appContext) => {
     ).data;
 
     return {
-      ...(await App.getInitialProps(appContext)),
+      ...props,
       user: {
         ...user,
         sessionToken,
