@@ -7,8 +7,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useTheme } from "../utils/theme";
+import UserSearch from "./Search";
 
-export default function Page({ title, breadcrumbs, children }) {
+export default function Page({ title, breadcrumbs, search, children }) {
   const user = useUser();
   const router = useRouter();
   const [notificationsCount, setNotificationsCount] = useState(0);
@@ -53,6 +54,10 @@ export default function Page({ title, breadcrumbs, children }) {
 
             {breadcrumbs}
           </Breadcrumb>
+
+          <div className="flex-grow px-5">
+            <UserSearch query={search} />
+          </div>
 
           <div className="flex items-center space-x-3">
             {notificationsCount ? (

@@ -1,7 +1,7 @@
 import { Box, Avatar } from "@alleshq/reactants";
 import Link from "next/link";
 
-export default function UserRow({ id, name, tag, avatar }) {
+export default function UserRow({ id, name, tag }) {
   return (
     <Link href="/[user]" as={`/${id}`}>
       <a className="block">
