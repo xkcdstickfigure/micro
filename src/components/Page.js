@@ -1,4 +1,4 @@
-import { Circle, Bell } from "react-feather";
+import { Hash, Bell } from "react-feather";
 import { Header, Breadcrumb, Avatar } from "@alleshq/reactants";
 import { useUser } from "../utils/userContext";
 import Head from "next/head";
@@ -47,7 +47,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
           <Breadcrumb>
             <Link href="/">
               <Breadcrumb.Item className="font-medium text-lg inline-flex items-center">
-                <Circle className="text-gray-500 inline w-5 mr-2" />
+                <Hash className="text-gray-500 inline w-5 mr-2" />
                 Micro
               </Breadcrumb.Item>
             </Link>
