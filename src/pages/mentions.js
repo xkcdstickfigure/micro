@@ -24,8 +24,8 @@ const Mentions = ({ posts }) => {
 
   return (
     <Page
-      title="Mentions and Replies"
-      breadcrumbs={<Breadcrumb.Item>Mentions and Replies</Breadcrumb.Item>}
+      title="Notifications"
+      breadcrumbs={<Breadcrumb.Item>Replies</Breadcrumb.Item>}
     >
       {posts.length > 0 ? (
         posts.map((p) => <Post id={p.id} bubble={!p.read} key={p.id} />)

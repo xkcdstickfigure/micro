@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <Page>
       <div className="space-y-7">
-        <div className="flex justify-between">
+        <div className="space-y-4 sm:flex justify-between">
           <h4 className="font-medium text-3xl">
             Hey, {user.nickname}
             {user.plus && <sup className="select-none text-primary">+</sup>}

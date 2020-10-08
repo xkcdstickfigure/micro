@@ -55,7 +55,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
             {breadcrumbs}
           </Breadcrumb>
 
-          <div className="flex-grow px-5">
+          <div className="flex-grow px-5 hidden sm:block">
             <UserSearch query={search} />
           </div>
 
