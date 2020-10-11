@@ -214,7 +214,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
               setVote(vote === 1 ? 0 : 1);
             }}
             style={{ padding: 0 }}
-            {...{ color: vote === 1 ? undefined : "transparent" }}
+            color={vote === 1 ? undefined : "transparent"}
           >
             <Plus size={17.5} />
           </Button>
@@ -225,7 +225,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
               setVote(vote === -1 ? 0 : -1);
             }}
             style={{ padding: 0 }}
-            {...{ color: vote === -1 ? undefined : "transparent" }}
+            color={vote === -1 ? undefined : "transparent"}
           >
             <Minus size={17.5} />
           </Button>
