@@ -19,6 +19,7 @@ export default async (req, res) => {
     tag: u.tag,
     plus: u.plus,
     nickname: u.nickname,
+    username: u.username,
     createdAt: u.createdAt,
     xp: u.xp,
     posts: {

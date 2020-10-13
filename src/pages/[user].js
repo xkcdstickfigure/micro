@@ -8,6 +8,7 @@ import axios from "axios";
 import NotFound from "./404";
 import { useState } from "react";
 import cookies from "next-cookies";
+import { User } from "react-feather";
 
 const UserPage = withRouter(({ user: u }) => {
   if (!u) return <NotFound />;
@@ -26,7 +27,7 @@ const UserPage = withRouter(({ user: u }) => {
       }
     >
       <Box>
-        <Box.Content>
+        <Box.Content className="space-y-3">
           <div className="flex justify-center">
             <div className="relative">
               <Avatar
@@ -36,7 +37,7 @@ const UserPage = withRouter(({ user: u }) => {
             </div>
           </div>
 
-          <h1 className="text-center text-3xl font-medium mt-2">
+          <h1 className="text-center text-3xl font-medium">
             {u.name}
             <span className="text-primary text-sm">#{u.tag}</span>
           </h1>
@@ -45,8 +46,8 @@ const UserPage = withRouter(({ user: u }) => {
             <h2 className="text-center text-xl">{u.nickname}</h2>
           )}
 
-          {user.id !== u.id && (
-            <div className="flex justify-center mt-3">
+          <div className="flex justify-center space-x-3">
+            {user.id !== u.id && (
               <Button
                 size="sm"
                 color={following ? "primary" : "secondary"}
@@ -68,10 +69,21 @@ const UserPage = withRouter(({ user: u }) => {
               >
                 Follow{following && "ing"}
               </Button>
-            </div>
-          )}
+            )}
 
-          <h3 className="text-center space-x-3 mt-3">
+            <a
+              href={`https://people.alles.cx/${encodeURIComponent(
+                u.username ? u.username : u.id
+              )}`}
+              className="transition duration-100 hover:opacity-75"
+            >
+              <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
+                <User />
+              </Box>
+            </a>
+          </div>
+
+          <h3 className="text-center space-x-3">
             <span>
               <strong>{followerCount}</strong> Follower
               {followerCount === 1 ? "" : "s"}
@@ -83,7 +95,7 @@ const UserPage = withRouter(({ user: u }) => {
           </h3>
 
           {u.following.me && (
-            <p className="text-center mt-3 italic text-sm">
+            <p className="text-center italic text-sm">
               {u.nickname} is following you
             </p>
           )}
