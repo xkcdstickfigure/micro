@@ -37,14 +37,16 @@ const UserPage = withRouter(({ user: u }) => {
             </div>
           </div>
 
-          <h1 className="text-center text-3xl font-medium">
-            {u.name}
-            <span className="text-primary text-sm">#{u.tag}</span>
-          </h1>
+          <div>
+            <h1 className="text-center text-3xl font-medium">
+              {u.name}
+              <span className="text-primary text-sm">#{u.tag}</span>
+            </h1>
 
-          {u.nickname !== u.name && (
-            <h2 className="text-center text-xl">{u.nickname}</h2>
-          )}
+            {u.nickname !== u.name && (
+              <h2 className="text-center text-xl">{u.nickname}</h2>
+            )}
+          </div>
 
           <div className="flex justify-center space-x-3">
             {user.id !== u.id && (
