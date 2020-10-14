@@ -77,10 +77,9 @@ const UserPage = withRouter(({ user: u }) => {
               href={`https://people.alles.cx/${encodeURIComponent(
                 u.username ? u.username : u.id
               )}`}
-              className="transition duration-100 hover:opacity-75"
             >
-              <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
-                <User />
+              <Box className="rounded-full px-1 text-gray-600 dark:text-gray-300 h-full flex flex-col justify-center">
+                <User height={20} />
               </Box>
             </a>
           </div>
