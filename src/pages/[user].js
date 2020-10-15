@@ -78,7 +78,7 @@ const UserPage = withRouter(({ user: u }) => {
                 u.username ? u.username : u.id
               )}`}
             >
-              <Box className="rounded-full px-1 text-gray-600 dark:text-gray-300 h-full flex flex-col justify-center">
+              <Box className="rounded-full px-2 py-1 text-gray-600 dark:text-gray-300 h-full flex flex-col justify-center">
                 <User height={20} />
               </Box>
             </a>
