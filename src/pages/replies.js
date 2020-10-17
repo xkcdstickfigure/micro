@@ -24,13 +24,13 @@ const Mentions = ({ posts }) => {
 
   return (
     <Page
-      title="Notifications"
+      title="Replies"
       breadcrumbs={<Breadcrumb.Item>Replies</Breadcrumb.Item>}
     >
       {posts.length > 0 ? (
         posts.map((p) => <Post id={p.id} bubble={!p.read} key={p.id} />)
       ) : (
-        <p>You don't have any notifications just yet!</p>
+        <p>You don't have any replies just yet!</p>
       )}
     </Page>
   );

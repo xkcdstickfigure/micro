@@ -96,7 +96,7 @@ export default function Home() {
               </a>
             </Link>
 
-            <Link href="/mentions">
+            <Link href="/replies">
               <a className="transition duration-100 hover:opacity-75">
                 <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
                   <AtSign />
