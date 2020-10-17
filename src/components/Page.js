@@ -61,7 +61,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
 
           <div className="flex items-center space-x-3">
             {notificationsCount ? (
-              <Link href="/mentions">
+              <Link href="/replies">
                 <a className="select-none hover:bg-danger-85 transition duration-200 ease bg-danger text-white rounded-full flex items-center justify-center py-0.5 px-2.5 space-x-1">
                   <Bell size={0.35 * 37.5} />
                   <span>{notificationsCount}</span>
