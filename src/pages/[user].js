@@ -43,8 +43,8 @@ const UserPage = withRouter(({ user: u }) => {
               <span className="text-primary text-sm">#{u.tag}</span>
             </h1>
 
-            {u.nickname !== u.name && (
-              <h2 className="text-center text-xl">{u.nickname}</h2>
+            {u.username && (
+              <h2 className="text-center text-lg">@{u.username}</h2>
             )}
           </div>
 
