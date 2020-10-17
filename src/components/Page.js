@@ -17,7 +17,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
 
   // Get notifications count
   useEffect(() => {
-    if (router.pathname === "/mentions") return;
+    if (router.pathname === "/replies") return;
     const updateNotificationCount = () =>
       axios
         .get("/api/mentions?unread", {
