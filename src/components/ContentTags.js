@@ -7,9 +7,13 @@ export default function ContentTags({ children }) {
     return {
       text: segment.string,
       user: (
-        <Link href="/u/[id]" as={`/u/${segment.string}`} key={i}>
+        <Link
+          href="/[user]"
+          as={`/${encodeURIComponent(segment.string)}`}
+          key={i}
+        >
           <a className="text-primary" onClick={(e) => e.stopPropagation()}>
-            @{[segment.string]}
+            @{segment.string}
           </a>
         </Link>
       ),

@@ -132,7 +132,19 @@ const UserPage = withRouter(({ user: u }) => {
 });
 
 UserPage.getInitialProps = async (ctx) => {
-  const id = ctx.query.user;
+  let id = ctx.query.user;
+
+  try {
+    if (id.length < 36)
+      id = (
+        await axios.get(
+          `${process.env.NEXT_PUBLIC_ORIGIN}/api/username/${encodeURIComponent(
+            id
+          )}`
+        )
+      ).data.id;
+  } catch (err) {}
+
   try {
     return {
       user: (
