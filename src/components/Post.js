@@ -6,6 +6,7 @@ import moment from "moment";
 import Link from "next/link";
 import { useUser } from "../utils/userContext";
 import Router from "next/router";
+import Tags from "./ContentTags";
 
 const linkClasses =
   "mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate";
@@ -102,7 +103,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
             wordBreak: "break-word",
           }}
         >
-          {post.content}
+          <Tags>{post.content}</Tags>
         </div>
         {post.image && (
           <img
