@@ -8,15 +8,26 @@ import { useUser } from "../utils/userContext";
 import Router from "next/router";
 import Tags from "./ContentTags";
 
-const linkClasses =
-  "mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate";
-
 export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const [post, setPost] = useState();
   const [score, setScore] = useState();
   const [vote, setVote] = useState();
   const [voteChanged, setVoteChanged] = useState(false);
   const user = useUser();
+
+  // Interaction
+  const interaction = () =>
+    axios
+      .post(
+        `/api/posts/${encodeURIComponent(id)}/interaction`,
+        {},
+        {
+          headers: {
+            Authorization: user.sessionToken,
+          },
+        }
+      )
+      .catch(() => {});
 
   // Load data
   useEffect(() => {
@@ -39,18 +50,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
       });
 
     // Interaction
-    if (expanded)
-      axios
-        .post(
-          `/api/posts/${encodeURIComponent(id)}/interaction`,
-          {},
-          {
-            headers: {
-              Authorization: user.sessionToken,
-            },
-          }
-        )
-        .catch(() => {});
+    if (expanded) interaction();
   }, [id]);
 
   // Vote change
@@ -111,18 +111,19 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
             src={`https://walnut1.alles.cc/${post.image}`}
           />
         )}
-        {post.url &&
-          (expanded ? (
-            <a
-              className={`${linkClasses} block`}
-              href={post.url}
-              target="_blank"
-            >
-              {post.url}
-            </a>
-          ) : (
-            <div className={linkClasses}>{post.url}</div>
-          ))}
+        {post.url && (
+          <a
+            className="mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate block"
+            href={post.url}
+            target="_blank"
+            onClick={(e) => {
+              e.stopPropagation();
+              interaction();
+            }}
+          >
+            {post.url}
+          </a>
+        )}
       </Box.Content>
       <Box.Footer
         className={`rounded-bl-none flex justify-between bg-transparent ${
