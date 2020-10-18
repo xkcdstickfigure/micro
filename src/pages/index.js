@@ -79,7 +79,7 @@ export default function Home() {
             {user.plus && <sup className="select-none text-primary">+</sup>}
           </h4>
 
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 my-auto">
             <Link href="/[user]" as={`/${user.id}`}>
               <a className="transition duration-100 hover:opacity-75">
                 <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">
