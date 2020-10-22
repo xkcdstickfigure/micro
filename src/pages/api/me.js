@@ -8,6 +8,7 @@ export default async (req, res) => {
     id: user.id,
     name: user.name,
     nickname: user.nickname,
+    username: user.username,
     tag: user.tag,
     plus: user.plus,
   });
