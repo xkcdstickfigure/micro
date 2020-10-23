@@ -73,13 +73,13 @@ export default function Home() {
   return (
     <Page>
       <div className="space-y-7">
-        <div className="sm:flex justify-between">
+        <div className="space-y-4 sm:flex sm:space-y-0 sm:justify-between">
           <h4 className="font-medium text-3xl">
             Hey, {user.nickname}
             {user.plus && <sup className="select-none text-primary">+</sup>}
           </h4>
 
-          <div className="flex space-x-4 my-auto">
+          <div className="flex space-x-4 items-center">
             <Link
               href="/[user]"
               as={`/${user.username ? user.username : user.id}`}
