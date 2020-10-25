@@ -24,7 +24,12 @@ const ContentTags = ({ children }) => {
         </Link>
       ),
       emoji: emoji ? (
-        <img src={emoji} className="inline-block h-8 w-8 my-1" key={i} />
+        <img
+          src={emoji}
+          alt={`~${segment.string}`}
+          className="inline-block h-8 w-8 my-1"
+          key={i}
+        />
       ) : (
         <span key={i}>~{segment.string}</span>
       ),
