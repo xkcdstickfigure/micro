@@ -1,40 +1,28 @@
 import Link from "next/link";
-import emojis from "../emojis.json";
 
 const chars = {
   "@": "user",
-  "~": "emoji",
 };
 
 const ContentTags = ({ children }) => {
   const segments = parseContent(children);
-  return segments.map((segment, i) => {
-    const emoji = emojis[segment.string.toLowerCase()];
-    return {
-      text: segment.string,
-      user: (
-        <Link
-          href="/[user]"
-          as={`/${encodeURIComponent(segment.string)}`}
-          key={i}
-        >
-          <a className="text-primary" onClick={(e) => e.stopPropagation()}>
-            @{segment.string}
-          </a>
-        </Link>
-      ),
-      emoji: emoji ? (
-        <img
-          src={emoji}
-          alt={`~${segment.string}`}
-          className="inline-block h-8 w-8 my-1"
-          key={i}
-        />
-      ) : (
-        <span key={i}>~{segment.string}</span>
-      ),
-    }[segment.type];
-  });
+  return segments.map(
+    (segment, i) =>
+      ({
+        text: segment.string,
+        user: (
+          <Link
+            href="/[user]"
+            as={`/${encodeURIComponent(segment.string)}`}
+            key={i}
+          >
+            <a className="text-primary" onClick={(e) => e.stopPropagation()}>
+              @{segment.string}
+            </a>
+          </Link>
+        ),
+      }[segment.type])
+  );
 };
 
 export default ContentTags;
