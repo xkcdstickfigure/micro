@@ -1,9 +1,15 @@
-import parseContent from "../utils/parseContent";
 import Link from "next/link";
+import emojis from "../emojis.json";
 
-export default function ContentTags({ children }) {
+const chars = {
+  "@": "user",
+  "~": "emoji",
+};
+
+const ContentTags = ({ children }) => {
   const segments = parseContent(children);
   return segments.map((segment, i) => {
+    const emoji = emojis[segment.string.toLowerCase()];
     return {
       text: segment.string,
       user: (
@@ -17,6 +23,67 @@ export default function ContentTags({ children }) {
           </a>
         </Link>
       ),
+      emoji: emoji ? (
+        <img src={emoji} className="inline-block h-8 w-8 my-1" key={i} />
+      ) : (
+        <span key={i}>~{segment.string}</span>
+      ),
     }[segment.type];
   });
-}
+};
+
+export default ContentTags;
+
+const chars2 = {};
+for (let i = 0; i < Object.keys(chars).length; i++)
+  chars2[chars[Object.keys(chars)[i]]] = Object.keys(chars)[i];
+
+const parseContent = (text) => {
+  const segments = [];
+
+  let segment = {
+    type: "text",
+    string: "",
+  };
+
+  const endSegment = () => {
+    // Push to segments if string has value or is text
+    if (segment.string || segment.type === "text") segments.push(segment);
+    // No new segment, add character to end of previous
+    else if (chars2[segment.type]) {
+      segments[segments.length - 1].string += chars2[segment.type];
+    }
+  };
+
+  for (let i = 0; i < text.length; i++) {
+    if (segment.type === "text") {
+      if (chars[text[i]]) {
+        // Start of non-text segment
+        endSegment();
+        segment = {
+          type: chars[text[i]],
+          string: "",
+        };
+      } else {
+        // Continue
+        segment.string += text[i];
+      }
+    } else {
+      if (text[i].match(/[^a-zA-Z0-9-]/)) {
+        // Non-Alphanumeric, switch back to string
+        endSegment();
+        segment = {
+          type: "text",
+          string: "",
+        };
+        i -= 1;
+      } else {
+        // Continue
+        segment.string += text[i];
+      }
+    }
+  }
+  endSegment();
+
+  return segments;
+};
