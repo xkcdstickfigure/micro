@@ -41,7 +41,10 @@ export default function PostField(props) {
           },
         }
       )
-      .then((res) => Router.push("/p/[id]", `/p/${res.data.id}`))
+      .then((res) => {
+        setValue("");
+        Router.push("/p/[id]", `/p/${res.data.id}`);
+      })
       .catch(() => setLoading(false));
   };
 
@@ -75,6 +78,7 @@ export default function PostField(props) {
               placeholder={props.placeholder}
               className="text-base border-none pb-0"
               rows={4}
+              value={value}
               onChange={(e) => setValue(e.target.value)}
               style={{
                 background: "transparent",
