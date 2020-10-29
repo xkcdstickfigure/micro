@@ -19,7 +19,7 @@ export default function PostPage() {
       title={post && `${post.author.name}: ${post.content.split("\n")[0]}`}
       breadcrumbs={
         post && (
-          <Link href="/[user]" as={`/${post.author.id}`}>
+          <Link href="/[user]" as={`/${post.author.id}`} passHref>
             <Breadcrumb.Item>
               <Avatar
                 src={`https://avatar.alles.cc/${post.author.id}?size=25`}
