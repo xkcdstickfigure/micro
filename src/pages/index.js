@@ -82,7 +82,7 @@ export default function Home() {
           <div className="flex space-x-4 items-center">
             <Link
               href="/[user]"
-              as={`/${user.username ? user.username : user.id}`}
+              as={`/${encodeURIComponent(user.username || user.id)}`}
             >
               <a className="transition duration-100 hover:opacity-75">
                 <Box className="rounded-full p-2 text-gray-600 dark:text-gray-300">

@@ -74,8 +74,8 @@ const UserPage = withRouter(({ user: u }) => {
             )}
 
             <a
-              href={`https://people.alles.cx/${encodeURIComponent(
-                u.username ? u.username : u.id
+              href={`https://alles.cx/${encodeURIComponent(
+                u.username || u.id
               )}`}
             >
               <Box className="rounded-full px-2 py-1 text-gray-600 dark:text-gray-300 h-full flex flex-col justify-center">
