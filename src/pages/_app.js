@@ -28,7 +28,11 @@ app.getInitialProps = async (appContext) => {
       ? (window.location.href = location)
       : Router.push(location);
 
-  if (ctx.pathname === "/_error") return props;
+  const excludedPaths = ["/_error"];
+  const guestPaths = ["/p/[id]"];
+
+  // Don't do authentication for excluded paths
+  if (excludedPaths.includes(ctx.pathname)) return props;
 
   try {
     const user = (
@@ -47,11 +51,12 @@ app.getInitialProps = async (appContext) => {
       },
     };
   } catch (err) {
-    redirect(
-      `https://alles.cx/login?next=${encodeURIComponent(
-        process.env.NEXT_PUBLIC_ORIGIN + ctx.asPath
-      )}`
-    );
+    if (!guestPaths.includes(ctx.pathname))
+      redirect(
+        `https://alles.cx/login?next=${encodeURIComponent(
+          process.env.NEXT_PUBLIC_ORIGIN + ctx.asPath
+        )}`
+      );
     return {};
   }
 };

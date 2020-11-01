@@ -4,15 +4,16 @@ import PostField from "../../components/PostField";
 import Post from "../../components/Post";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Breadcrumb, Avatar } from "@alleshq/reactants";
+import { Breadcrumb, Avatar, Box, Button } from "@alleshq/reactants";
 import NotFound from "../404";
 import Link from "next/link";
 
 export default function PostPage() {
   const user = useUser();
-  const { id } = useRouter().query;
   const [post, setPost] = useState();
   const [notFound, setNotFound] = useState(false);
+  const router = useRouter();
+  const { id } = router.query;
 
   return !notFound ? (
     <Page
@@ -38,19 +39,34 @@ export default function PostPage() {
         onLoad={(data) => setPost(data)}
         onError={() => setNotFound(true)}
       />
-      {post ? (
-        <PostField
-          placeholder={
-            post.author.id === user.id
-              ? "Continue the conversation..."
-              : `Reply to ${post.author.nickname}...`
-          }
-          parent={post.id}
-          key={`reply-${post.id}`}
-        />
-      ) : (
-        <></>
-      )}
+      {post &&
+        (user ? (
+          <PostField
+            placeholder={
+              post.author.id === user.id
+                ? "Continue the conversation..."
+                : `Reply to ${post.author.nickname}...`
+            }
+            parent={post.id}
+            key={`reply-${post.id}`}
+          />
+        ) : (
+          <Box>
+            <Box.Content className="flex justify-between space-x-3">
+              <p className="font-bold my-auto">
+                Sign in to join the conversation
+              </p>
+              <Button
+                className="my-auto flex-shrink-0"
+                href={`https://alles.cx/login?next=${encodeURIComponent(
+                  process.env.NEXT_PUBLIC_ORIGIN + router.asPath
+                )}`}
+              >
+                Sign in
+              </Button>
+            </Box.Content>
+          </Box>
+        ))}
 
       {post ? post.children.list.map((id) => <Post key={id} id={id} />) : <></>}
     </Page>

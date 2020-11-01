@@ -17,7 +17,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
 
   // Get notifications count
   useEffect(() => {
-    if (router.pathname === "/replies") return;
+    if (!user || router.pathname === "/replies") return;
     const updateNotificationCount = () =>
       axios
         .get("/api/mentions?unread", {
@@ -55,27 +55,29 @@ export default function Page({ title, breadcrumbs, search, children }) {
             {breadcrumbs}
           </Breadcrumb>
 
-          <div className="flex-grow px-5 hidden sm:block">
-            <UserSearch query={search} />
-          </div>
+          {user && (
+            <>
+              <div className="flex-grow px-5 hidden sm:block">
+                <UserSearch query={search} />
+              </div>
 
-          <div className="flex items-center space-x-3">
-            {notificationsCount ? (
-              <Link href="/replies">
-                <a className="select-none hover:bg-danger-85 transition duration-200 ease bg-danger text-white rounded-full flex items-center justify-center py-0.5 px-2.5 space-x-1">
-                  <Bell size={0.35 * 37.5} />
-                  <span>{notificationsCount}</span>
-                </a>
-              </Link>
-            ) : (
-              <></>
-            )}
+              <div className="flex items-center space-x-3">
+                {notificationsCount > 0 && (
+                  <Link href="/replies">
+                    <a className="select-none hover:bg-danger-85 transition duration-200 ease bg-danger text-white rounded-full flex items-center justify-center py-0.5 px-2.5 space-x-1">
+                      <Bell size={0.35 * 37.5} />
+                      <span>{notificationsCount}</span>
+                    </a>
+                  </Link>
+                )}
 
-            <Avatar
-              src={`https://avatar.alles.cc/${user.id}?size=40`}
-              size={37.5}
-            />
-          </div>
+                <Avatar
+                  src={`https://avatar.alles.cc/${user.id}?size=40`}
+                  size={37.5}
+                />
+              </div>
+            </>
+          )}
         </div>
       </Header>
 
