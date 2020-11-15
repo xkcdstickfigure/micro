@@ -1,0 +1,11 @@
+{
+	"applinks": {
+		"apps": [],
+		"details": [
+			{
+				"appID": "G8434KY9GR.dev.abmgrt.spica",
+				"paths": ["*"]
+			}
+		]
+	}
+}
