@@ -1,5 +1,5 @@
 import { Avatar, Box, Button } from "@alleshq/reactants";
-import { Plus, Minus, MessageCircle, Eye, Trash } from "react-feather";
+import { Plus, Minus, MessageCircle, Eye, Trash, Info } from "react-feather";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
@@ -13,6 +13,7 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
   const [score, setScore] = useState();
   const [vote, setVote] = useState();
   const [voteChanged, setVoteChanged] = useState(false);
+  const [rickroll, setRickroll] = useState(false);
   const user = useUser();
 
   // Interaction
@@ -47,6 +48,16 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
         setScore(data.vote.score);
         setVote(data.vote.me);
 
+        // Rickroll
+        if (data.url)
+          axios
+            .get(
+              `https://astley.vercel.app?url=${encodeURIComponent(data.url)}`
+            )
+            .then((res) => setRickroll(res.data.rickroll))
+            .catch(() => {});
+
+        // On Load
         if (onLoad) onLoad(data);
       })
       .catch((err) => {
@@ -93,31 +104,36 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
 
   const content = post && (
     <>
-      <Box.Content>
-        {expanded ? (
-          <Link href="/[user]" as={`/${post.author.id}`}>
-            <a>{author}</a>
-          </Link>
-        ) : (
-          author
-        )}
-        <div
-          style={{
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}
-        >
-          <Tags>{post.content}</Tags>
+      <Box.Content className="space-y-5">
+        <div>
+          {expanded ? (
+            <Link href="/[user]" as={`/${post.author.id}`}>
+              <a>{author}</a>
+            </Link>
+          ) : (
+            author
+          )}
+
+          <div
+            style={{
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+            }}
+          >
+            <Tags>{post.content}</Tags>
+          </div>
         </div>
+
         {post.image && (
           <img
-            className="mt-5 w-full rounded-lg"
+            className="w-full rounded-lg"
             src={`https://walnut1.alles.cc/${post.image}`}
           />
         )}
+
         {post.url && (
           <a
-            className="mt-5 rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate block"
+            className="rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700 px-3 py-1 italic overflow-hidden box-border truncate block"
             href={post.url}
             target="_blank"
             onClick={(e) => {
@@ -127,6 +143,12 @@ export default function Post({ id, expanded, bubble, onLoad, onError }) {
           >
             {post.url}
           </a>
+        )}
+
+        {rickroll && (
+          <div className="text-primary flex">
+            <Info className="mr-2" /> This link may contain a rickroll
+          </div>
         )}
       </Box.Content>
       <Box.Footer
