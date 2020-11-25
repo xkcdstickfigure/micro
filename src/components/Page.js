@@ -40,6 +40,7 @@ export default function Page({ title, breadcrumbs, search, children }) {
           {(notificationsCount > 0 ? `(${notificationsCount}) ` : ``) +
             (title ? `Micro • ${title}` : `Alles Micro`)}
         </title>
+        <link rel="icon" href="/icon-circle.png" />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Micro" />
