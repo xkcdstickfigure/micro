@@ -49,7 +49,7 @@ const api = async (req, res) => {
       // Resize
       img = await sharp(img)
         .resize({
-          width: user.plus ? 1000 : 500,
+          width: user.plus.active ? 1000 : 500,
           fit: "cover",
         })
         .png()

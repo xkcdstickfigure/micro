@@ -54,7 +54,7 @@ export default async (req, res) => {
       name: author.name,
       tag: author.tag,
       nickname: author.nickname,
-      plus: author.plus,
+      plus: author.plus.active,
     },
     parent: post.parentId,
     children: {
