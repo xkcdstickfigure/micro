@@ -96,7 +96,7 @@ export default async (req, res) => {
         : null,
     },
     interactions:
-      user && user.id === post.author
+      user && user.plus && user.id === post.author
         ? await db.Interaction.count({
             where: {
               postId: post.id,
