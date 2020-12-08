@@ -24,13 +24,13 @@ export default async (req, res) => {
                   include: [
                     [
                       literal(
-                        "(select count(*) from interactions as follow where postId = post.id)"
+                        "(select count(*) from interactions where postId = post.id)"
                       ),
                       "interactions",
                     ],
                   ],
                 },
-                order: [[literal("interactions"), "desc"]],
+                order: [[literal("interactions"), "DESC"]],
                 limit: 20,
               })
             )
