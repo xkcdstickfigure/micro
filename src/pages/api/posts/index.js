@@ -115,7 +115,7 @@ const api = async (req, res) => {
   }
 
   // Discord Webhook
-  if (DISCORD_WEBHOOK && parent)
+  if (DISCORD_WEBHOOK && !parent)
     axios
       .post(DISCORD_WEBHOOK, {
         content: `${user.name}#${user.tag}: https://micro.alles.cx/p/${post.id}`,
