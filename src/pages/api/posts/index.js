@@ -7,6 +7,7 @@ import getUser from "../../../utils/getUser";
 import sharp from "sharp";
 import FormData from "form-data";
 import isUrl from "is-valid-http-url";
+const { DISCORD_WEBHOOK } = process.env;
 
 const api = async (req, res) => {
   const user = await auth(req);
@@ -112,6 +113,14 @@ const api = async (req, res) => {
       })
     );
   }
+
+  // Discord Webhook
+  if (DISCORD_WEBHOOK && parent)
+    axios
+      .post(DISCORD_WEBHOOK, {
+        content: `${user.name}#${user.tag}: https://micro.alles.cx/p/${post.id}`,
+      })
+      .catch(() => {});
 
   // Response
   res.json({ id: post.id });
