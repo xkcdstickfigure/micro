@@ -118,7 +118,20 @@ const api = async (req, res) => {
   if (DISCORD_WEBHOOK && !parent)
     axios
       .post(DISCORD_WEBHOOK, {
-        content: `${user.name}#${user.tag}: https://micro.alles.cx/p/${post.id}`,
+        content: `https://micro.alles.cx/p/${post.id}`,
+        embeds: [
+          {
+            description: post.content,
+            color: 2315163,
+            image: post.image
+              ? {
+                  url: `https://walnut1.alles.cc/${post.image}`,
+                }
+              : {},
+          },
+        ],
+        username: `${user.name}#${user.tag}`,
+        avatar_url: `https://avatar.alles.cc/${user.id}`,
       })
       .catch(() => {});
 
